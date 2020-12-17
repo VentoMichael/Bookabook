@@ -107,7 +107,8 @@
             </body>
             @if(!auth())
         </div>
+        <script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
+
         </body>
     @endif
-    <script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
     </html>

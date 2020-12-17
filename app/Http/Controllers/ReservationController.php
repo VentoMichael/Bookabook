@@ -24,17 +24,18 @@ class ReservationController extends Controller
         $books = Book::selectRaw('SUM(reservations.quantity) as total_quantity,books.title,books.orientation,books.academic_years,books.picture')
             ->join('reservations', 'reservations.book_id', '=', 'books.id')
             ->groupBy('title')
+            ->orderBy('academic_years')
+            ->orderBy('orientation')
             ->whereHas('orders', function ($order) {
                 return $order;
             })->get();
 
-        $books2DFirstYear = $books->where('orientation', '2D')->where('academic_years', '1');
-        $books3DFirstYear = $books->where('orientation', '3D')->where('academic_years', '1');
-        $booksWebFirstYear = $books->where('orientation', 'Web')->where('academic_years', '1');
-
+        //$books2DFirstYear = $books->where('orientation', '2D')->where('academic_years', '1');
+        //$books3DFirstYear = $books->where('orientation', '3D')->where('academic_years', '1');
+        //$booksWebFirstYear = $books->where('orientation', 'Web')->where('academic_years', '1');
 
         return view('admin.purchases.index',
-            compact('books', 'books2DFirstYear', 'books3DFirstYear', 'booksWebFirstYear'));
+            compact('books'));
     }
 
     public function sendNotif()
