@@ -1,0 +1,1 @@
+window.addEventListener("load",()=>{const e=document.getElementById("password"),t=document.getElementById("password_confirmation"),n=document.getElementById("showPassBtn");n.addEventListener("click",()=>{"password"===e.type?(e.type="text",t.type="text",n.innerText="Cacher"):(e.type="password",t.type="password",n.innerText="Montrer")})});
