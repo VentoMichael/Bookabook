@@ -15,11 +15,6 @@
                 </li>
             @endfor
         </ul>
-        @php
-            $oldBook = new StdClass();
-            $oldBook->academic_years = 0;
-            $oldBook->orientation = '';
-        @endphp
         @foreach($books as $book)
             @if($book->academic_years != $oldBook->academic_years)
                 <section id="bloc{{$book->academic_years}}">
@@ -29,9 +24,9 @@
                     </h3>
                     @endif
                     @if($book->orientation != $oldBook->orientation)
-                        <section>
+                        <section class="">
                             <h4 aria-level="4"
-                                class="rounded-xl my-2 block p-3 sm:px-12 md:px-16 mt-8 mb-2 sm:w-2/4 w-full text-center text-md border-orange-900 border-b-2 border-t-2">
+                                class="mx-auto rounded-xl my-2 block p-3 sm:px-12 md:px-16 mt-8 mb-2 sm:w-2/4 w-full text-center text-md border-orange-900 border-b-2 border-t-2">
                                 {{$book->orientation}}
                             </h4>
                             <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-items-center">

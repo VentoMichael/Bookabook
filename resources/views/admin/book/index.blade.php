@@ -13,7 +13,7 @@
         @foreach($letters as $key=>$letter)
             <p class="text-5xl block border-t mt-16 -mb-4">{{$key}}</p>
             <div id="{{$key}}"
-                 class="grid mt-12 grid-cols-1 sm:grid-cols-2 sm:mr-8 lg:grid-cols-3 ml-4 flex-wrap justify-between gap-12 mr-4">
+                 class="grid mt-12 grid-cols-1 sm:grid-cols-2 sm:mr-8 lg:grid-cols-3 ml-4 flex-wrap justify-between gap-12 mr-4 lg:max-w-screen-xl lg:mx-auto">
                 @foreach($letter as $book)
                     <section
                         class="flex flex-col justify-between border-2 rounded-xl p-4">
@@ -25,16 +25,10 @@
                             </h3>
                         </div>
                         <div class="mb-4 mt-10 text-center">
-                            <div>
-                                <a class="rounded-xl border duration-300 p-3 hover:bg-orange-900 hover:text-white"
-                                   href="{{route('books.edit',['book'=>$book->title])}}">Éditer
+                                <a class="cursor-pointer rounded-xl border duration-300 p-3 hover:bg-orange-900 hover:text-white" href="{{route('books.edit',['book'=>$book->title])}}">Éditer
                                     <span>{{$book->title}}</span></a>
-                            </div>
-                            <div>
-                                <a class="rounded-xl block mt-8 bg-orange-900 text-white p-3"
-                                   href="{{route('books.show',['book'=>$book->title])}}">Plus d'informations sur
+                                <a class="cursor-pointer rounded-xl block mt-8 bg-orange-900 text-white p-3" href="{{route('books.show',['book'=>$book->title])}}">Plus d'informations sur
                                     <span>{{$book->title}}</span></a>
-                            </div>
                         </div>
                     </section>
                 @endforeach

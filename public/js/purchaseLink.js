@@ -103,7 +103,7 @@ window.addEventListener("scroll", function () {
   var d = e.offsetTop,
       s = l.offsetTop,
       y = o.offsetTop;
-  window.scrollY > d && (t.style.background = "#7b341e", t.style.color = "white", c.style.background = "white", c.style.color = "black", n.style.background = "white", n.style.color = "black"), window.scrollY > s && (t.style.background = "white", t.style.color = "black", c.style.background = "#7b341e", c.style.color = "white", n.style.background = "white", n.style.color = "black"), window.scrollY > y && (t.style.background = "white", t.style.color = "black", c.style.background = "white", c.style.color = "black", n.style.background = "#7b341e", n.style.color = "white");
+  window.scrollY > d - 3 && (t.style.background = "#7b341e", t.style.color = "white", c.style.background = "white", c.style.color = "black", n.style.background = "white", n.style.color = "black"), window.scrollY > s - 3 && (t.style.background = "white", t.style.color = "black", c.style.background = "#7b341e", c.style.color = "white", n.style.background = "white", n.style.color = "black"), window.scrollY > y - 3 && (t.style.background = "white", t.style.color = "black", c.style.background = "white", c.style.color = "black", n.style.background = "#7b341e", n.style.color = "white");
 });
 
 /***/ }),

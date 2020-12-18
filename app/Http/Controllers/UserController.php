@@ -25,6 +25,20 @@ class UserController extends Controller
             'delivered' => 'Delivré',
             'ordered' => 'Commandé',
         ];
+        switch ($statuses) {
+            case 'paid':
+                echo "Payé";
+                break;
+            case 'available':
+                echo "Disponible";
+                break;
+            case 'delivered':
+                echo "Delivré";
+                break;
+            case 'ordered':
+                echo "Commandé";
+                break;
+        }
         $userAdmin = User::admin()->get();
         $firstLetters = [];
         $firstLetter = '';
@@ -57,7 +71,6 @@ class UserController extends Controller
 
     public function show(User $user)
     {
-        $statuses = Status::all();
         $userAdmin = User::admin()->get();
         $totalbooks = 0;
 
@@ -65,7 +78,7 @@ class UserController extends Controller
         foreach ($user->orders as $order) {
             $totalbooks += $order->books->count();
         }
-        return view('admin.user.show', compact('user', 'userAdmin', 'statuses','totalbooks'));
+        return view('admin.user.show', compact('user', 'userAdmin','totalbooks'));
     }
 
     /**

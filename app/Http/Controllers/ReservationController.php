@@ -11,6 +11,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
+use stdClass;
 
 class ReservationController extends Controller
 {
@@ -29,13 +30,12 @@ class ReservationController extends Controller
             ->whereHas('orders', function ($order) {
                 return $order;
             })->get();
-
-        //$books2DFirstYear = $books->where('orientation', '2D')->where('academic_years', '1');
-        //$books3DFirstYear = $books->where('orientation', '3D')->where('academic_years', '1');
-        //$booksWebFirstYear = $books->where('orientation', 'Web')->where('academic_years', '1');
+        $oldBook = new StdClass();
+        $oldBook->academic_years = 0;
+        $oldBook->orientation = '';
 
         return view('admin.purchases.index',
-            compact('books'));
+            compact('books','oldBook'));
     }
 
     public function sendNotif()
@@ -43,6 +43,8 @@ class ReservationController extends Controller
         $books = Book::selectRaw('SUM(reservations.quantity) as total_quantity,books.title,books.orientation,books.academic_years,books.picture')
             ->join('reservations', 'reservations.book_id', '=', 'books.id')
             ->groupBy('title')
+            ->orderBy('academic_years')
+            ->orderBy('orientation')
             ->whereHas('orders', function ($order) {
                 return $order;
             })->get();
