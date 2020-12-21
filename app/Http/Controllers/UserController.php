@@ -59,7 +59,7 @@ class UserController extends Controller
             });
         }
 
-        return view('admin.user.index', compact('userAdmin','users', 'statuses', 'letters','totalbooks'));
+        return view('admin.user.index', compact('userAdmin', 'users', 'statuses', 'letters', 'totalbooks'));
     }
 
     /**
@@ -78,7 +78,7 @@ class UserController extends Controller
         foreach ($user->orders as $order) {
             $totalbooks += $order->books->count();
         }
-        return view('admin.user.show', compact('user', 'userAdmin','totalbooks'));
+        return view('admin.user.show', compact('user', 'userAdmin', 'totalbooks'));
     }
 
     /**
@@ -87,17 +87,22 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
-    public function status(){
+    public function status()
+    {
         $users = User::student()->with('orders')->orderBy('name')->get();
 
-        return view('admin.statuses.index')->with('users',$users);
+        return view('admin.statuses.index')->with('users', $users);
     }
-    public function statusEdit(){
+
+    public function statusEdit()
+    {
         $statuses = Status::all();
 
-        return view('admin.statuses.edit',compact('statuses'));
+        return view('admin.statuses.edit', compact('statuses'));
     }
-    public function statusEditUpdate(Request $request, Status $status){
+
+    public function statusEditUpdate(Request $request, Status $status)
+    {
         $attributes['status'] = request('status');
         dd($request->all());
         $status->update($attributes);
@@ -146,7 +151,6 @@ class UserController extends Controller
         }
         $attributes['email'] = request('email');
         $attributes['password'] = Hash::make(request('password'));
-
         $user->update($attributes);
         Mail::to($attributes['email'])
             ->send(new AccountChanged());

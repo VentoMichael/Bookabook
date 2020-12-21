@@ -6,7 +6,7 @@
             Voici les commandes
         </h2>
         @foreach($users as $user)
-            <section>
+            <div>
                 @if($user->orders)
                     @foreach($user->orders as $order)
                         <div>
@@ -33,7 +33,7 @@
                         </div>
                     @endforeach
                 @endif
-            </section>
+            </div>
         @endforeach
     </section>
 @endsection

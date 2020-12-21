@@ -24,7 +24,7 @@
                     </h3>
                     @endif
                     @if($book->orientation != $oldBook->orientation)
-                        <section class="">
+                        <section>
                             <h4 aria-level="4"
                                 class="mx-auto rounded-xl my-2 block p-3 sm:px-12 md:px-16 mt-8 mb-2 sm:w-2/4 w-full text-center text-md border-orange-900 border-b-2 border-t-2">
                                 {{$book->orientation}}
@@ -53,7 +53,7 @@
                                                 aria-label="Envoie de notification pour {{$book->title}}"
                                                 role="form"
                                                 method="POST"
-                                                action="{{ route('purchases.sendNotif')}}">
+                                                action="{{ route('purchases.sendNotif',['book' => $book->title])}}">
                                                 @csrf
                                                 @method('PUT')
                                                 <button role="button" name="sendNotifBook"
@@ -81,5 +81,8 @@
         </p>
     @endif
 @endsection
-<script type="text/javascript" src="{{ asset('js/purchaseLink.js') }}"></script>
-<script type="text/javascript" src="{{ asset('js/successMessage.js') }}"></script>
+
+@section('scripts')
+    <script type="text/javascript" src="{{ asset('js/purchaseLink.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/successMessage.js') }}"></script>
+@endsection

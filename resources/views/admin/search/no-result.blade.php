@@ -31,10 +31,13 @@
 	C135.3,154.9,124,166.2,110.1,166.2z M110.1,96.6c-9.6,0-17.4,7.8-17.4,17.4v27.1c0,9.6,7.8,17.4,17.4,17.4s17.4-7.8,17.4-17.4V114
 	C127.5,104.4,119.7,96.6,110.1,96.6L110.1,96.6z"/>
 </svg>
-        <h2 aria-level="2">
+        <h2 aria-level="2" class="hiddenTitle">
+            Pas de résultat
+        </h2>
+        <p>
             Mince ! Je n'ai rien trouver avec cette recherche, réssayez avec un <span id="inputCta"  class="underline cursor-pointer">autre champ de recherche ci-dessus</span>
             ou <a href="{{route('dashboard.index')}}" class="underline">retourner à la page d'accueil</a>
-        </h2>
+        </p>
     </section>
 @endsection
-<script type="text/javascript" src="{{ asset('js/formSearch.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/formSearchLink.js') }}"></script>

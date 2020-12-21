@@ -30,7 +30,7 @@
                     </div>
 
                     <div class="mx-5">
-                        <h4 aria-level="4" class="text-2xl font-semibold text-gray-700">{{$users->count()}}</h4>
+                        <p class="text-2xl font-semibold text-gray-700">{{$users->count()}}</p>
                         <div class="text-gray-500">Utilisateurs totaux</div>
                     </div>
                 </div>
@@ -51,7 +51,7 @@
                     </div>
 
                     <div class="mx-5">
-                        <h4 aria-level="4" class="text-2xl font-semibold text-gray-700">{{$orders->count()}}</h4>
+                        <p class="text-2xl font-semibold text-gray-700">{{$orders->count()}}</p>
                         <div class="text-gray-500">Commandes totales</div>
                     </div>
                 </div>

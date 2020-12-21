@@ -1,5 +1,4 @@
 @extends('layouts.app')
-
 @section('content')
     @if(count($books))
         @if (Session::has('message'))
@@ -51,4 +50,6 @@
         </div>
     </nav>
 @endsection
-<script type="text/javascript" src="{{ asset('js/successMessage.js') }}"></script>
+@section('scripts')
+    <script type="text/javascript" src="{{ asset('js/successMessage.js') }}"></script>
+@show

@@ -9,11 +9,11 @@
            href="{{route('users.index')}}">Retour
             en arrière</a>
         <div class="md:max-w-3xl mx-auto">
-            <section class="rounded-xl max-w-5xl m-auto">
+            <div class="rounded-xl max-w-5xl m-auto">
                 <div>
                     <div class="flex justify-between">
                         @include('partials.user-avatar')
-                        <div>
+                        <section>
                             <div itemscope itemtype="https://schema.org/Person">
                                 <h3 aria-level="3" class="text-xl break-all ml-4 mr-4">
                                     <span itemprop="familyName">{{$user->name}}</span> <span
@@ -36,7 +36,7 @@
                                     </div>
                                 </div>
                             @endif
-                        </div>
+                        </section>
 
                     </div>
                     <div class="text-center p-4 mt-8 -mb-8">
@@ -45,13 +45,13 @@
                             mail à {{$user->name}} {{$user->surname}}</a>
                     </div>
                 </div>
-            </section>
+            </div>
             @if(count($user->orders))
                 <section class="mt-12 max-w-5xl m-auto">
                     <h3 aria-level="3" class="text-2xl">
                         Historique de ses {{count($user->orders)}} dernières commandes
                     </h3>
-                    <section>
+                    <div>
                         @if($user->orders)
                             @foreach($user->orders as $order)
                                 <section>
@@ -91,7 +91,7 @@
                                 </section>
                             @endforeach
                         @endif
-                    </section>
+                    </div>
                 </section>
             @endif
         </div>
