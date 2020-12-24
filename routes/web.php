@@ -2,12 +2,13 @@
 
 use App\Http\Controllers\{BookController,
     DashboardController,
-    LoginController,
+    OrderController,
     ReservationController,
     SearchController,
     SettingController,
-    UserController
-};
+    StatusChangeController,
+    StatusController,
+    UserController};
 use App\Http\Middleware\IsAdmin;
 use Illuminate\Support\Facades\Route;
 
@@ -32,14 +33,16 @@ Route::prefix('admin')->middleware(['auth', IsAdmin::class])->group(function () 
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard.index');
 
 // USERS
+    Route::get('/users/{user}/orders/{id}/edit', [OrderController::class, 'edit'])->name('statuses.edit');
+    Route::put('/users/{user}/orders/{id}', [OrderController::class, 'update'])->name('statuses.update');
+
+
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
     Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
     Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
     Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');
 
 
-    Route::get('/users/{user}/status/{id}/edit', [UserController::class, 'statusEdit'])->name('users.statusedit');
-    Route::put('/users/{user}/status/{id}', [UserController::class, 'statusEditUpdate'])->name('users.statusUpdate');
 
 // BOOKS
     Route::get('/books', [BookController::class, 'index'])->name('books.index');

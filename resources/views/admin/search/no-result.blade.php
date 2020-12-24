@@ -1,23 +1,61 @@
 @extends('layouts.app')
 @section('content')
     <section class="flex justify-center flex-col items-center">
-        <svg class="mb-8" version="1.1" id="Calque_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+        <svg class="mb-8" version="1.1" id="Calque_1" xmlns="http://www.w3.org/2000/svg"
+             xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
              viewBox="0 0 224.1 224.1" style="enable-background:new 0 0 224.1 224.1;" xml:space="preserve">
 <style type="text/css">
-    .st0{fill-rule:evenodd;clip-rule:evenodd;fill:#28384C;stroke:#28384C;stroke-miterlimit:10;}
-    .st1{fill-rule:evenodd;clip-rule:evenodd;fill:#DD352E;}
-    .st2{fill-rule:evenodd;clip-rule:evenodd;fill:#EBBA16;}
-    .st3{fill-rule:evenodd;clip-rule:evenodd;fill:#23A24D;}
-    .st4{fill-rule:evenodd;clip-rule:evenodd;fill:#8E5128;stroke:#8E5128;stroke-miterlimit:10;}
-    .st5{fill:#FFFFFF;stroke:#FFFFFF;stroke-miterlimit:10;}
-    .st6{fill:#FFFFFF;}
+    .st0 {
+        fill-rule: evenodd;
+        clip-rule: evenodd;
+        fill: #28384C;
+        stroke: #28384C;
+        stroke-miterlimit: 10;
+    }
+
+    .st1 {
+        fill-rule: evenodd;
+        clip-rule: evenodd;
+        fill: #DD352E;
+    }
+
+    .st2 {
+        fill-rule: evenodd;
+        clip-rule: evenodd;
+        fill: #EBBA16;
+    }
+
+    .st3 {
+        fill-rule: evenodd;
+        clip-rule: evenodd;
+        fill: #23A24D;
+    }
+
+    .st4 {
+        fill-rule: evenodd;
+        clip-rule: evenodd;
+        fill: #8E5128;
+        stroke: #8E5128;
+        stroke-miterlimit: 10;
+    }
+
+    .st5 {
+        fill: #FFFFFF;
+        stroke: #FFFFFF;
+        stroke-miterlimit: 10;
+    }
+
+    .st6 {
+        fill: #FFFFFF;
+    }
 </style>
             <g>
                 <path class="st0" d="M224.1,46.4H0V13.5C0,6,6,0,13.5,0h197.1c7.5,0,13.5,6,13.5,13.5V46.4z"/>
                 <path class="st1" d="M15.5,15.5h15.5v15.5H15.5V15.5z"/>
                 <path class="st2" d="M46.4,15.5h15.5v15.5H46.4L46.4,15.5z"/>
                 <path class="st3" d="M77.3,15.5h15.5v15.5H77.3V15.5z"/>
-                <path class="st4" d="M210.6,224.1H13.5c-7.5,0-13.5-5.8-13.5-13V45.5h224.1v165.6C224.1,218.3,218.1,224.1,210.6,224.1z"/>
+                <path class="st4"
+                      d="M210.6,224.1H13.5c-7.5,0-13.5-5.8-13.5-13V45.5h224.1v165.6C224.1,218.3,218.1,224.1,210.6,224.1z"/>
             </g>
             <path class="st5" d="M73.4,143H23.2c-1.4,0-2.7-0.7-3.4-1.9c-0.7-1.2-0.7-2.7,0-3.9l27.1-46.4c1.1-1.8,3.5-2.5,5.3-1.4
 	c1.8,1.1,2.5,3.5,1.4,5.3l-23.7,40.5h43.5c2.1,0,3.9,1.8,3.9,3.9C77.3,141.2,75.6,143,73.4,143z"/>
@@ -35,9 +73,12 @@
             Pas de résultat
         </h2>
         <p>
-            Mince ! Je n'ai rien trouver avec cette recherche, réssayez avec un <span id="inputCta"  class="underline cursor-pointer">autre champ de recherche ci-dessus</span>
+            Mince ! Je n'ai rien trouver avec cette recherche, réssayez avec un <span id="inputCta"
+                                                                                      class="underline cursor-pointer">autre champ de recherche ci-dessus</span>
             ou <a href="{{route('dashboard.index')}}" class="underline">retourner à la page d'accueil</a>
         </p>
     </section>
 @endsection
-<script type="text/javascript" src="{{ asset('js/formSearchLink.js') }}"></script>
+@section('scripts')
+    <script type="text/javascript" src="{{ asset('js/formSearchLink.js') }}"></script>
+@endsection

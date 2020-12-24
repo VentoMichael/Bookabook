@@ -87,7 +87,6 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-        // TODO : changé le status des commandes via le user
         $book = new Book($this->validateBook());
         if ($request->hasFile('picture')) {
             Storage::makeDirectory('books');

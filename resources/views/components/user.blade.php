@@ -37,14 +37,24 @@
                         <h3 aria-level="3" class="text-2xl">
                             {{$user->name}} {{$user->surname}}
                         </h3>
-                        <div>
+                        <div class="mb-4">
                             <a href="mailto:{{$user->email}}">{{$user->email}}</a>
                         </div>
                     </div>
-                    <div class="mb-4 mt-10 text-center">
+                    <div>
+                    @if(count($user->orders) >= 1)
+                        @foreach($statuses as $status)
+                            <div class="flex align-center justify-center my-4 containerStatusName">
+                            <img class="mr-4" src="{{asset('storage').'/orders/'.($status->file_name)}}" alt="{{$status->name}} picto">
+                        <p class="pictoOrder text-xl my-4 text-center">{{$status->nameFr}}</p>
+                            </div>
+                        @endforeach
+                    @endif
+                    </div>
+                    <div class="mb-4 text-center">
                         <div>
                             <a class="rounded-xl block mt-8 bg-orange-900 text-white p-3"
-                               href="{{route('users.show',['user'=>$user->name])}}">Plus d'informations sur
+                               href="{{route('users.show',['user'=>$user->name,$status])}}">Plus d'informations sur
                                 <span>{{$user->name}}</span></a>
                         </div>
                     </div>

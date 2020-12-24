@@ -131,10 +131,8 @@
                 @endif
             </section>
             </body>
-            @if(!auth())
         </div>
-        <script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
         @yield('scripts')
+        <script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
         </body>
-    @endif
     </html>

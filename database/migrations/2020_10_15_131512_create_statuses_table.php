@@ -17,6 +17,7 @@ class CreateStatusesTable extends Migration
             $table->id();
             $table->string('file_name')->nullable();
             $table->string('name');
+            $table->string('nameFr');
             $table->softDeletes();
             $table->timestamps();
         });

@@ -1,1 +1,1 @@
-window.addEventListener("scroll",debounce(checkSlide));let formSearch=document.getElementById("formSearch");formSearch.addEventListener("input",()=>{""!==formSearch.value?formSearch.classList.add("w-48","py-1","px-3"):formSearch.classList.remove("w-48","py-1","px-3")});
+window.addEventListener("click",()=>{const e=document.getElementById("formSearch");e.addEventListener("input",()=>{""!==e.value?e.classList.add("w-48","py-1","px-3"):e.classList.remove("w-48","py-1","px-3")})});

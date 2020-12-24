@@ -21,12 +21,15 @@
             <h2 aria-level="2" class="hiddenTitle">
                 Informations du livre {{$book->title}}
             </h2>
-            <ul role="list" class="sm:flex sm:mx-auto lg:max-w-screen-lg" itemscope="" itemtype="https://schema.org/Book">
+            <ul role="list" class="sm:flex sm:mx-auto lg:max-w-screen-lg" itemscope=""
+                itemtype="https://schema.org/Book">
                 <li class="sm:w-2/5">
                     <ul class="sm:sticky containerImgBook sm:mr-8 sm:mb-12">
                         <li role="listitem" class=" justify-center my-12 sm:block mx-auto">
-                            <img class="mx-auto" itemprop="illustrator" role="img" aria-label="Photo de couverture de {{$book->title}}"
-                                 src="{{ asset('storage/'.$book->picture) }}" alt="Photo de couverture de {{$book->title}}">
+                            <img class="mx-auto" itemprop="illustrator" role="img"
+                                 aria-label="Photo de couverture de {{$book->title}}"
+                                 src="{{ asset('storage/'.$book->picture) }}"
+                                 alt="Photo de couverture de {{$book->title}}">
                         </li>
                         <li role="listitem" class="my-2 text-xl self-center my-12 flex flex-col">
                             Titre : <span itemprop="name" class="border p-3 rounded-md">{{$book->title}}</span>
@@ -42,14 +45,16 @@
                             Orientation : <span class="border p-3 rounded-md">{{$book->orientation}}</span>
                         </li>
                         <li role="listitem" class="my-2 text-xl my-12 flex flex-col">
-                            Maison d'édition : <span itemprop="bookEdition" class="border p-3 rounded-md">{{$book->publishing_house}}</span>
+                            Maison d'édition : <span itemprop="bookEdition"
+                                                     class="border p-3 rounded-md">{{$book->publishing_house}}</span>
                         </li>
                         <li role="listitem" class="my-2 text-xl my-12 flex flex-col">
                             ISBN : <span itemprop="isbn" class="border p-3 rounded-md">{{$book->isbn}}</span>
                         </li>
                         @if($book->presentation)
                             <li role="listitem" class="my-2 text-xl my-12 flex flex-col">
-                                Présentation : <span itemprop="description" class="border p-3 rounded-md">{{$book->presentation}}</span>
+                                Présentation : <span itemprop="description"
+                                                     class="border p-3 rounded-md">{{$book->presentation}}</span>
                             </li>
                         @endif
                         <li role="listitem" class="my-2 text-xl my-12 flex flex-col">
@@ -68,7 +73,8 @@
         </section>
         <div class="flex justify-evenly sm:mt-4">
             @if($book->is_draft)
-                <form class="mt-4 sm:mt-0 sm:mb-0 sm:w-1/3" aria-label="Publication du livre {{$book->title}}" role="form" method="POST"
+                <form class="mt-4 sm:mt-0 sm:mb-0 sm:w-1/3" aria-label="Publication du livre {{$book->title}}"
+                      role="form" method="POST"
                       action="/admin/books/{{$book->title}}"
                       enctype="multipart/form-data">
                     @csrf
@@ -85,7 +91,8 @@
                         <span>{{$book->title}}</span></a>
                 </div>
             @endif
-            <form class="mt-4 sm:mt-0 sm:w-1/3" role="form" aria-label="Suppression du livre {{$book->title}}" method='POST'
+            <form class="mt-4 sm:mt-0 sm:w-1/3" role="form" aria-label="Suppression du livre {{$book->title}}"
+                  method='POST'
                   action="{{ route('books.destroy',$book) }}">
                 @csrf
                 @method('DELETE')
@@ -97,4 +104,6 @@
         </div>
     </div>
 @endsection
-<script type="text/javascript" src="{{ asset('js/successMessage.js') }}"></script>
+@section('scripts')
+    <script type="text/javascript" src="{{ asset('js/successMessage.js') }}"></script>
+@endsection

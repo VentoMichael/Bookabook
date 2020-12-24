@@ -2,6 +2,10 @@
 
 @section('content')
     <section class="relative">
+        @if (Session::has('message'))
+            <div id="sucessMessage"
+                 class="fixed top-0 bg-green-500 w-full p-4 right-0 text-center text-white">{{ Session::get('message') }}</div>
+        @endif
         <h2 aria-level="2" class="hiddenTitle">
             Informations personnelles de {{$user->name}}
         </h2>
@@ -20,22 +24,20 @@
                                         itemprop="givenName">{{$user->surname}}</span>
                                 </h3>
                             </div>
-                            @if($userAdmin)
-                                <div class="flex justify-around mt-8">
-                                    <div class="rounded-xl bg-orange-900 p-3 text-center">
-                                        <div class="containerBookSvg mb-4 self-center"></div>
-                                        @if(count($user->orders) >= 1)
-                                            <p class="text-xl text-white font-hairline">{{$totalbooks}}</p>
-                                        @else
-                                            <p class="text-xl text-white font-hairline">0</p>
-                                        @endif
-                                    </div>
-                                    <div class="rounded-xl bg-orange-900 p-3 pt-3 relative justify-around text-center">
-                                        <div class="containerGroupSvg mb-2 m-auto"></div>
-                                        <p class="text-xl text-white font-hairline">{{$user->group}}</p>
-                                    </div>
+                            <div class="flex justify-around mt-8">
+                                <div class="rounded-xl bg-orange-900 p-3 text-center">
+                                    <div class="containerBookSvg mb-4 self-center"></div>
+                                    @if(count($user->orders) >= 1)
+                                        <p class="text-xl text-white font-hairline">{{$totalbooks}}</p>
+                                    @else
+                                        <p class="text-xl text-white font-hairline">0</p>
+                                    @endif
                                 </div>
-                            @endif
+                                <div class="rounded-xl bg-orange-900 p-3 pt-3 relative justify-around text-center">
+                                    <div class="containerGroupSvg mb-2 m-auto"></div>
+                                    <p class="text-xl text-white font-hairline">{{$user->group}}</p>
+                                </div>
+                            </div>
                         </section>
 
                     </div>
@@ -62,7 +64,8 @@
                                         @foreach($order->books as $book)
                                             <div class="flex mb-8 flex-col my-16 mx-auto sm:mx-0 sm:my-0">
                                                 <div>
-                                                    <img role="img" aria-label="Photo de couverture de {{$book->title}}"
+                                                    <img role="img"
+                                                         aria-label="Photo de couverture de {{$book->title}}"
                                                          src="{{ asset('storage/'.$book->picture) }}"
                                                          alt="Photo de couverture de {{$book->title}}">
                                                 </div>
@@ -72,17 +75,18 @@
                                     </section>
                                     <div class="mt-12">
                                         @foreach($order->statuses as $status)
-                                                @if($status['name'])
-                                                    <div class="text-center text-2xl">
-                                                        <p class="rounded border-orange-900 border-b-2 border-t-2 p-3 inline">
-                                                            {{$status['name']}}
-                                                        </p>
-                                                    </div>
-                                                @endif
-                                            @endforeach
+                                            @if($status['nameFr'])
+                                                <div class="text-center text-2xl">
+                                                    <p class="rounded border-orange-900 border-b-2 border-t-2 p-3 inline">
+                                                        {{$status['nameFr']}}
+                                                    </p>
+                                                </div>
+                                            @endif
+                                        @endforeach
                                         <div class="text-center mt-8">
                                             <a class="rounded-xl mt-8 p-3 border bg-orange-900 text-white text-center sm:w-3/4 sm:mx-auto md:w-2/4"
-                                               href="{{route('users.statusedit',[$user,$status])}}">Changer le status de
+                                               href="{{route('statuses.edit',[$user,$order])}}">Changer le
+                                                status de
                                                 cette commande
                                             </a>
                                         </div>
@@ -96,4 +100,7 @@
             @endif
         </div>
     </section>
+@endsection
+@section('scripts')
+    <script type="text/javascript" src="{{ asset('js/successMessage.js') }}"></script>
 @endsection

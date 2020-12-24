@@ -52,4 +52,4 @@
 @endsection
 @section('scripts')
     <script type="text/javascript" src="{{ asset('js/successMessage.js') }}"></script>
-@show
+@endsection

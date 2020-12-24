@@ -73,4 +73,6 @@
         </div>
     </div>
 @endsection
+@section('scripts')
 <script type="text/javascript" src="{{ asset('js/password.js') }}"></script>
+@endsection

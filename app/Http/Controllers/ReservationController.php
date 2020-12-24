@@ -7,10 +7,14 @@ use App\Mail\BookCreated;
 use App\Mail\BookReminder;
 use App\Models\Book;
 use App\Models\Reservation;
+use App\Models\Status;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 use stdClass;
 
 class ReservationController extends Controller
@@ -38,7 +42,7 @@ class ReservationController extends Controller
             compact('books', 'oldBook'));
     }
 
-    public function sendNotif()
+    public function sendNotif(Request $request)
     {
         $books = Book::selectRaw('SUM(reservations.quantity) as total_quantity,books.title,books.orientation,books.academic_years,books.picture')
             ->join('reservations', 'reservations.book_id', '=', 'books.id')
@@ -51,7 +55,6 @@ class ReservationController extends Controller
         $users = User::student()->with('orders')->orderBy('name')->get();
         foreach ($users as $user) {
             foreach ($books as $book) {
-                dd($book->title);
                 $emails = $user->email;
                 Mail::to($emails)->send(new BookReminder($book));
             }

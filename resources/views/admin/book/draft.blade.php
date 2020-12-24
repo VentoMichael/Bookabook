@@ -21,7 +21,8 @@
                         class="flex flex-col justify-between border-2 rounded-xl p-4">
 
                         <div class="justify-between">
-                            <img role="img" aria-label="Photo de couverture de {{$bookDraft->picture}}" src="{{ asset('storage/'.$bookDraft->picture) }}"
+                            <img role="img" aria-label="Photo de couverture de {{$bookDraft->picture}}"
+                                 src="{{ asset('storage/'.$bookDraft->picture) }}"
                                  alt="Photo de couverture de {{$bookDraft->title}}">
                             <h3 aria-level="3" class="text-2xl break-all ml-4">
                                 {{$bookDraft->title}}
@@ -45,4 +46,6 @@
             @endif
         </div>
 @endsection
-<script type="text/javascript" src="{{ asset('js/successMessage.js') }}"></script>
+@section('scripts')
+    <script type="text/javascript" src="{{ asset('js/successMessage.js') }}"></script>
+@endsection

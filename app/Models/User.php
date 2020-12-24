@@ -13,7 +13,6 @@ class User extends Authenticatable
     use HasFactory, Notifiable;
 
     protected $table = 'users';
-    public $timestamps = true;
 
     use SoftDeletes;
 

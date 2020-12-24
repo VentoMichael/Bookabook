@@ -53,9 +53,10 @@
                                                 aria-label="Envoie de notification pour {{$book->title}}"
                                                 role="form"
                                                 method="POST"
-                                                action="{{ route('purchases.sendNotif',['book' => $book->title])}}">
+                                                action="{{ route('purchases.sendNotif')}}">
                                                 @csrf
                                                 @method('PUT')
+                                                <input type="hidden" value="{{$book->title}}" name="bookTitle">
                                                 <button role="button" name="sendNotifBook"
                                                         class="md:w-64 sm:self-center hover:bg-orange-900 hover:text-white linkAction rounded-xl w-full duration-300 border-2 px-4 mt-4 py-4">
                                                     Envoyer une notification de disponibilité

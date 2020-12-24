@@ -107,7 +107,7 @@
               action="{{ route('books.destroy',$book) }}">
             @csrf
             @method('DELETE')
-            <input
+            <input type="submit"
                 onclick="return confirm('Cette action ne peut pas être annulée. Cela supprimera définitivement le livre et les commandes liés. Étes-vous sûr de supprimer le livre suivant : {{$book->title}}')"
                 class="text-center cursor-pointer max-w-2xl w-full rounded-xl mt-6 bg-orange-900 text-white
                 p-3" value="Supprimer {{$book->title}}"/>
