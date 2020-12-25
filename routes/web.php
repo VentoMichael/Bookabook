@@ -36,7 +36,6 @@ Route::prefix('admin')->middleware(['auth', IsAdmin::class])->group(function () 
     Route::get('/users/{user}/orders/{id}/edit', [OrderController::class, 'edit'])->name('statuses.edit');
     Route::put('/users/{user}/orders/{id}', [OrderController::class, 'update'])->name('statuses.update');
 
-
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
     Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
     Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');

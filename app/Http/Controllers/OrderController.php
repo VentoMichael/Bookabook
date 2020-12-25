@@ -18,7 +18,7 @@ class OrderController extends Controller
     public function index()
     {
         $orders = Order::with('user')->get();
-return view('admin.user.show',compact('orders'));
+        return view('admin.user.show',compact('orders'));
     }
 
     /**

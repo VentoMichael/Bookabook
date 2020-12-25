@@ -85,7 +85,7 @@
                                         @endforeach
                                         <div class="text-center mt-8">
                                             <a class="rounded-xl mt-8 p-3 border bg-orange-900 text-white text-center sm:w-3/4 sm:mx-auto md:w-2/4"
-                                               href="{{route('statuses.edit',[$user,$order])}}">Changer le
+                                               href="{{route('statuses.edit',[$user,$status->id])}}">Changer le
                                                 status de
                                                 cette commande
                                             </a>

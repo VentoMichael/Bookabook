@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{Order, User};
+use App\Models\{Order, Status, User};
 
 class DashboardController extends Controller
 {
@@ -11,12 +11,7 @@ class DashboardController extends Controller
         $users = User::student()->with('orders')->orderBy('name')->get();
         $orders = Order::all();
         $totalbooks = 0;
-        $statuses = [
-            'paid' => 'Payé',
-            'available' => 'Disponible au bureau',
-            'delivered' => 'Delivré',
-            'ordered' => 'Commandé',
-        ];
+        $statuses = Status::all();
         $firstLetters = [];
         $firstLetter = '';
         foreach ($users as $user) {

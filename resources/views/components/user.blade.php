@@ -42,14 +42,18 @@
                         </div>
                     </div>
                     <div>
-                    @if(count($user->orders) >= 1)
-                        @foreach($statuses as $status)
-                            <div class="flex align-center justify-center my-4 containerStatusName">
-                            <img class="mr-4" src="{{asset('storage').'/orders/'.($status->file_name)}}" alt="{{$status->name}} picto">
-                        <p class="pictoOrder text-xl my-4 text-center">{{$status->nameFr}}</p>
-                            </div>
-                        @endforeach
-                    @endif
+                        @if(count($user->orders) >= 1)
+                            @foreach($statuses as $status)
+                                <div>
+                                    <p>La commande n°{{$loop->iteration}}</p>
+                                </div>
+                                <div class="flex align-center justify-center my-4 containerStatusName">
+                                        <img class="mr-4" src="{{asset('storage').'/orders/'.($status->file_name)}}"
+                                             alt="{{$status->name}} picto">
+                                        <p class="pictoOrder text-xl my-4 text-center">{{$status->nameFr}}</p>
+                                </div>
+                            @endforeach
+                        @endif
                     </div>
                     <div class="mb-4 text-center">
                         <div>

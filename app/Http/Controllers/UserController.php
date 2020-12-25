@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\AccountChanged;
-use App\Models\{Order, Status, User};
+use App\Models\{Order, Reservation, Status, StatusChanges, User};
 use Illuminate\Support\Facades\{Hash, Mail, Session, Storage};
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
@@ -74,8 +74,12 @@ class UserController extends Controller
         return view('admin.user.edit', compact('user'));
     }
 
-    public function update(Request $request, User $user)
+    public function update(Request $request, User $user,StatusChanges $order)
     {
+        dd($order);
+        if ($request['status']){
+            dd('d');
+        }
         if ($user->isDirty()) {
             $attributes = request()->validate([
                 'file_name' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',

@@ -11,6 +11,7 @@ class Order extends Model
     protected $table = 'orders';
     public $timestamps = true;
 
+
     public function user()
     {
         return $this->belongsTo('App\Models\User');
