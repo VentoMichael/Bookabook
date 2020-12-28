@@ -13,6 +13,7 @@ class DashboardController extends Controller
         $totalbooks = 0;
         $statuses = Status::all();
         $firstLetters = [];
+        $userAdmin = User::admin()->get();
         $firstLetter = '';
         foreach ($users as $user) {
             if (strtoupper(substr($user->name, 0, 1)) !== $firstLetter) {
@@ -29,6 +30,6 @@ class DashboardController extends Controller
                 return strpos($user->name, $firstLetter) === 0;
             });
         }
-        return view('admin.dashboard', compact('users', 'orders', 'statuses', 'letters', 'totalbooks'));
+        return view('admin.dashboard', compact('users','userAdmin', 'orders', 'statuses', 'letters', 'totalbooks'));
     }
 }

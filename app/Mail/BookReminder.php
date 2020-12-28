@@ -16,7 +16,7 @@ class BookReminder extends Mailable
      *
      * @return void
      */
-    public function __construct(Book $book)
+    public function __construct($book)
     {
         $this->book= $book;
     }

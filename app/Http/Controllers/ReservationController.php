@@ -6,6 +6,7 @@ use App\Mail\AccountChanged;
 use App\Mail\BookCreated;
 use App\Mail\BookReminder;
 use App\Models\Book;
+use App\Models\Order;
 use App\Models\Reservation;
 use App\Models\Status;
 use App\Models\User;
@@ -26,7 +27,8 @@ class ReservationController extends Controller
      */
     public function index()
     {
-        $books = Book::selectRaw('SUM(reservations.quantity) as total_quantity,books.title,books.orientation,books.academic_years,books.picture')
+        $userAdmin = User::admin()->get();
+        $books = Book::selectRaw('SUM(reservations.quantity) as total_quantity,books.id,books.title,books.orientation,books.academic_years,books.picture')
             ->join('reservations', 'reservations.book_id', '=', 'books.id')
             ->groupBy('title')
             ->orderBy('academic_years')
@@ -37,28 +39,20 @@ class ReservationController extends Controller
         $oldBook = new StdClass();
         $oldBook->academic_years = 0;
         $oldBook->orientation = '';
-
         return view('admin.purchases.index',
-            compact('books', 'oldBook'));
+            compact('books', 'userAdmin', 'oldBook'));
     }
 
     public function sendNotif(Request $request)
     {
-        $books = Book::selectRaw('SUM(reservations.quantity) as total_quantity,books.title,books.orientation,books.academic_years,books.picture')
-            ->join('reservations', 'reservations.book_id', '=', 'books.id')
-            ->groupBy('title')
-            ->orderBy('academic_years')
-            ->orderBy('orientation')
-            ->whereHas('orders', function ($order) {
-                return $order;
-            })->get();
         $users = User::student()->with('orders')->orderBy('name')->get();
+        $book = $request['bookTitle'];
         foreach ($users as $user) {
-            foreach ($books as $book) {
+            if (count($user->orders) >= 1) {
                 $emails = $user->email;
                 Mail::to($emails)->send(new BookReminder($book));
             }
         }
-        return redirect(route('purchases.index'));
+        return redirect(route('purchases.index', compact('users')));
     }
 }

@@ -19,7 +19,7 @@ class CreateBooksTable extends Migration
             $table->string('title');
             $table->string('author');
             $table->string('orientation');
-            $table->string('academic_years');
+            $table->smallInteger('academic_years');
             $table->string('publishing_house');
             $table->boolean('is_draft')->default(false);
             $table->string('isbn');

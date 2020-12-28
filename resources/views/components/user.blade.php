@@ -58,7 +58,7 @@
                     <div class="mb-4 text-center">
                         <div>
                             <a class="rounded-xl block mt-8 bg-orange-900 text-white p-3"
-                               href="{{route('users.show',['user'=>$user->name,$status])}}">Plus d'informations sur
+                               href="{{route('users.show',['user'=>$user->name])}}">Plus d'informations sur
                                 <span>{{$user->name}}</span></a>
                         </div>
                     </div>

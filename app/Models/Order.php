@@ -9,8 +9,6 @@ class Order extends Model
 {
 
     protected $table = 'orders';
-    public $timestamps = true;
-
 
     public function user()
     {

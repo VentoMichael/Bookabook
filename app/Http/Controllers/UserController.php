@@ -20,7 +20,6 @@ class UserController extends Controller
         $users = User::student()->with('orders')->orderBy('name')->get();
         $statuses = Status::all();
         $orders = Order::with('user')->get();
-
         $userAdmin = User::admin()->get();
         $firstLetters = [];
         $firstLetter = '';
@@ -53,11 +52,12 @@ class UserController extends Controller
 
     public function show(User $user)
     {
+        $userAdmin = User::admin()->get();
         $totalbooks = 0;
         foreach ($user->orders as $order) {
             $totalbooks += $order->books->count();
         }
-        return view('admin.user.show', compact('user', 'order', 'totalbooks'));
+        return view('admin.user.show', compact('user','userAdmin', 'totalbooks'));
     }
 
     /**
@@ -70,16 +70,16 @@ class UserController extends Controller
 
     public function edit()
     {
+        $userAdmin = User::admin()->get();
         $user = User::admin()->get();
-        return view('admin.user.edit', compact('user'));
+        return view('admin.user.edit', compact('user','userAdmin'));
     }
 
     public function update(Request $request, User $user,StatusChanges $order)
     {
-        dd($order);
-        if ($request['status']){
-            dd('d');
-        }
+        //if ($request['status']){
+        //    dd('d');
+        //}
         if ($user->isDirty()) {
             $attributes = request()->validate([
                 'file_name' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',

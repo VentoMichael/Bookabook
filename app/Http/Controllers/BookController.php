@@ -22,6 +22,7 @@ class BookController extends Controller
      */
     public function index()
     {
+        $userAdmin = User::admin()->get();
         $books = Book::noDraft()->orderBy('title')
             ->get();
         $booksDraft = Book::draft()->orderBy('title')
@@ -40,14 +41,15 @@ class BookController extends Controller
                 return strpos($book->title, $firstLetter) === 0;
             });
         }
-        return view('admin.book.index', compact('books', 'booksDraft', 'letters'));
+        return view('admin.book.index', compact('books','userAdmin', 'booksDraft', 'letters'));
     }
 
     public function draft()
     {
+        $userAdmin = User::admin()->get();
         $booksDraft = Book::draft()->orderBy('title')
             ->get();
-        return view('admin.book.draft', compact('booksDraft'));
+        return view('admin.book.draft', compact('booksDraft','userAdmin'));
     }
 
     /**
@@ -60,11 +62,11 @@ class BookController extends Controller
     {
         //sauvegardes
         $booksDraft = $book->get();
-
+$userAdmin = User::admin()->get();
         //non sauvegardes
         $booksNoDraft = Book::noDraft()
             ->get();
-        return view('admin.book.show', compact('book', 'booksDraft', 'booksNoDraft'));
+        return view('admin.book.show', compact('book','userAdmin', 'booksDraft', 'booksNoDraft'));
     }
 
     /**
@@ -76,7 +78,8 @@ class BookController extends Controller
     {
         $booksDraft = Book::draft()->orderBy('title')
             ->get();
-        return view('admin.book.create', compact('booksDraft'));
+        $userAdmin = User::admin()->get();
+        return view('admin.book.create', compact('booksDraft','userAdmin'));
     }
 
     /**

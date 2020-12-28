@@ -53,7 +53,7 @@
                     </h2>
 
                     <div class="flex flex-col md:flex-row justify-between">
-                        @if (Illuminate\Support\Facades\Auth::check())
+                        @if (Illuminate\Support\Facades\Auth::check() && $userAdmin)
                             <div id="app" class="flex items-center m-auto">
                                 <nav role="navigation" aria-label="Navigation principale"
                                      class="m-auto mt-4 mb-4 navbar navbar-expand-md navbar-light" role="navigation">

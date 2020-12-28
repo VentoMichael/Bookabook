@@ -19,14 +19,14 @@
             @if($book->academic_years != $oldBook->academic_years)
                 <section id="bloc{{$book->academic_years}}">
                     <h3 aria-level="3"
-                        class="rounded-xl my-2 block p-3 sm:px-12 md:px-16 mt-8 mb-2 mx-auto sm:w-2/4 w-full bg-orange-900 text-white text-center text-md border-orange-900 border-2">
+                        class="rounded-xl my-2 block p-3 sm:px-12 md:px-16 mt-8 mb-2 mx-auto sm:w-2/4 w-3/4 bg-orange-900 text-white text-center text-md border-orange-900 border-2">
                         Bloc {{$book->academic_years}}
                     </h3>
                     @endif
                     @if($book->orientation != $oldBook->orientation)
                         <section>
                             <h4 aria-level="4"
-                                class="mx-auto rounded-xl my-2 block p-3 sm:px-12 md:px-16 mt-8 mb-2 sm:w-2/4 w-full text-center text-md border-orange-900 border-b-2 border-t-2">
+                                class="mx-auto rounded-xl my-2 block p-3 sm:px-12 md:px-16 mt-8 mb-2 sm:w-2/4 w-3/4 text-center text-md border-orange-900 border-b-2 border-t-2">
                                 {{$book->orientation}}
                             </h4>
                             <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-items-center">
@@ -58,7 +58,7 @@
                                                 @method('PUT')
                                                 <input type="hidden" value="{{$book->title}}" name="bookTitle">
                                                 <button role="button" name="sendNotifBook"
-                                                        class="md:w-64 sm:self-center hover:bg-orange-900 hover:text-white linkAction rounded-xl w-full duration-300 border-2 px-4 mt-4 py-4">
+                                                        class="md:w-64 sm:self-center hover:bg-orange-900 hover:text-white linkAction rounded-xl w-3/4 duration-300 border-2 px-4 mt-4 py-4">
                                                     Envoyer une notification de disponibilité
                                                 </button>
                                             </form>
@@ -69,11 +69,16 @@
                             </div>
                         </section>
                     @endif
-                    @if($book->academic_years != $oldBook->academic_years)
+                    @if($book->academic_years != $oldBook->academic_years && $oldBook->academic_years != 0)
                 </section>
             @endif
             @php
-                $oldBook = $book;
+                if ($loop->index >= 1){
+                    $oldBook = $books[$loop->index -1];
+                }else{
+                    $oldBook->academic_years = 1;
+                    $oldBook->orientation = '2D';
+                }
             @endphp
         @endforeach
     @else
