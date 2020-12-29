@@ -6,8 +6,8 @@ use App\Http\Controllers\{BookController,
     ReservationController,
     SearchController,
     SettingController,
-    StatusChangeController,
-    StatusController,
+    StudentController,
+    PurchasesStudentController,
     UserController};
 use App\Http\Middleware\IsAdmin;
 use Illuminate\Support\Facades\Route;
@@ -22,10 +22,10 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/test', function () {
-});
 
-Route::get('/', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard.homeindex');
+//Route::get('/', [StudentController::class, 'index'])->middleware('auth')->name('dashboardUser.index');
+
+//Route::get('/purchases', [PurchasesStudentController::class, 'index'])->middleware('auth')->name('purchasesUser.index');
 
 
 Route::prefix('admin')->middleware(['auth', IsAdmin::class])->group(function () {
@@ -60,6 +60,6 @@ Route::prefix('admin')->middleware(['auth', IsAdmin::class])->group(function () 
     Route::get('/purchases', [ReservationController::class, 'index'])->name('purchases.index');
     Route::put('/purchases', [ReservationController::class, 'sendNotif'])->name('purchases.sendNotif');
 
-//SETTINGS
-    Route::get('/settings', [SettingController::class, 'index'])->name('settings.index');
 });
+//SETTINGS
+Route::get('/settings', [SettingController::class, 'index'])->name('settings.index');

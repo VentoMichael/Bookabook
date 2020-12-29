@@ -39,8 +39,9 @@ class ReservationController extends Controller
         $oldBook = new StdClass();
         $oldBook->academic_years = 0;
         $oldBook->orientation = '';
+        $userStudents = null;
         return view('admin.purchases.index',
-            compact('books', 'userAdmin', 'oldBook'));
+            compact('books','userStudents', 'userAdmin', 'oldBook'));
     }
 
     public function sendNotif(Request $request)

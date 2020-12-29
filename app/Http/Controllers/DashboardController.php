@@ -12,6 +12,7 @@ class DashboardController extends Controller
         $orders = Order::all();
         $totalbooks = 0;
         $statuses = Status::all();
+        $userStudents = null;
         $firstLetters = [];
         $userAdmin = User::admin()->get();
         $firstLetter = '';
@@ -30,6 +31,6 @@ class DashboardController extends Controller
                 return strpos($user->name, $firstLetter) === 0;
             });
         }
-        return view('admin.dashboard', compact('users','userAdmin', 'orders', 'statuses', 'letters', 'totalbooks'));
+        return view('admin.dashboard', compact('users','userStudents','userAdmin', 'orders', 'statuses', 'letters', 'totalbooks'));
     }
 }

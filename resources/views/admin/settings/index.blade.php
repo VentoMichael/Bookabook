@@ -5,10 +5,8 @@
         Paramètres
     </h2>
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-4">
-        @foreach($user as $admin)
             <a class="duration-300 w-full rounded-xl mt-2 p-3 border hover:bg-orange-900 hover:text-white"
-               href="{{route('users.edit',['user'=>$admin->name])}}">Gérer mon compte</a>
-        @endforeach
+               href="#">Gérer mon compte</a>
             <form aria-label="Déconnexion" role="form" id="logout-form" action="{{ route('logout') }}" method="POST">
                 @csrf
                 <button role="button" class="text-left duration-300 w-full rounded-xl mt-2 p-3 border hover:bg-orange-900 hover:text-white">

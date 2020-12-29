@@ -29,6 +29,7 @@ class BookController extends Controller
             ->get();
         $firstLetters = [];
         $firstLetter = '';
+        $userStudents = null;
         foreach ($books as $book) {
             if (strtoupper(substr($book->title, 0, 1)) !== $firstLetter) {
                 $firstLetter = strtoupper(substr($book->title, 0, 1));
@@ -41,7 +42,7 @@ class BookController extends Controller
                 return strpos($book->title, $firstLetter) === 0;
             });
         }
-        return view('admin.book.index', compact('books','userAdmin', 'booksDraft', 'letters'));
+        return view('admin.book.index', compact('books','userStudents','userAdmin', 'booksDraft', 'letters'));
     }
 
     public function draft()
@@ -49,7 +50,8 @@ class BookController extends Controller
         $userAdmin = User::admin()->get();
         $booksDraft = Book::draft()->orderBy('title')
             ->get();
-        return view('admin.book.draft', compact('booksDraft','userAdmin'));
+        $userStudents = null;
+        return view('admin.book.draft', compact('booksDraft','userStudents','userAdmin'));
     }
 
     /**
@@ -62,11 +64,12 @@ class BookController extends Controller
     {
         //sauvegardes
         $booksDraft = $book->get();
-$userAdmin = User::admin()->get();
+        $userAdmin = User::admin()->get();
         //non sauvegardes
         $booksNoDraft = Book::noDraft()
             ->get();
-        return view('admin.book.show', compact('book','userAdmin', 'booksDraft', 'booksNoDraft'));
+        $userStudents = null;
+        return view('admin.book.show', compact('book','userStudents','userAdmin', 'booksDraft', 'booksNoDraft'));
     }
 
     /**
@@ -79,7 +82,8 @@ $userAdmin = User::admin()->get();
         $booksDraft = Book::draft()->orderBy('title')
             ->get();
         $userAdmin = User::admin()->get();
-        return view('admin.book.create', compact('booksDraft','userAdmin'));
+        $userStudents = null;
+        return view('admin.book.create', compact('booksDraft','userStudents','userAdmin'));
     }
 
     /**
@@ -136,9 +140,11 @@ $userAdmin = User::admin()->get();
      */
     public function edit(Book $book)
     {
+        $userAdmin = User::admin()->get();
         $booksDraft = Book::draft()->orderBy('title')
             ->get();
-        return view('admin.book.edit', compact('book', 'booksDraft'));
+        $userStudents = null;
+        return view('admin.book.edit', compact('book','userAdmin','userStudents', 'booksDraft'));
     }
 
     /**

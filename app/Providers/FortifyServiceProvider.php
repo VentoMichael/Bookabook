@@ -18,7 +18,7 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+
     }
 
     /**
@@ -29,16 +29,28 @@ class FortifyServiceProvider extends ServiceProvider
     public function boot()
     {
         Fortify::loginView(function () {
-            return view('auth.login');
+            $userStudents = null;
+            $userAdmin = null;
+            return view('auth.login',compact('userStudents'
+            ,'userAdmin'));
         });
         Fortify::registerView(function () {
-            return view('auth.register');
+            $userStudents = null;
+            $userAdmin = null;
+            return view('auth.register',compact('userStudents'
+            ,'userAdmin'));
         });
         Fortify::requestPasswordResetLinkView(function () {
-            return view('auth.forgot-password');
+            $userStudents = null;
+            $userAdmin = null;
+            return view('auth.forgot-password',compact('userStudents'
+            ,'userAdmin'));
         });
         Fortify::resetPasswordView(function () {
-            return view('auth.reset-password');
+            $userStudents = null;
+            $userAdmin = null;
+            return view('auth.reset-password',compact('userStudents'
+            ,'userAdmin'));
         });
         Fortify::createUsersUsing(CreateNewUser::class);
         Fortify::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);

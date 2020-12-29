@@ -24,6 +24,7 @@ class UserController extends Controller
         $firstLetters = [];
         $firstLetter = '';
         $totalbooks = 0;
+        $userStudents = null;
         foreach ($users as $user) {
             foreach ($user->orders as $order) {
                 $totalbooks += $order->books->count();
@@ -40,7 +41,7 @@ class UserController extends Controller
             });
         }
 
-        return view('admin.user.index', compact('userAdmin', 'orders', 'users', 'statuses', 'letters', 'totalbooks'));
+        return view('admin.user.index', compact('userAdmin', 'orders', 'users','userStudents', 'statuses', 'letters', 'totalbooks'));
     }
 
     /**
@@ -53,11 +54,11 @@ class UserController extends Controller
     public function show(User $user)
     {
         $userAdmin = User::admin()->get();
-        $totalbooks = 0;
+        $totalbooks = 0;$userStudents = null;
         foreach ($user->orders as $order) {
             $totalbooks += $order->books->count();
         }
-        return view('admin.user.show', compact('user','userAdmin', 'totalbooks'));
+        return view('admin.user.show', compact('user','userStudents','userAdmin', 'totalbooks'));
     }
 
     /**
@@ -72,7 +73,8 @@ class UserController extends Controller
     {
         $userAdmin = User::admin()->get();
         $user = User::admin()->get();
-        return view('admin.user.edit', compact('user','userAdmin'));
+        $userStudents = null;
+        return view('admin.user.edit', compact('user','userStudents','userAdmin'));
     }
 
     public function update(Request $request, User $user,StatusChanges $order)

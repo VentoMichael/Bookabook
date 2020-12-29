@@ -22,6 +22,6 @@ class UserSeeder extends Seeder
             'password' => Hash::make('a'),
             'file_name'=> 'users/default.svg'
         ]);
-        User::factory()->times(3)->create();
+        User::factory()->times(1)->create();
     }
 }

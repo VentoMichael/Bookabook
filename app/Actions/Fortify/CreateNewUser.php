@@ -47,6 +47,7 @@ class CreateNewUser implements CreatesNewUsers
             'group' => $input['group'],
             'email' => $input['email'],
             'password' => Hash::make($input['password']),
+            'file_name' => 'users/default.svg',
         ]);
     }
 }

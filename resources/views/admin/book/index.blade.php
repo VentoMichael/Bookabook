@@ -24,7 +24,7 @@
                             </h3>
                         </div>
                         <div class="mb-4 mt-10 text-center">
-                                <a class="cursor-pointer rounded-xl border duration-300 p-3 hover:bg-orange-900 hover:text-white" href="{{route('books.edit',['book'=>$book->title])}}">Éditer
+                                <a class="block cursor-pointer rounded-xl border duration-300 p-3 hover:bg-orange-900 hover:text-white" href="{{route('books.edit',['book'=>$book->title])}}">Éditer
                                     <span>{{$book->title}}</span></a>
                                 <a class="cursor-pointer rounded-xl block mt-8 bg-orange-900 text-white p-3" href="{{route('books.show',['book'=>$book->title])}}">Plus d'informations sur
                                     <span>{{$book->title}}</span></a>
