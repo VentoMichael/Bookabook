@@ -69,10 +69,10 @@
                             class="addBookToCart text-center block cursor-pointer rounded-xl border duration-300 p-3 hover:bg-orange-900 hover:text-white">
                         Ajouter {{$book->title}} à mon panier
                     </button>
-                    <button
+                    <a href="{{route('cart.index')}}"
                         class="text-center cursor-pointer rounded-xl w-full block mt-4 bg-orange-900 text-white p-3">
                         Voir mon panier
-                    </button>
+                    </a>
                 </form>
             </section>
         @endforeach

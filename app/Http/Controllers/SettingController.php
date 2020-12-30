@@ -2,20 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Role;
 use App\Models\RoleUser;
 use App\Models\User;
-use Illuminate\Http\Request;
 
 class SettingController extends Controller
 {
     public function index()
     {
-        $role = RoleUser::all();
-        $userAdmin = User::admin()->get();
-        $userStudents = User::student()->get();
-        dd($role);
+        $roles = RoleUser::all();
+        foreach ($roles as $role){
+            if ($role->role_id === 1){
+                $userAdmin = User::admin()->get();
+                $userStudents = null;
 
+            }else{
+                $userStudents = User::student()->get();
+                $userAdmin = null;
+            }
+        }
         return view('admin.settings.index', compact('userStudents', 'userAdmin'));
     }
 }

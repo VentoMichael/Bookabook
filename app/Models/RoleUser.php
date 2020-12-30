@@ -8,9 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class RoleUser extends Model
 {
     use HasFactory;
+    protected $guarded=[];
 
-    protected $guarded = [];
 
-
-    protected $table = "role_users";
+    protected $table = "role_user";
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\{BookController,
+    CartController,
     DashboardController,
     OrderController,
     ReservationController,
@@ -23,9 +24,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//Route::get('/', [StudentController::class, 'index'])->middleware('auth')->name('dashboardUser.index');
+Route::get('/', [StudentController::class, 'index'])->middleware('auth')->name('dashboardUser.index');
 
-//Route::get('/purchases', [PurchasesStudentController::class, 'index'])->middleware('auth')->name('purchasesUser.index');
+Route::get('/purchases', [PurchasesStudentController::class, 'index'])->middleware('auth')->name('purchasesUser.index');
+
+Route::get('/cart', [CartController::class, 'index'])->middleware('auth')->name('cart.index');
 
 
 Route::prefix('admin')->middleware(['auth', IsAdmin::class])->group(function () {
