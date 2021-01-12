@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\AccountChanged;
-use App\Models\{Order, Reservation, Status, StatusChanges, User};
+use App\Models\{Order, Reservation, RoleUser, Status, StatusChanges, User};
 use Illuminate\Support\Facades\{Hash, Mail, Session, Storage};
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
@@ -20,11 +20,10 @@ class UserController extends Controller
         $users = User::student()->with('orders')->orderBy('name')->get();
         $statuses = Status::all();
         $orders = Order::with('user')->get();
-        $userAdmin = User::admin()->get();
+        $admin = User::admin()->get();
         $firstLetters = [];
         $firstLetter = '';
         $totalbooks = 0;
-        $userStudents = null;
         foreach ($users as $user) {
             foreach ($user->orders as $order) {
                 $totalbooks += $order->books->count();
@@ -41,7 +40,8 @@ class UserController extends Controller
             });
         }
 
-        return view('admin.user.index', compact('userAdmin', 'orders', 'users','userStudents', 'statuses', 'letters', 'totalbooks'));
+        return view('admin.user.index',
+            compact('admin', 'orders', 'users', 'statuses', 'letters', 'totalbooks'));
     }
 
     /**
@@ -53,12 +53,13 @@ class UserController extends Controller
 
     public function show(User $user)
     {
-        $userAdmin = User::admin()->get();
-        $totalbooks = 0;$userStudents = null;
+        $userCurrent = auth()->user();
+        $admin = User::admin()->get();
+        $totalbooks = 0;
         foreach ($user->orders as $order) {
             $totalbooks += $order->books->count();
         }
-        return view('admin.user.show', compact('user','userStudents','userAdmin', 'totalbooks'));
+        return view('admin.user.show', compact('user','userCurrent', 'admin', 'totalbooks'));
     }
 
     /**
@@ -71,39 +72,33 @@ class UserController extends Controller
 
     public function edit()
     {
-        $userAdmin = User::admin()->get();
-        $user = User::admin()->get();
-        $userStudents = null;
-        return view('admin.user.edit', compact('user','userStudents','userAdmin'));
+        $user = auth()->user();
+        return view('admin.user.edit', compact( 'user'));
     }
 
-    public function update(Request $request, User $user,StatusChanges $order)
+    public function update(Request $request, User $user, StatusChanges $order)
     {
-        //if ($request['status']){
-        //    dd('d');
-        //}
-        if ($user->isDirty()) {
             $attributes = request()->validate([
-                'file_name' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                'file_name' => 'image|mimes:jpeg,png,jpg|max:2048',
                 'email' => [
                     'string',
                     'email',
                     'max:255',
                 ]
             ]);
-            if (request('password')) {
-                request()->validate([
-                    'password' => [
-                        'required',
-                        'string',
-                        'min:8',
-                        'regex:/[a-z]/',
-                        'regex:/[A-Z]/',
-                        'regex:/[0-9]/',
-                        'confirmed'
-                    ],
-                ]);
-            }
+        if (request('password')) {
+            $attributes = request()->validate([
+                'password' => [
+                    'required',
+                    'string',
+                    'min:8',
+                    'regex:/[a-z]/',
+                    'regex:/[A-Z]/',
+                    'regex:/[0-9]/',
+                    'confirmed'
+                ]
+            ]);
+        }
             if ($request->hasFile('file_name')) {
                 Storage::makeDirectory('users');
                 $filename = request('file_name')->hashName();
@@ -125,12 +120,12 @@ class UserController extends Controller
                 Mail::to($attributes['email'])
                     ->send(new AccountChanged());
             }
+        if ($user->wasChanged()) {
             Session::flash('message', 'Vos informations ont été changés avec succès');
-            return redirect(route('users.show', ['user' => $user->name]));
-        } else {
-            Session::flash('message', 'Il n\'y a rien a changé');
-            return redirect(route('users.show', ['user' => $user->name]));
+        }else{
+            Session::flash('messageNotUpdate', 'Il n\'y a rien a changé');
         }
+        return redirect(route('users.show', ['user' => $user->name]));
     }
 
 }

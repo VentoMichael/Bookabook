@@ -54,15 +54,14 @@ return [
             'unix_socket' => env('DB_SOCKET', ''),
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',
-            'prefix' => '',
+            'prefix' => 'bab_',
             'prefix_indexes' => true,
-            'strict' => false,
+            'strict' => true,
             'engine' => null,
             'options' => extension_loaded('pdo_mysql') ? array_filter([
                 PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
             ]) : [],
         ],
-//TODO: changes de strict to true
         'pgsql' => [
             'driver' => 'pgsql',
             'url' => env('DATABASE_URL'),

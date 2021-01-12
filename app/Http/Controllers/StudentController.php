@@ -6,6 +6,7 @@ use App\Models\Book;
 use App\Models\Student;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class StudentController extends Controller
 {
@@ -16,10 +17,13 @@ class StudentController extends Controller
      */
     public function index()
     {
+        if(Auth::user()->isAdministrator){
+            return redirect()->route('dashboard.index');
+        }
+
         $books = Book::orderBy('title')->get();
         $userStudents = User::student()->get();
-        $userAdmin = null;
-        return view('students.dashboard', compact('books','userStudents','userAdmin'));
+        return view('students.dashboard', compact('books','userStudents'));
     }
 
     /**

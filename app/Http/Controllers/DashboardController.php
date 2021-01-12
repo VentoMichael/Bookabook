@@ -2,19 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{Order, Status, User};
+use Illuminate\Support\Facades\Auth;
+use App\Models\{Order, Role, RoleUser, Status, User};
 
 class DashboardController extends Controller
 {
     public function index()
     {
+        if(!Auth::user()->isAdministrator)
+            redirect()->route('dashboard.index');
+
         $users = User::student()->with('orders')->orderBy('name')->get();
         $orders = Order::all();
         $totalbooks = 0;
         $statuses = Status::all();
-        $userStudents = null;
         $firstLetters = [];
         $userAdmin = User::admin()->get();
+        $roleAdmin = Role::where('id',1)->with('users')->get();
+        $roleUser = Role::where('id',2)->with('users')->get();
         $firstLetter = '';
         foreach ($users as $user) {
             if (strtoupper(substr($user->name, 0, 1)) !== $firstLetter) {
@@ -31,6 +36,6 @@ class DashboardController extends Controller
                 return strpos($user->name, $firstLetter) === 0;
             });
         }
-        return view('admin.dashboard', compact('users','userStudents','userAdmin', 'orders', 'statuses', 'letters', 'totalbooks'));
+        return view('admin.dashboard', compact('users','userAdmin', 'orders', 'statuses', 'letters', 'totalbooks'));
     }
 }

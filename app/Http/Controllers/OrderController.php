@@ -29,7 +29,6 @@ class OrderController extends Controller
     public function edit(User $user)
     {
         $statuses = Status::all();
-        $userAdmin = User::admin()->get();
         return view('admin.statuses.edit', compact('statuses','userAdmin','user'));
     }
 

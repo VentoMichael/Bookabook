@@ -56,12 +56,12 @@ class User extends Authenticatable
 
     public function scopeAdmin($query)
     {
-        return $query->where('name', '=', 'Vento');
+        return $query->where('id', '=', '1');
     }
 
     public function scopeStudent($query)
     {
-        return $query->where('name', '!=', 'Vento');
+        return $query->where('id', '!=', '1');
     }
 
     public function orders(){
@@ -72,11 +72,6 @@ class User extends Authenticatable
     {
         return $this->roles->pluck('name')->contains('administrator');
     }
-
-    public function getFirstLetterOfNameAttribute(){
-        return strtoupper(substr($this->name,0,1));
-    }
-
     public function getIsStudentAttribute(): bool
     {
         return $this->roles->pluck('name')->contains('student');

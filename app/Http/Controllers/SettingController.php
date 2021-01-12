@@ -9,17 +9,7 @@ class SettingController extends Controller
 {
     public function index()
     {
-        $roles = RoleUser::all();
-        foreach ($roles as $role){
-            if ($role->role_id === 1){
-                $userAdmin = User::admin()->get();
-                $userStudents = null;
-
-            }else{
-                $userStudents = User::student()->get();
-                $userAdmin = null;
-            }
-        }
-        return view('admin.settings.index', compact('userStudents', 'userAdmin'));
+        $user = auth()->user();
+        return view('admin.settings.index',compact('user'));
     }
 }

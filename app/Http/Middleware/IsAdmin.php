@@ -18,10 +18,10 @@ class IsAdmin
     public function handle(Request $request, Closure $next)
     {
         if (Auth::guest()){
-            if (!$request->user()->is_administrator){
-                return redirect('/');
-            }else{
+            if (!$request->user()->is_student){
                 return redirect('/admin');
+            }else{
+                return redirect('/');
             }
         }
         return $next($request);

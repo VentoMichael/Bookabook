@@ -6,6 +6,10 @@
             <div id="sucessMessage"
                  class="fixed top-0 bg-green-500 w-full p-4 right-0 text-center text-white">{{ Session::get('message') }}</div>
         @endif
+        @if (Session::has('messageNotUpdate'))
+            <div id="sucessMessage"
+                 class="fixed top-0 bg-red-500 w-full p-4 right-0 text-center text-white">{{ Session::get('messageNotUpdate') }}</div>
+        @endif
         <h2 aria-level="2" class="hiddenTitle">
             Informations personnelles de {{$user->name}}
         </h2>
@@ -18,26 +22,29 @@
                     <div class="flex justify-between">
                         @include('partials.user-avatar')
                         <section>
+                            @dd($user)
                             <div itemscope itemtype="https://schema.org/Person">
                                 <h3 aria-level="3" class="text-xl break-all ml-4 mr-4">
                                     <span itemprop="familyName">{{$user->name}}</span> <span
                                         itemprop="givenName">{{$user->surname}}</span>
                                 </h3>
                             </div>
-                            <div class="flex justify-around mt-8">
-                                <div class="rounded-xl bg-orange-900 p-3 text-center">
-                                    <div class="containerBookSvg mb-4 self-center"></div>
-                                    @if(count($user->orders) >= 1)
-                                        <p class="text-xl text-white font-hairline">{{$totalbooks}}</p>
-                                    @else
-                                        <p class="text-xl text-white font-hairline">0</p>
-                                    @endif
+                            @if(!\App\Models\User::student())
+                                <div class="flex justify-around mt-8">
+                                    <div class="rounded-xl bg-orange-900 p-3 text-center">
+                                        <div class="containerBookSvg mb-4 self-center"></div>
+                                        @if(count($user->orders) >= 1)
+                                            <p class="text-xl text-white font-hairline">{{$totalbooks}}</p>
+                                        @else
+                                            <p class="text-xl text-white font-hairline">0</p>
+                                        @endif
+                                    </div>
+                                    <div class="rounded-xl bg-orange-900 p-3 pt-3 relative justify-around text-center">
+                                        <div class="containerGroupSvg mb-2 m-auto"></div>
+                                        <p class="text-xl text-white font-hairline">{{$user->group}}</p>
+                                    </div>
                                 </div>
-                                <div class="rounded-xl bg-orange-900 p-3 pt-3 relative justify-around text-center">
-                                    <div class="containerGroupSvg mb-2 m-auto"></div>
-                                    <p class="text-xl text-white font-hairline">{{$user->group}}</p>
-                                </div>
-                            </div>
+                            @endif
                         </section>
 
                     </div>

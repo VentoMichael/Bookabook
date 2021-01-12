@@ -146,6 +146,15 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'password' => 'mot de passe',
+        'file_name' => 'image',
+        'picture' => 'image',
+        'title' => 'titre',
+        'author' => 'auteur',
+        'publishing_house' => 'maison d\'édition',
+        'public_price' => 'prix public',
+        'proposed_price' => 'prix proposé',
+    ],
 
 ];

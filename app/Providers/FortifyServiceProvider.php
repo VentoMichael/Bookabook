@@ -29,28 +29,16 @@ class FortifyServiceProvider extends ServiceProvider
     public function boot()
     {
         Fortify::loginView(function () {
-            $userStudents = null;
-            $userAdmin = null;
-            return view('auth.login',compact('userStudents'
-            ,'userAdmin'));
+            return view('auth.login');
         });
         Fortify::registerView(function () {
-            $userStudents = null;
-            $userAdmin = null;
-            return view('auth.register',compact('userStudents'
-            ,'userAdmin'));
+            return view('auth.register');
         });
         Fortify::requestPasswordResetLinkView(function () {
-            $userStudents = null;
-            $userAdmin = null;
-            return view('auth.forgot-password',compact('userStudents'
-            ,'userAdmin'));
+            return view('auth.forgot-password');
         });
         Fortify::resetPasswordView(function () {
-            $userStudents = null;
-            $userAdmin = null;
-            return view('auth.reset-password',compact('userStudents'
-            ,'userAdmin'));
+            return view('auth.reset-password');
         });
         Fortify::createUsersUsing(CreateNewUser::class);
         Fortify::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);

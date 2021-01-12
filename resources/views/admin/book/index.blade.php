@@ -5,6 +5,10 @@
             <div id="sucessMessage"
                  class="fixed top-0 bg-green-500 w-full p-4 right-0 text-center text-white">{{ Session::get('message') }}</div>
         @endif
+        @if (Session::has('messageNotUpdate'))
+            <div id="sucessMessage"
+                 class="fixed top-0 bg-red-500 w-full p-4 right-0 text-center text-white">{{ Session::get('messageNotUpdate') }}</div>
+        @endif
         <h2 aria-level="2" class="hiddenTitle">
             Les livres de l'application
         </h2>

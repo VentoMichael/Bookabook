@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\PurchasesStudent;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class PurchasesStudentController extends Controller
@@ -10,11 +11,12 @@ class PurchasesStudentController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function index()
     {
-        dd('d');
+        $user = auth()->user();
+        return view('students.purchases.index',compact('user'));
     }
 
     /**

@@ -13,18 +13,21 @@
         <meta name="language" content="French">
         <meta name="author" content="Vento Michael"/>
 
-        <title>@auth()
+        <title>
+            @if(Illuminate\Support\Facades\Auth::check())
                 @if(Auth::user()->is_administrator)
                     {{'Admin |'}}
+                    {{ 'Book a book | ' }}
+                    {{ Request::is('*/users/*') || Request::is('*/users') || Request::is('*/dashboard') ? "Étudiants" : "" }}
+                    {{ Request::is('*/books/*') || Request::is('*/books') ? "Livres" : "" }}
+                @else
+                    {{ 'Book a book | ' }}
+                    {{ Request::is('/') ? "Livres" : "" }}
+                    {{ Request::is('users/*') ? "Profil" : "" }}
                 @endif
-            @endauth{{ 'Book a book' }}
-            @if ($userStudents != null)
-                {{ Request::is('/') ? " | Livres" : "" }}
+                {{ Request::is('purchases/*') || Request::is('purchases') ? "Achats" : "" }}
+                {{ Request::is('*/settings') || Request::is('settings') ? "Paramètres" : "" }}
             @endif
-            {{ Request::is('*/users/*') || Request::is('*/users') || Request::is('*/dashboard') ? " | Étudiants" : "" }}
-            {{ Request::is('*/books/*') || Request::is('*/books') ? " | Livres" : "" }}
-            {{ Request::is('*/purchases/*') || Request::is('*/purchases') ? " | Achats" : "" }}
-            {{ Request::is('*/settings') ? " | Paramètres" : "" }}
         </title>
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -45,10 +48,23 @@
             <section>
                 <div clawss="inline-block">
                     <h1 aria-level="1" class="ml-3 mt-3 inline-block">
-                        <a class="navbar-brand" href="{{ url('/admin') }}" role="banner">
-                            <img class="logo" src="{{asset('svg/logo.svg')}}" alt="Book a book application">
-                        </a>
+                        @if(Auth::user()->is_administrator)
+                            <a class="navbar-brand" href="{{ url('/admin') }}" role="banner">
+                                <img class="logo" src="{{asset('svg/logo.svg')}}" alt="Book a book application">
+                            </a>
+                        @else
+                            <a class="navbar-brand" href="{{ url('/') }}" role="banner">
+                                <img class="logo" src="{{asset('svg/logo.svg')}}" alt="Book a book application">
+                            </a>
+                        @endif
                     </h1>
+                    @if(Auth::user()->isAdministrator)
+
+                        <a class="pictoCart" href="{{route('cart.index')}}"><img class="logo"
+                                                                                 src="{{asset('svg/cart.svg')}}"
+                                                                                 alt="Book a book application">
+                        </a>
+                    @endif
                 </div>
                 <header>
                     <h2 class="hiddenTitle">
@@ -56,15 +72,15 @@
                     </h2>
                     <div class="flex flex-col md:flex-row justify-between">
                         @if(Illuminate\Support\Facades\Auth::check())
-                            @if ($userAdmin != null)
-                                <div id="app" class="flex items-center m-auto">
-                                    <nav role="navigation" aria-label="Navigation principale"
-                                         class="m-auto mt-4 mb-4 navbar navbar-expand-md navbar-light"
-                                         role="navigation">
-                                        <h2 class="hiddenTitle">
-                                            Navigation principale
-                                        </h2>
-                                        <ul role="list" class="container flex items-center">
+                            <div id="app" class="flex items-center m-auto">
+                                <nav role="navigation" aria-label="Navigation principale"
+                                     class="m-auto mt-4 mb-4 navbar navbar-expand-md navbar-light"
+                                     role="navigation">
+                                    <h2 class="hiddenTitle">
+                                        Navigation principale
+                                    </h2>
+                                    <ul role="list" class="container flex items-center">
+                                        @if(Auth::user()->isAdministrator)
                                             <li role="listitem"
                                                 aria-current="{{ Request::is('*/users/*') || Request::is('*/users') || Request::is('*/dashboard') ? "page" : "" }}"
                                                 class="m-3 my-0 duration-300 opacity-25 hover:opacity-100 {{ Request::is('*/users/*') || Request::is('*/users') || Request::is('*/dashboard') ? "current_page_item" : "" }}">
@@ -86,32 +102,7 @@
                                                     Achats
                                                 </a>
                                             </li>
-                                        </ul>
-                                    </nav>
-                                </div>
-                                <form role="search" action="/admin/search" aria-label="informations à chercher"
-                                      class="z-0 absolute top-0 right-0 mt-6 mr-6" method="get">
-                                    @csrf
-                                    <label for="formSearch" class="hidden">Chercher dans l'application :</label>
-                                    <input type="search" id="formSearch"
-                                           class="searchInput rounded-xl border-2 border-orange-900 w-12 h-12 p-1 bg-transparent"
-                                           name="search" required
-                                           placeholder="Livres ou étudiants"
-                                           aria-label="Search through site content">
-                                    <input class="hidden" type="submit">
-                                    <div class="submitDiv absolute top-0 right-0">
-                                    </div>
-                                </form>
-                            @endif
-                            @if ($userStudents != null)
-                                <div id="app" class="flex items-center m-auto">
-                                    <nav role="navigation" aria-label="Navigation principale"
-                                         class="m-auto mt-4 mb-4 navbar navbar-expand-md navbar-light"
-                                         role="navigation">
-                                        <h2 class="hiddenTitle">
-                                            Navigation principale
-                                        </h2>
-                                        <ul role="list" class="container flex items-center">
+                                        @else
                                             <li role="listitem"
                                                 aria-current="{{ Request::is('/') ? "page" : "" }}"
                                                 class="m-3 my-0 duration-300 opacity-25 hover:opacity-100 {{ Request::is('/') ? "current_page_item" : "" }}">
@@ -126,9 +117,24 @@
                                                     Achats
                                                 </a>
                                             </li>
-                                        </ul>
-                                    </nav>
-                                </div>
+                                        @endif
+                                    </ul>
+                                </nav>
+                            </div>
+                            @if(Auth::user()->isAdministrator)
+                                <form role="search" action="/admin/search" aria-label="informations à chercher"
+                                      class="z-0 absolute top-0 right-0 mt-6 mr-6" method="get">
+                                    @csrf
+                                    <label for="formSearch" class="hidden">Chercher dans l'application :</label>
+                                    <input type="search" id="formSearch"
+                                           class="searchInput rounded-xl border-2 border-orange-900 w-12 h-12 p-1 bg-transparent"
+                                           name="search" required
+                                           placeholder="Livres ou étudiants"
+                                           aria-label="Search through site content">
+                                    <input class="hidden" type="submit">
+                                    <div class="submitDiv absolute top-0 right-0">
+                                    </div>
+                                </form>
                             @endif
                         @endif
                     </div>
@@ -143,21 +149,36 @@
                         </h2>
                         <nav role="navigation" aria-label="Navigation secondaire">
                             <h3 class="hiddenTitle">
-                                Navigation secondaire
+                                Navigation secondaires
                             </h3>
                             <ul role=list" class="flex justify-around relative navSecondary">
-                                <li role="listitem">
-                                    <a class="text-transparent homeSvg" href="{{route('dashboard.index')}}">
-                                        Home
-                                    </a>
-                                </li>
-                                <li role="listitem">
-                                    <a aria-current="{{ Request::is('settings/*') ? "page" : "" }}"
-                                       class="text-transparent settingsSvg"
-                                       href="{{route('settings.index')}}">
-                                        Paramètres
-                                    </a>
-                                </li>
+                                @if(Auth::user()->isAdministrator)
+                                    <li role="listitem">
+                                        <a class="text-transparent homeSvg" href="{{route('dashboard.index')}}">
+                                            Home
+                                        </a>
+                                    </li>
+                                    <li role="listitem">
+                                        <a aria-current="{{ Request::is('settings/*') ? "page" : "" }}"
+                                           class="text-transparent settingsSvg"
+                                           href="{{route('settings.index')}}">
+                                            Paramètres
+                                        </a>
+                                    </li>
+                                @else
+                                    <li role="listitem">
+                                        <a class="text-transparent homeSvg" href="{{route('dashboardUser.index')}}">
+                                            Home
+                                        </a>
+                                    </li>
+                                    <li role="listitem">
+                                        <a aria-current="{{ Request::is('settings/*') ? "page" : "" }}"
+                                           class="text-transparent settingsSvg"
+                                           href="{{route('settingsStudent.index')}}">
+                                            Paramètres
+                                        </a>
+                                    </li>
+                                @endif
                             </ul>
                         </nav>
                     </footer>
@@ -166,7 +187,7 @@
             </body>
         </div>
         @yield('scripts')
-        @if ($userAdmin != null)
+        @if(Illuminate\Support\Facades\Auth::check())
             <script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
         @endif
         </body>

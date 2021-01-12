@@ -29,7 +29,6 @@ class BookController extends Controller
             ->get();
         $firstLetters = [];
         $firstLetter = '';
-        $userStudents = null;
         foreach ($books as $book) {
             if (strtoupper(substr($book->title, 0, 1)) !== $firstLetter) {
                 $firstLetter = strtoupper(substr($book->title, 0, 1));
@@ -42,7 +41,7 @@ class BookController extends Controller
                 return strpos($book->title, $firstLetter) === 0;
             });
         }
-        return view('admin.book.index', compact('books','userStudents','userAdmin', 'booksDraft', 'letters'));
+        return view('admin.book.index', compact('books', 'userAdmin', 'booksDraft', 'letters'));
     }
 
     public function draft()
@@ -50,8 +49,7 @@ class BookController extends Controller
         $userAdmin = User::admin()->get();
         $booksDraft = Book::draft()->orderBy('title')
             ->get();
-        $userStudents = null;
-        return view('admin.book.draft', compact('booksDraft','userStudents','userAdmin'));
+        return view('admin.book.draft', compact('booksDraft', 'userAdmin'));
     }
 
     /**
@@ -68,8 +66,8 @@ class BookController extends Controller
         //non sauvegardes
         $booksNoDraft = Book::noDraft()
             ->get();
-        $userStudents = null;
-        return view('admin.book.show', compact('book','userStudents','userAdmin', 'booksDraft', 'booksNoDraft'));
+
+        return view('admin.book.show', compact('book', 'userAdmin', 'booksDraft', 'booksNoDraft'));
     }
 
     /**
@@ -82,8 +80,7 @@ class BookController extends Controller
         $booksDraft = Book::draft()->orderBy('title')
             ->get();
         $userAdmin = User::admin()->get();
-        $userStudents = null;
-        return view('admin.book.create', compact('booksDraft','userStudents','userAdmin'));
+        return view('admin.book.create', compact('booksDraft', 'userAdmin'));
     }
 
     /**
@@ -94,6 +91,7 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
+
         $book = new Book($this->validateBook());
         if ($request->hasFile('picture')) {
             Storage::makeDirectory('books');
@@ -143,8 +141,7 @@ class BookController extends Controller
         $userAdmin = User::admin()->get();
         $booksDraft = Book::draft()->orderBy('title')
             ->get();
-        $userStudents = null;
-        return view('admin.book.edit', compact('book','userAdmin','userStudents', 'booksDraft'));
+        return view('admin.book.edit', compact('book', 'userAdmin', 'booksDraft'));
     }
 
     /**
@@ -156,6 +153,7 @@ class BookController extends Controller
      */
     public function update(Request $request, Book $book)
     {
+
         if ($request->has('publish')) {
             $book->is_draft = false;
             $book->update();
@@ -186,6 +184,11 @@ class BookController extends Controller
         } else {
             Session::flash('message', 'Livre éditer avec succès');
         }
+        if ($book->wasChanged()) {
+            Session::flash('message', 'Livre éditer avec succès');
+        } else {
+            Session::flash('messageNotUpdate', 'Il n\'y a rien a changé');
+        }
         return redirect(route('books.index', ['book' => $book]));
 
     }
@@ -193,7 +196,7 @@ class BookController extends Controller
     protected function validateBook()
     {
         return request()->validate([
-            'picture' => 'image|mimes:jpeg,png,jpg,gif,public|max:2048',
+            'picture' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
             'title' => 'required',
             'author' => 'required',
             'publishing_house' => 'required',
@@ -211,8 +214,11 @@ class BookController extends Controller
      * @param  \App\Models\Book  $book
      * @return string
      */
-    public function destroy(Book $book, Request $request)
-    {
+    public
+    function destroy(
+        Book $book,
+        Request $request
+    ) {
         $book->delete();
         Session::flash('message', 'Livre supprimé avec succès');
         return Redirect::to(route('books.index'));

@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use App\Http\Controllers\{BookController,
     CartController,
     DashboardController,
@@ -9,9 +10,12 @@ use App\Http\Controllers\{BookController,
     SettingController,
     StudentController,
     PurchasesStudentController,
-    UserController};
+    UserController
+};
 use App\Http\Middleware\IsAdmin;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\View;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,14 +28,30 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [StudentController::class, 'index'])->middleware('auth')->name('dashboardUser.index');
-
-Route::get('/purchases', [PurchasesStudentController::class, 'index'])->middleware('auth')->name('purchasesUser.index');
-
-Route::get('/cart', [CartController::class, 'index'])->middleware('auth')->name('cart.index');
 
 
-Route::prefix('admin')->middleware(['auth', IsAdmin::class])->group(function () {
+Route::prefix('')->middleware(['auth', \App\Http\Middleware\IsStudent::class])->group(function () {
+//HOME PAGE
+    Route::get('/', [StudentController::class, 'index'])->middleware('auth')->name('dashboardUser.index');
+
+//USERS
+    //Route::get('/users/{user}', [StudentController::class, 'show'])->name('student.show');
+    //Route::get('/users/{user}/edit', [StudentController::class, 'edit'])->name('student.edit');
+    //Route::put('/users/{user}', [StudentController::class, 'update'])->name('student.update');
+
+//PURCHASES
+    Route::get('/purchases',
+        [PurchasesStudentController::class, 'index'])->middleware('auth')->name('purchasesUser.index');
+
+//CART
+    Route::get('/cart', [CartController::class, 'index'])->middleware('auth')->name('cart.index');
+
+//SETTINGS
+    Route::get('/settings', [\App\Http\Controllers\SettingStudentController::class, 'index'])->middleware('auth')->name('settingsStudent.index');
+
+});
+
+Route::prefix('admin')->middleware(['auth', 'can:admin-access'])->group(function () {
 //HOME PAGE
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard.index');
 
@@ -40,11 +60,6 @@ Route::prefix('admin')->middleware(['auth', IsAdmin::class])->group(function () 
     Route::put('/users/{user}/orders/{id}', [OrderController::class, 'update'])->name('statuses.update');
 
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
-    Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
-    Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
-    Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');
-
-
 
 // BOOKS
     Route::get('/books', [BookController::class, 'index'])->name('books.index');
@@ -63,6 +78,10 @@ Route::prefix('admin')->middleware(['auth', IsAdmin::class])->group(function () 
     Route::get('/purchases', [ReservationController::class, 'index'])->name('purchases.index');
     Route::put('/purchases', [ReservationController::class, 'sendNotif'])->name('purchases.sendNotif');
 
-});
 //SETTINGS
-Route::get('/settings', [SettingController::class, 'index'])->name('settings.index');
+    Route::get('/settings', [SettingController::class, 'index'])->name('settings.index');
+});
+
+Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
+Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
+Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');
