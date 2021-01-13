@@ -22,7 +22,6 @@
                     <div class="flex justify-between">
                         @include('partials.user-avatar')
                         <section>
-                            @dd($user)
                             <div itemscope itemtype="https://schema.org/Person">
                                 <h3 aria-level="3" class="text-xl break-all ml-4 mr-4">
                                     <span itemprop="familyName">{{$user->name}}</span> <span

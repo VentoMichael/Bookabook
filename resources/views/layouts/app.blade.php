@@ -14,20 +14,20 @@
         <meta name="author" content="Vento Michael"/>
 
         <title>
-            @if(Illuminate\Support\Facades\Auth::check())
+            @auth
                 @if(Auth::user()->is_administrator)
-                    {{'Admin |'}}
-                    {{ 'Book a book | ' }}
-                    {{ Request::is('*/users/*') || Request::is('*/users') || Request::is('*/dashboard') ? "Étudiants" : "" }}
-                    {{ Request::is('*/books/*') || Request::is('*/books') ? "Livres" : "" }}
+                    {{'Admin | '}}
+                    {{ 'Book a book' }}
+                    {{ Request::is('*/users/*') || Request::is('*/users') || Request::is('*/dashboard') ? " | Étudiants" : "" }}
+                    {{ Request::is('*/books/*') || Request::is('*/books') ? " | Livres" : "" }}
                 @else
-                    {{ 'Book a book | ' }}
-                    {{ Request::is('/') ? "Livres" : "" }}
-                    {{ Request::is('users/*') ? "Profil" : "" }}
+                    {{ 'Book a book' }}
+                    {{ Request::is('/') ? " | Livres" : "" }}
+                    {{ Request::is('users/*') ? " | Profil" : "" }}
                 @endif
-                {{ Request::is('purchases/*') || Request::is('purchases') ? "Achats" : "" }}
-                {{ Request::is('*/settings') || Request::is('settings') ? "Paramètres" : "" }}
-            @endif
+                {{ Request::is('purchases/*') || Request::is('purchases') ? " | Achats" : "" }}
+                {{ Request::is('*/settings') || Request::is('settings') ? " | Paramètres" : "" }}
+            @endauth
         </title>
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -48,30 +48,39 @@
             <section>
                 <div clawss="inline-block">
                     <h1 aria-level="1" class="ml-3 mt-3 inline-block">
-                        @if(Auth::user()->is_administrator)
-                            <a class="navbar-brand" href="{{ url('/admin') }}" role="banner">
-                                <img class="logo" src="{{asset('svg/logo.svg')}}" alt="Book a book application">
-                            </a>
+                        @auth
+                            @if(Auth::user()->is_administrator)
+                                <a class="navbar-brand" href="{{ url('/admin') }}" role="banner">
+                                    <img class="logo" src="{{asset('svg/logo.svg')}}" alt="Book a book application">
+                                </a>
+                            @else
+                                <a class="navbar-brand" href="{{ url('/') }}" role="banner">
+                                    <img class="logo" src="{{asset('svg/logo.svg')}}" alt="Book a book application">
+                                </a>
+                            @endif
                         @else
                             <a class="navbar-brand" href="{{ url('/') }}" role="banner">
                                 <img class="logo" src="{{asset('svg/logo.svg')}}" alt="Book a book application">
                             </a>
-                        @endif
+                        @endauth
                     </h1>
-                    @if(Auth::user()->isAdministrator)
+                    @auth
+                        @if(!Auth::user()->isAdministrator)
 
-                        <a class="pictoCart" href="{{route('cart.index')}}"><img class="logo"
-                                                                                 src="{{asset('svg/cart.svg')}}"
-                                                                                 alt="Book a book application">
-                        </a>
-                    @endif
+                            <a class="pictoCart" href="{{route('cart.index')}}"><img class="logo"
+                                                                                     src="{{asset('svg/cart.svg')}}"
+                                                                                     alt="Book a book application">
+                            </a>
+                        @endif
+                    @endauth
                 </div>
                 <header>
                     <h2 class="hiddenTitle">
                         Informations d'en tête
                     </h2>
                     <div class="flex flex-col md:flex-row justify-between">
-                        @if(Illuminate\Support\Facades\Auth::check())
+
+                        @auth
                             <div id="app" class="flex items-center m-auto">
                                 <nav role="navigation" aria-label="Navigation principale"
                                      class="m-auto mt-4 mb-4 navbar navbar-expand-md navbar-light"
@@ -136,7 +145,7 @@
                                     </div>
                                 </form>
                             @endif
-                        @endif
+                        @endauth
                     </div>
                 </header>
                 <main class="py-4 mr-26 bg-white my-0 mx-3">

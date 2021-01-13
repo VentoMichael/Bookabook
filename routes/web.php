@@ -29,15 +29,9 @@ use Illuminate\Support\Facades\View;
 */
 
 
-
 Route::prefix('')->middleware(['auth', \App\Http\Middleware\IsStudent::class])->group(function () {
 //HOME PAGE
     Route::get('/', [StudentController::class, 'index'])->middleware('auth')->name('dashboardUser.index');
-
-//USERS
-    //Route::get('/users/{user}', [StudentController::class, 'show'])->name('student.show');
-    //Route::get('/users/{user}/edit', [StudentController::class, 'edit'])->name('student.edit');
-    //Route::put('/users/{user}', [StudentController::class, 'update'])->name('student.update');
 
 //PURCHASES
     Route::get('/purchases',
@@ -47,9 +41,13 @@ Route::prefix('')->middleware(['auth', \App\Http\Middleware\IsStudent::class])->
     Route::get('/cart', [CartController::class, 'index'])->middleware('auth')->name('cart.index');
 
 //SETTINGS
-    Route::get('/settings', [\App\Http\Controllers\SettingStudentController::class, 'index'])->middleware('auth')->name('settingsStudent.index');
-
+    Route::get('/settings', [
+        \App\Http\Controllers\SettingStudentController::class, 'index'
+    ])->middleware('auth')->name('settingsStudent.index');
 });
+
+
+
 
 Route::prefix('admin')->middleware(['auth', 'can:admin-access'])->group(function () {
 //HOME PAGE
@@ -82,6 +80,8 @@ Route::prefix('admin')->middleware(['auth', 'can:admin-access'])->group(function
     Route::get('/settings', [SettingController::class, 'index'])->name('settings.index');
 });
 
+
+//USER_DETAILS
 Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
 Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
 Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');

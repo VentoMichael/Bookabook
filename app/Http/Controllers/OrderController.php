@@ -29,11 +29,11 @@ class OrderController extends Controller
     public function edit(User $user)
     {
         $statuses = Status::all();
-        return view('admin.statuses.edit', compact('statuses','userAdmin','user'));
+        return view('admin.statuses.edit', compact('statuses','user'));
     }
 
     public function update(Request $request, StatusChanges $statusChange)
     {
-        dd('dd');
+        $statusChange->update();
     }
 }
