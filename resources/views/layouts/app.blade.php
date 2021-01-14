@@ -47,9 +47,8 @@
                     @auth
                         @if(!Auth::user()->isAdministrator)
 
-                            <a class="pictoCart" href="{{route('cart.index')}}"><img class="logo"
-                                                                                     src="{{asset('svg/cart.svg')}}"
-                                                                                     alt="Book a book application">
+                            <a class="pictoCart" href="{{route('cart.index')}}">
+                                <img class="logo" src="{{asset('svg/cart.svg')}}" alt="Book a book application">
                             </a>
                         @endif
                     @endauth
@@ -66,13 +65,12 @@
                                      class="m-auto mt-4 mb-4 navbar navbar-expand-md navbar-light"
                                      role="navigation">
                                     <h2 class="hiddenTitle">
-                                        Navigation principale
-                                    </h2>
+                                        Navigation principale</h2>
                                     <ul role="list" class="container flex items-center">
                                         @if(Auth::user()->isAdministrator)
                                             <li role="listitem"
-                                                aria-current="{{ Request::is('*/users/*') || Request::is('*/users') || Request::is('*/dashboard') ? "page" : "" }}"
-                                                class="m-3 my-0 duration-300 opacity-25 hover:opacity-100 {{ Request::is('*/users/*') || Request::is('*/users') || Request::is('*/dashboard') ? "current_page_item" : "" }}">
+                                                aria-current="{{ \Route::current()->getName() === 'users.index' || \Route::current()->getName() === 'users.show' || \Route::current()->getName() === 'users.edit' || \Route::current()->getName() === 'users.suspended' ? "page" : "" }}"
+                                                class="m-3 my-0 duration-300 opacity-25 hover:opacity-100 {{ \Route::current()->getName() === 'users.index' || \Route::current()->getName() === 'users.show' || \Route::current()->getName() === 'users.edit' || \Route::current()->getName() === 'users.suspended' ? "current_page_item" : "" }}">
                                                 <a class="text-xl" href="{{route('users.index')}}">
                                                     Étudiants
                                                 </a>
@@ -112,11 +110,11 @@
                             </div>
                             @if(Auth::user()->isAdministrator)
                                 <form role="search" action="/admin/search" aria-label="informations à chercher"
-                                      class="z-0 absolute top-0 right-0 mt-6 mr-6" method="get">
+                                      class="z-0 absolute top-0 right-0 sm:w-1/4 mt-6 mr-6 containerSearch" method="get">
                                     @csrf
                                     <label for="formSearch" class="hidden">Chercher dans l'application :</label>
                                     <input type="search" id="formSearch"
-                                           class="searchInput rounded-xl border-2 border-orange-900 w-12 h-12 p-1 bg-transparent"
+                                           class="searchInput rounded-xl h-12 w-full border-2 border-orange-900 containerSearch p-2 bg-transparent"
                                            name="search" required
                                            placeholder="Livres ou étudiants"
                                            aria-label="Search through site content">
@@ -143,7 +141,7 @@
                             <ul role=list" class="flex justify-around relative navSecondary">
                                 @if(Auth::user()->isAdministrator)
                                     <li role="listitem">
-                                        <a class="text-transparent homeSvg" href="{{route('dashboard.index')}}">
+                                        <a class="text-transparent homeSvg" href="{{route('users.index')}}">
                                             Home
                                         </a>
                                     </li>
@@ -176,8 +174,5 @@
             </body>
         </div>
         @yield('scripts')
-        @if(Illuminate\Support\Facades\Auth::check())
-            <script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
-        @endif
         </body>
     </html>

@@ -49,9 +49,11 @@ select {
     -webkit-appearance: none;
     -moz-appearance: none
 }
-.pictoSadSmiley{
+
+.pictoSadSmiley {
     max-width: 200px;
 }
+
 select.minimal {
     padding: .5em 3.5em .5em 1em;
     background-image: -o-linear-gradient(45deg, transparent 50%, #8b4513 50%), -o-linear-gradient(315deg, #8b4513 50%, transparent 50%), -o-linear-gradient(left, #ccc, #ccc);
@@ -60,20 +62,27 @@ select.minimal {
     background-size: 5px 5px, 5px 5px, 1px 1.5em;
     background-repeat: no-repeat
 }
-.pictoCart{
+
+.pictoCart {
     position: absolute;
     top: 35px;
     right: 25px;
 }
-.containerOrdersSection{
+
+.containerOrdersSection {
     border-right: 3px solid #7b341e;
     padding: 50px 0 10px;
 }
-.containerOrders img{max-width: 200px;}
-.pictoCart img{
+
+.containerOrders img {
+    max-width: 200px;
+}
+
+.pictoCart img {
     width: 70px;
     max-width: 70px;
 }
+
 select.minimal:focus {
     background-image: -o-linear-gradient(45deg, #8b4513 50%, transparent 50%), -o-linear-gradient(315deg, transparent 50%, #8b4513 50%), -o-linear-gradient(left, #ccc, #ccc);
     background-image: linear-gradient(45deg, #8b4513 50%, transparent 50%), linear-gradient(135deg, transparent 50%, #8b4513 50%), linear-gradient(to right, #ccc, #ccc);
@@ -128,50 +137,11 @@ body > div > nav {
     text-align: center
 }
 
-.searchInput:focus {
-    width: 192px;
-    padding: 5px 10px
-}
-
-.searchInput:focus::-webkit-input-placeholder {
-    color: inherit
-}
-
-.searchInput:focus::-moz-placeholder {
-    color: inherit
-}
-
-.searchInput:focus:-ms-input-placeholder {
-    color: inherit
-}
-
-.searchInput:focus::-ms-input-placeholder {
-    color: inherit
-}
-
-.searchInput:focus::placeholder {
-    color: inherit
-}
-
-.searchInput::-webkit-input-placeholder {
-    color: transparent
-}
-
-.searchInput::-moz-placeholder {
-    color: transparent
-}
-
-.searchInput:-ms-input-placeholder {
-    color: transparent
-}
-
-.searchInput::-ms-input-placeholder {
-    color: transparent
-}
-
 .searchInput::placeholder {
-    color: transparent
+    color: black;
+    opacity: 0.7
 }
+
 
 .containerBookSvg {
     width: 20px;
@@ -504,6 +474,10 @@ input:focus {
         background: #6C3725;
         box-shadow: 0 -36px 0 -10px transparent, 32px -16px 0 -10px transparent, 32px 16px 0 -10px transparent, 0 36px 0 -10px transparent, -32px 16px 0 -10px transparent, -32px -16px 0 -10px transparent;
     }
+}
+
+.containerSearch {
+    width: 200px;
 }
 
 @keyframes splash {

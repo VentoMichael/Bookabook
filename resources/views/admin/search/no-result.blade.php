@@ -70,12 +70,12 @@
 	C127.5,104.4,119.7,96.6,110.1,96.6L110.1,96.6z"/>
 </svg>
         <h2 aria-level="2" class="hiddenTitle">
-            Pas de résultat
+            Pas de résultats
         </h2>
         <p>
             Mince ! Je n'ai rien trouver avec cette recherche, réssayez avec un <span id="inputCta"
                                                                                       class="underline cursor-pointer">autre champ de recherche ci-dessus</span>
-            ou <a href="{{route('dashboard.index')}}" class="underline">retourner à la page d'accueil</a>
+            ou <a href="{{route('users.index')}}" class="underline">retourner à la page d'accueil</a>
         </p>
     </section>
 @endsection

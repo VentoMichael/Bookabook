@@ -4,7 +4,7 @@
         @if(count($users))
             <section class="flex flex-col mt-8 mb-32">
                 <div
-                    class="sm:w-2/4 w-full -mt-6 mb-8 border border-orange-900 inline-block mx-auto text-center rounded-full px-6 py-3">
+                    class="sm:w-2/4 w-full -mt-6 mb-8 border-2 border-orange-900 inline-block mx-auto text-center rounded-full px-6 py-3">
                     <p>{{count($users) > 1 || count($books) > 1 ? 'Les resultats' : 'Le resultat'}} pour votre recherche
                         "{{ $query }}" {{count($users) > 1 ? 'sont' : 'est'}}</p>
                 </div>
@@ -16,10 +16,10 @@
                         <table class="min-w-full">
                             <thead>
                             <tr>
-                                <th class="px-6 py-3 border-b border-orange-200 bg-orange-50 text-left text-base leading-4 font-medium text-gray-900 uppercase tracking-wider">
+                                <th class="px-6 py-3 border-b border-orange-200 bg-orange-50 text-left text-base leading-4 font-medium text-gray-900 tracking-wider">
                                     Nom
                                 </th>
-                                <th class="px-6 py-3 border-b border-orange-200 bg-orange-50 text-left text-base leading-4 font-medium text-gray-900 uppercase tracking-wider">
+                                <th class="px-6 py-3 border-b border-orange-200 bg-orange-50 text-left text-base leading-4 font-medium text-gray-900 tracking-wider">
                                     Groupe
                                 </th>
                                 <th class="px-6 py-3 border-b border-orange-200 bg-orange-50"><!-- --></th>
@@ -65,19 +65,19 @@
                             <table class="min-w-full">
                                 <thead>
                                 <tr>
-                                    <th class="px-6 py-3 border-b border-orange-200 bg-orange-50 text-left text-base leading-4 font-medium text-gray-900 uppercase tracking-wider">
+                                    <th class="px-6 py-3 border-b border-orange-200 bg-orange-50 text-left text-base leading-4 font-medium text-gray-900 tracking-wider">
                                         Titre
                                     </th>
-                                    <th class="px-6 py-3 border-b border-orange-200 bg-orange-50 text-left text-base leading-4 font-medium text-gray-900 uppercase tracking-wider">
+                                    <th class="px-6 py-3 border-b border-orange-200 bg-orange-50 text-left text-base leading-4 font-medium text-gray-900 tracking-wider">
                                         Maison d'édition
                                     </th>
-                                    <th class="px-6 py-3 border-b border-orange-200 bg-orange-50 text-left text-base leading-4 font-medium text-gray-900 uppercase tracking-wider">
+                                    <th class="px-6 py-3 border-b border-orange-200 bg-orange-50 text-left text-base leading-4 font-medium text-gray-900 tracking-wider">
                                         Prix
                                     </th>
-                                    <th class="px-6 py-3 border-b border-orange-200 bg-orange-50 text-left text-base leading-4 font-medium text-gray-900 uppercase tracking-wider">
+                                    <th class="px-6 py-3 border-b border-orange-200 bg-orange-50 text-left text-base leading-4 font-medium text-gray-900 tracking-wider">
                                         Présentation
                                     </th>
-                                    <th class="px-6 py-3 border-b border-orange-200 bg-orange-50 text-left text-base leading-4 font-medium text-gray-900 uppercase tracking-wider">
+                                    <th class="px-6 py-3 border-b border-orange-200 bg-orange-50 text-left text-base leading-4 font-medium text-gray-900 tracking-wider">
                                         Stock
                                     </th>
                                     <th class="px-6 py-3 border-b border-orange-200 bg-orange-50"><!-- --></th>
