@@ -73,8 +73,7 @@
             Pas de résultat
         </h2>
         <p>
-            Mince ! Où suis-je ? Réssayez avec le menu ci-dessus
-            ou <a href="{{route('dashboard.index')}}" class="underline">retourner à la page d'accueil</a>
+            Mince ! Où suis-je ? Réssayez avec le menu ci-dessus ou <a href="{{route('users.index')}}" class="underline">retourner à la page d'accueil</a>
         </p>
     </section>
 @endsection

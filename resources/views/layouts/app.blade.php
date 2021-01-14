@@ -14,7 +14,18 @@
         <meta name="author" content="Vento Michael"/>
         <title>
             @auth
-                @if(Auth::user()->is_administrator){{'Admin | '}}{{ 'Book a book' }}{{ Request::is('*/users/*') || Request::is('*/users') || Request::is('*/dashboard') ? " | Étudiants" : "" }}{{ Request::is('*/books/*') || Request::is('*/books') ? " | Livres" : "" }}@else{{ 'Book a book' }}{{ Request::is('/') ? " | Livres" : "" }}{{ Request::is('users/*') ? " | Profil" : "" }}@endif{{ Request::is('purchases/*') || Request::is('purchases') ? " | Achats" : "" }}{{ Request::is('*/settings') || Request::is('settings') ? " | Paramètres" : "" }}@endauth
+                @if(Auth::user()->is_administrator)
+                    {{'Admin | '}}{{ 'Book a book' }}
+                {{ Request::is('*/users/*') || Request::is('*/users') || Request::is('*/dashboard') ? " | Étudiants" : "" }}
+                {{ Request::is('*/books/*') || Request::is('*/books') ? " | Livres" : "" }}
+                @else
+                    {{ 'Book a book' }}
+                {{ Request::is('/') ? " | Livres" : "" }}
+                {{ Request::is('users/*') ? " | Profil" : "" }}
+                @endif
+                    {{ Request::is('purchases/*') || Request::is('purchases') ? " | Achats" : "" }}
+                    {{ Request::is('*/settings') || Request::is('settings') ? " | Paramètres" : "" }}
+                @endauth
         </title>
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -58,7 +69,6 @@
                         Informations d'en tête
                     </h2>
                     <div class="flex flex-col md:flex-row justify-between">
-
                         @auth
                             <div id="app" class="flex items-center m-auto">
                                 <nav role="navigation" aria-label="Navigation principale"
@@ -110,10 +120,11 @@
                             </div>
                             @if(Auth::user()->isAdministrator)
                                 <form role="search" action="/admin/search" aria-label="informations à chercher"
-                                      class="z-0 absolute top-0 right-0 sm:w-1/4 mt-6 mr-6 containerSearch" method="get">
+                                      class="z-0 absolute top-0 right-0 sm:w-1/4 mt-6 mr-6 containerSearch"
+                                      method="get">
                                     @csrf
-                                    <label for="formSearch" class="hidden">Chercher dans l'application :</label>
-                                    <input type="search" id="formSearch"
+                                    <label for="search" class="hidden">Chercher dans l'application :</label>
+                                    <input type="search" id="search"
                                            class="searchInput rounded-xl h-12 w-full border-2 border-orange-900 containerSearch p-2 bg-transparent"
                                            name="search" required
                                            placeholder="Livres ou étudiants"

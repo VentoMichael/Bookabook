@@ -14,7 +14,8 @@
         </h2>
         @include('partials.cta-menu')
         @foreach($letters as $key=>$letter)
-            <p class="text-5xl block border-t mt-16 -mb-4">{{$key}}</p>
+            <section>
+            <h3 aria-level="3" class="text-5xl block border-t mt-16 -mb-4"><span class="hiddenTitle">Les livres commençant par</span> {{$key}}</h3>
             <div id="{{$key}}"
                  class="grid mt-12 grid-cols-1 sm:grid-cols-2 sm:mr-8 lg:grid-cols-3 ml-4 flex-wrap justify-between gap-12 mr-4 lg:max-w-screen-xl lg:mx-auto">
                 @foreach($letter as $book)
@@ -23,9 +24,9 @@
                         <div class="justify-between mx-auto" itemscope itemtype="https://schema.org/Book">
                             <img itemprop="illustrator" role="img" aria-label="Photo de couverture de {{$book->title}}" src="{{ asset('storage/'.$book->picture) }}"
                                  alt="Photo de couverture de {{$book->title}}">
-                            <h3 aria-level="3" class="text-2xl break-all">
+                            <h4 aria-level="4" class="text-2xl break-all">
                                 {{$book->title}}
-                            </h3>
+                            </h4>
                         </div>
                         <div class="mb-4 mt-10 text-center">
                                 <a class="block cursor-pointer rounded-xl border duration-300 p-3 hover:bg-orange-900 hover:text-white" href="{{route('books.edit',['book'=>$book->title])}}">Éditer
@@ -36,6 +37,7 @@
                     </section>
                 @endforeach
             </div>
+            </section>
         @endforeach
     @else
         <p>

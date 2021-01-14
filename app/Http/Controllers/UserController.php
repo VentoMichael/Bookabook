@@ -15,12 +15,13 @@ class UserController extends Controller
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response|\Illuminate\View\View
      */
-    public function suspended(){
+    public function suspended()
+    {
         $users = User::student()->with('orders')->orderBy('name')->get();
         $statuses = Status::all();
         $orders = Order::with('user')->get();
         $admin = User::admin()->get();
-        $studentSuspended = User::studentSuspended()->get();
+        $studentSuspended = User::studentSuspended()->with('orders')->get();
         $firstLetters = [];
         $firstLetter = '';
         $totalbooks = 0;
@@ -41,16 +42,17 @@ class UserController extends Controller
         }
 
         return view('admin.user.suspendedStudent',
-            compact('admin', 'users','studentSuspended','orders', 'users', 'statuses', 'letters', 'totalbooks'));
+            compact('admin', 'users', 'studentSuspended', 'orders', 'users', 'statuses', 'letters', 'totalbooks'));
 
     }
+
     public function index()
     {
-        $users = User::student()->with('orders')->where('suspended',0)->orderBy('name')->get();
+        $users = User::student()->with('orders')->where('suspended', 0)->orderBy('name')->get();
         $statuses = Status::all();
         $orders = Order::with('user')->get();
         $admin = User::admin()->get();
-        $studentSuspended = User::studentSuspended()->get();
+        $studentSuspended = User::studentSuspended()->with('orders')->get();
         $firstLetters = [];
         $firstLetter = '';
         $totalbooks = 0;
@@ -71,7 +73,7 @@ class UserController extends Controller
         }
 
         return view('admin.user.index',
-            compact('admin', 'studentSuspended','orders', 'users', 'statuses', 'letters', 'totalbooks'));
+            compact('admin', 'studentSuspended', 'orders', 'users', 'statuses', 'letters', 'totalbooks'));
     }
 
     /**
@@ -89,7 +91,7 @@ class UserController extends Controller
         foreach ($user->orders as $order) {
             $totalbooks += $order->books->count();
         }
-        return view('admin.user.show', compact('user','userCurrent', 'admin', 'totalbooks'));
+        return view('admin.user.show', compact('user', 'userCurrent', 'admin', 'totalbooks'));
     }
 
     /**
@@ -103,7 +105,7 @@ class UserController extends Controller
     public function edit()
     {
         $user = auth()->user();
-        return view('admin.user.edit', compact( 'user'));
+        return view('admin.user.edit', compact('user'));
     }
 
     public function update(Request $request, User $user, StatusChanges $order)
@@ -122,13 +124,13 @@ class UserController extends Controller
             $user->update();
         }
         $attributes = request()->validate([
-                'file_name' => 'image|mimes:jpeg,png,jpg|max:2048',
-                'email' => [
-                    'string',
-                    'email',
-                    'max:255',
-                ]
-            ]);
+            'file_name' => 'image|mimes:jpeg,png,jpg|max:2048',
+            'email' => [
+                'string',
+                'email',
+                'max:255',
+            ]
+        ]);
         if (request('password')) {
             $attributes = request()->validate([
                 'password' => [
@@ -142,36 +144,36 @@ class UserController extends Controller
                 ]
             ]);
         }
-            if ($request->hasFile('file_name')) {
-                Storage::makeDirectory('users');
-                $filename = request('file_name')->hashName();
-                $img = Image::make($request->file('file_name'))
-                    ->resize(300, null, function ($constraint) {
-                        $constraint->aspectRatio();
-                    })
-                    ->save(storage_path('app/public/users/'.$filename));
-                $attributes['file_name'] = 'users/'.$filename;
-            }
-            if (request('email')) {
-                $attributes['email'] = request('email');
-            }
-            if (request('password')) {
-                $attributes['password'] = Hash::make(request('password'));
-            }
-            $user->update($attributes);
-            if (request('email')) {
-                Mail::to($attributes['email'])
-                    ->send(new AccountChanged());
-            }
+        if ($request->hasFile('file_name')) {
+            Storage::makeDirectory('users');
+            $filename = request('file_name')->hashName();
+            $img = Image::make($request->file('file_name'))
+                ->resize(300, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                })
+                ->save(storage_path('app/public/users/'.$filename));
+            $attributes['file_name'] = 'users/'.$filename;
+        }
+        if (request('email')) {
+            $attributes['email'] = request('email');
+        }
+        if (request('password')) {
+            $attributes['password'] = Hash::make(request('password'));
+        }
+        $user->update($attributes);
+        if (request('email')) {
+            Mail::to($attributes['email'])
+                ->send(new AccountChanged());
+        }
         if ($user->wasChanged()) {
             if ($request->has('suspend')) {
-                Session::flash('message', $user->name . ' a bien été suspendu');
-            } elseif($request->has('noSuspend')) {
-                Session::flash('message', $user->name . ' n\'est plus suspendu');
-            }else {
+                Session::flash('message', $user->name.' a bien été suspendu');
+            } elseif ($request->has('noSuspend')) {
+                Session::flash('message', $user->name.' n\'est plus suspendu');
+            } else {
                 Session::flash('message', 'Vos informations ont été changés avec succès');
             }
-        }else{
+        } else {
             Session::flash('messageNotUpdate', 'Il n\'y a rien a changé');
         }
         return redirect(route('users.show', ['user' => $user->name]));

@@ -87,7 +87,8 @@
             @endif
         </div>
         @foreach($letters as $key=>$letter)
-            <p class="text-5xl block border-t mt-16 -mb-4">{{$key}}</p>
+            <section>
+            <h3 aria-level="3" class="text-5xl block border-t mt-16 -mb-4"><span class="hiddenTitle">Les étudiants commençant par </span>{{$key}}</h3>
             <div id="{{$key}}"
                  class="grid mt-12 grid-cols-1 md:grid-cols-2 md:mr-8 lg:grid-cols-3 ml-4 flex-wrap justify-between gap-12 mr-4">
                 @foreach($letter as $user)
@@ -125,9 +126,9 @@
                                 </div>
                             </div>
                             <div>
-                                <h3 aria-level="3" class="text-2xl">
+                                <h4 aria-level="4" class="text-2xl">
                                     {{$user->name}} {{$user->surname}}
-                                </h3>
+                                </h4>
                                 <div class="mb-4">
                                     <a href="mailto:{{$user->email}}">{{$user->email}}</a>
                                 </div>
@@ -157,6 +158,7 @@
                     </section>
                 @endforeach
             </div>
+            </section>
         @endforeach
     @else
         <p>
