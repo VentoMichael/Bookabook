@@ -18,7 +18,7 @@ class StudentController extends Controller
     public function index()
     {
         if(Auth::user()->isAdministrator){
-            return redirect()->route('dashboard.index');
+            return redirect()->route('users.index');
         }
 
         $books = Book::orderBy('title')->get();

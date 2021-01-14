@@ -7,7 +7,9 @@
         @foreach($books as $book)
             <section class="w-48 relative flex justify-between flex-col">
                 <div>
-                    <div class="cbx"><input id="add{{$book->isbn}}" type="checkbox"/><label for="add{{$book->isbn}}"
+                    <div class="cbx">
+                        <input class="hidden" id="add{{$book->isbn}}" type="checkbox"/>
+                        <label class="hidden" for="add{{$book->isbn}}"
                                                                                              class="hiddenTitle">Ajouter
                             le livre au panier</label>
                         <svg width="15" height="14" viewbox="0 0 15 14" fill="none">

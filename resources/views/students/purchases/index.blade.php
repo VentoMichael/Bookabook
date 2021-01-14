@@ -1,26 +1,39 @@
 @extends('layouts.app')
 
 @section('content')
+    <div class="justify-center flex mb-12 flex-col sm:flex-row sm:mr-8">
+        <a class="{{ Route::currentRouteName() === 'purchasesUser.index' ? "bg-orange-900 text-white border-2 border-orange-900 hover:text-white " : "" }}sm:self-center linkAction rounded-xl border-2 border-orange-900 my-4 sm:my-0 w-full hover:bg-orange-900 md:w-64 sm:mx-8 hover:text-white duration-300 px-4 pt-4 pb-4"
+           href="{{route('purchasesUser.index')}}">
+            Voir mes commandes
+        </a>
+        <a class="{{ Route::currentRouteName() === '#' ? "bg-orange-900 text-white border-2 border-orange-900 hover:text-white " : "" }}sm:self-center linkAction rounded-xl border-2 border-orange-900 my-4 sm:my-0 w-full hover:bg-orange-900 md:w-64 sm:mx-8 hover:text-white duration-300 px-4 pt-4 pb-4"
+           href="#">
+            Mes sauvegardes
+        </a>
+    </div>
     @if(count($user->orders))
         <section class="max-w-5xl m-auto">
             <h2 aria-level="2" class="text-2xl">
                 Historique de mes {{count($user->orders)}} dernières commandes
             </h2>
-            @foreach($user->orders as $order)
-                <section>
-                    <h3 aria-level="3" class="mt-6 mb-4 text-lg">
-                        La commande n°{{$loop->iteration}} contient les livres suivants :
+            <p class="textBook">
+                Le(s) livre(s) sera(ont) disponible(s) auprès du bureau de M. Spirlet après reçu de votre paiement,vous recevrez in mail quand le(s) livre(s) sera(ont) disponible(s).
+            </p>
+        @foreach($user->orders as $order)
+                <section class="mt-16">
+                    <h3 aria-level="3" class="-mb-8 text-xl ">
+                        Commande passée le {{date("d-m-Y",strtotime($order->created_at))}}
                     </h3>
-                    <section class="overflow-x-scroll flex gap-12 sm:gap-16 containerBooksStudents containerOrders  @if(count($user->orders) > 1) containerOrdersSection @endif">
+                    <section class="overflow-x-scroll flex gap-12 sm:gap-16 containerBooksStudents containerOrders @if(count($user->orders) > 1) containerOrdersSection @endif sm:pt-12 sm:pb-3">
                         @foreach($order->books as $book)
-                            <div class="flex mb-8 flex-col my-16 mx-auto sm:mx-0 sm:my-0">
+                            <div class="max-w-xs flex mb-8 flex-col my-16 mx-auto sm:mx-0 sm:my-0">
                                 <div>
                                     <img class="max-w-xs" role="img"
                                          aria-label="Photo de couverture de {{$book->title}}"
                                          src="{{ asset('storage/'.$book->picture) }}"
                                          alt="Photo de couverture de {{$book->title}}">
                                 </div>
-                                <h4 aria-level="4" class="text-xl font-bold">{{$book->title}}</h4>
+                                <h4 aria-level="4" class="text-lg font-bold">{{$book->title}}</h4>
                             </div>
                         @endforeach
                     </section>
@@ -42,7 +55,7 @@
         <section class="max-w-5xl m-auto md:flex">
             <img class="pictoSadSmiley mx-auto mb-6 md:max-w-sm" src="{{asset('svg/sad.svg')}}"
                  alt="Pictogramme d'un smiley triste">
-            <h2 aria-level="2" class="ml-6 text-2xl self-center">
+            <h2 aria-level="2" class="ml-6 mr-6 text-2xl self-center">
                 Oops, aucun achat réaliser ! <a class="underline" href="{{route('dashboardUser.index')}}">Je vais voir
                     les différents livres</a>
             </h2>

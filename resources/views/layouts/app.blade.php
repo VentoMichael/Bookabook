@@ -1,8 +1,5 @@
 <!DOCTYPE html>
-@if(!auth())
     <html lang="fr" class="bg-orange-900">
-    @endif
-    <html lang="fr" class="bg-orange-900 pb-20">
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -16,16 +13,16 @@
             @auth
                 @if(Auth::user()->is_administrator)
                     {{'Admin | '}}{{ 'Book a book' }}
-                {{ Request::is('*/users/*') || Request::is('*/users') || Request::is('*/dashboard') ? " | Étudiants" : "" }}
-                {{ Request::is('*/books/*') || Request::is('*/books') ? " | Livres" : "" }}
+                    {{ Request::is('*/users/*') || Request::is('*/users') || Request::is('*/dashboard') ? " | Étudiants" : "" }}
+                    {{ Request::is('*/books/*') || Request::is('*/books') ? " | Livres" : "" }}
                 @else
                     {{ 'Book a book' }}
-                {{ Request::is('/') ? " | Livres" : "" }}
-                {{ Request::is('users/*') ? " | Profil" : "" }}
+                    {{ Request::is('/') ? " | Livres" : "" }}
+                    {{ Request::is('users/*') ? " | Profil" : "" }}
                 @endif
-                    {{ Request::is('purchases/*') || Request::is('purchases') ? " | Achats" : "" }}
-                    {{ Request::is('*/settings') || Request::is('settings') ? " | Paramètres" : "" }}
-                @endauth
+                {{ Request::is('purchases/*') || Request::is('purchases') ? " | Achats" : "" }}
+                {{ Request::is('*/settings') || Request::is('settings') ? " | Paramètres" : "" }}
+            @endauth
         </title>
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -35,8 +32,8 @@
         <body class="bg-white m-3 mb-0 rounded-xl mb-24">
         <div class="flex flex-col sm:max-w-3xl md:m-auto pb-6 justify-between md:w-3/4">
             @endif
-            <body class="bg-white m-3 mb-0 rounded-xl pb-2">
-            <section>
+            <body class="bg-white m-3 mb-0 rounded-xl min-h-full relative pb-24">
+            <section class="pb-12">
                 <div clawss="inline-block">
                     <h1 aria-level="1" class="ml-3 mt-3 inline-block">
                         @auth
@@ -108,8 +105,8 @@
                                                 </a>
                                             </li>
                                             <li role="listitem"
-                                                aria-current="{{ Request::is('*/purchases/*') || Request::is('*/purchases') ? "page" : "" }}"
-                                                class="m-3 my-0 duration-300 opacity-25 hover:opacity-100 {{ Request::is('*/purchases/*') || Request::is('*/purchases') ? "current_page_item" : "" }}">
+                                                aria-current="{{ Request::is('*/purchases/*') || Request::is('purchases') ? "page" : "" }}"
+                                                class="m-3 my-0 duration-300 opacity-25 hover:opacity-100 {{ Request::is('*/purchases/*') || Request::is('purchases') ? "current_page_item" : "" }}">
                                                 <a class="text-xl" href="{{route('purchasesUser.index')}}">
                                                     Achats
                                                 </a>
@@ -137,11 +134,11 @@
                         @endauth
                     </div>
                 </header>
-                <main class="py-4 mr-26 bg-white my-0 mx-3">
+                <main class="h-full py-4 mr-26 bg-white my-0 mx-3">
                     @yield('content')
                 </main>
                 @if(Illuminate\Support\Facades\Auth::check())
-                    <footer>
+                    <footer class="py-6 bg-orange-900">
                         <h2 class="hiddenTitle">
                             Informations de bas de page
                         </h2>
@@ -149,7 +146,7 @@
                             <h3 class="hiddenTitle">
                                 Navigation secondaires
                             </h3>
-                            <ul role=list" class="flex justify-around relative navSecondary">
+                            <ul role=list" class="flex justify-around">
                                 @if(Auth::user()->isAdministrator)
                                     <li role="listitem">
                                         <a class="text-transparent homeSvg" href="{{route('users.index')}}">

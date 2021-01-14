@@ -2,7 +2,7 @@
 
 @section('content')
     <form role="form" method="POST" aria-label="Édition du statut" class="sm:gap-12 sm:grid sm:grid-cols-2"
-          action="{{ route('users.show',['user'=>$user->name]) }}">
+          action="{{ route('statuses.update',['user'=>$user->name,'id'=>$order->id]) }}">
         @csrf
         @method('PUT')
         <div class="field flex mt-8 flex-col">

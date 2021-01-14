@@ -7,6 +7,7 @@ use App\Models\{Order, Reservation, RoleUser, Status, StatusChanges, User};
 use Illuminate\Support\Facades\{Hash, Mail, Session, Storage};
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
+use function GuzzleHttp\Promise\all;
 
 class UserController extends Controller
 {
@@ -110,11 +111,11 @@ class UserController extends Controller
 
     public function update(Request $request, User $user, StatusChanges $order)
     {
-        //if ($request['status']){
+        //if ($request->has('status')){
         //    $order->status_id = $request['status'];
+        //    $order->order_id = '1';
         //    $order->update();
         //}
-
         if ($request->has('suspend')) {
             $user->suspended = true;
             $user->update();
@@ -129,6 +130,7 @@ class UserController extends Controller
                 'string',
                 'email',
                 'max:255',
+                'unique:users'
             ]
         ]);
         if (request('password')) {

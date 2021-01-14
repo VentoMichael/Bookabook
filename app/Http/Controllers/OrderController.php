@@ -26,15 +26,16 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
-    public function edit(User $user,Status $status)
+    public function edit(User $user,Order $order)
     {
+
+        dd($order);
         $statuses = Status::all();
-        return view('admin.statuses.edit', compact('statuses','user','status'));
+        return view('admin.statuses.edit', compact('statuses','user','order'));
     }
 
     public function update(Request $request, StatusChanges $statusChange)
     {
         dd($request->all());
-        $statusChange->update();
     }
 }
