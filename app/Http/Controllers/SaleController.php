@@ -14,8 +14,8 @@ class SaleController extends Controller
      */
     public function index()
     {
-        return 'f'
-;    }
+
+    }
 
     /**
      * Show the form for creating a new resource.

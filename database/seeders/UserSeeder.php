@@ -20,7 +20,8 @@ class UserSeeder extends Seeder
             'name' => 'Vento',
             'email' => 'vento.michael0705@hotmail.com',
             'password' => Hash::make('a'),
-            'file_name'=> 'users/default.svg'
+            'file_name'=> 'users/default.svg',
+            'group'=> ''
         ]);
         User::factory()->times(1)->create();
     }

@@ -7,10 +7,16 @@
        href="{{route('books.create')}}">
         Ajouter
     </a>
-    @if($booksDraft->count())
+    @if($booksDraft->count() > 1)
         <a class="{{ Route::currentRouteName() === 'books.draft' ? "bg-orange-900 text-white border-2 border-orange-900 " : "" }}md:w-64 sm:self-center linkAction rounded-xl border-2 border-orange-900 w-full hover:text-white hover:bg-orange-900 duration-300 px-4 pt-4 pb-4"
            href="{{route('books.draft')}}">
             Voir mes sauvegardes de livres
+        </a>
+    @endif
+    @if($booksDraft->count() === 1)
+        <a class="{{ Route::currentRouteName() === 'books.draft' ? "bg-orange-900 text-white border-2 border-orange-900 " : "" }}md:w-64 sm:self-center linkAction rounded-xl border-2 border-orange-900 w-full hover:text-white hover:bg-orange-900 duration-300 px-4 pt-4 pb-4"
+           href="{{route('books.draft')}}">
+            Voir ma sauvegarde de livre
         </a>
     @endif
 </div>

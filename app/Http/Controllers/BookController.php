@@ -119,7 +119,7 @@ class BookController extends Controller
         if ($book->is_draft) {
             Session::flash('message', 'Livre sauvegardé avec succès');
         } else {
-            $users = User::student()->with('orders')->orderBy('name')->get();
+            $users = User::student()->with('orders')->orderBy('name')->where('suspended',0)->get();
             foreach ($users as $user) {
                 $emails = $user->email;
                 Mail::to($emails)->send(new BookCreated($book));

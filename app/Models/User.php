@@ -23,7 +23,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
-        'username',
+        'surname',
         'file_name',
         'email',
         'group',
@@ -64,6 +64,11 @@ class User extends Authenticatable
         return $query->where('id', '!=', '1');
     }
 
+    public function scopeStudentSuspended($query)
+    {
+        return $query->where('suspended', '!=', '0');
+    }
+
     public function orders(){
         return $this->hasMany(Order::class);
     }
@@ -76,7 +81,10 @@ class User extends Authenticatable
     {
         return $this->roles->pluck('name')->contains('student');
     }
-
+    public function assignRole($role)
+    {
+        return $this->roles()->save($role);
+    }
     public function getRouteKeyName()
     {
         return 'name';

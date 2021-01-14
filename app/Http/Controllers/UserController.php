@@ -15,12 +15,42 @@ class UserController extends Controller
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response|\Illuminate\View\View
      */
-    public function index()
-    {
+    public function suspended(){
         $users = User::student()->with('orders')->orderBy('name')->get();
         $statuses = Status::all();
         $orders = Order::with('user')->get();
         $admin = User::admin()->get();
+        $studentSuspended = User::studentSuspended()->get();
+        $firstLetters = [];
+        $firstLetter = '';
+        $totalbooks = 0;
+        foreach ($studentSuspended as $ss) {
+            foreach ($ss->orders as $order) {
+                $totalbooks += $order->books->count();
+            }
+            if (strtoupper(substr($ss->name, 0, 1)) !== $firstLetter) {
+                $firstLetter = strtoupper(substr($ss->name, 0, 1));
+                array_push($firstLetters, $firstLetter);
+            }
+        }
+        $letters = [];
+        foreach ($firstLetters as $firstLetter) {
+            $letters[$firstLetter] = $studentSuspended->filter(function ($ss) use ($firstLetter) {
+                return strpos($ss->name, $firstLetter) === 0;
+            });
+        }
+
+        return view('admin.user.suspendedStudent',
+            compact('admin', 'users','studentSuspended','orders', 'users', 'statuses', 'letters', 'totalbooks'));
+
+    }
+    public function index()
+    {
+        $users = User::student()->with('orders')->where('suspended',0)->orderBy('name')->get();
+        $statuses = Status::all();
+        $orders = Order::with('user')->get();
+        $admin = User::admin()->get();
+        $studentSuspended = User::studentSuspended()->get();
         $firstLetters = [];
         $firstLetter = '';
         $totalbooks = 0;
@@ -41,7 +71,7 @@ class UserController extends Controller
         }
 
         return view('admin.user.index',
-            compact('admin', 'orders', 'users', 'statuses', 'letters', 'totalbooks'));
+            compact('admin', 'studentSuspended','orders', 'users', 'statuses', 'letters', 'totalbooks'));
     }
 
     /**
@@ -78,7 +108,20 @@ class UserController extends Controller
 
     public function update(Request $request, User $user, StatusChanges $order)
     {
-            $attributes = request()->validate([
+        //if ($request['status']){
+        //    $order->status_id = $request['status'];
+        //    $order->update();
+        //}
+
+        if ($request->has('suspend')) {
+            $user->suspended = true;
+            $user->update();
+        }
+        if ($request->has('noSuspend')) {
+            $user->suspended = false;
+            $user->update();
+        }
+        $attributes = request()->validate([
                 'file_name' => 'image|mimes:jpeg,png,jpg|max:2048',
                 'email' => [
                     'string',
@@ -121,7 +164,13 @@ class UserController extends Controller
                     ->send(new AccountChanged());
             }
         if ($user->wasChanged()) {
-            Session::flash('message', 'Vos informations ont été changés avec succès');
+            if ($request->has('suspend')) {
+                Session::flash('message', $user->name . ' a bien été suspendu');
+            } elseif($request->has('noSuspend')) {
+                Session::flash('message', $user->name . ' n\'est plus suspendu');
+            }else {
+                Session::flash('message', 'Vos informations ont été changés avec succès');
+            }
         }else{
             Session::flash('messageNotUpdate', 'Il n\'y a rien a changé');
         }

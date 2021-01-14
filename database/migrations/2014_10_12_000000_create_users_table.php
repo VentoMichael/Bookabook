@@ -16,8 +16,8 @@ class CreateUsersTable extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('surname')->nullable();
-            $table->string('group')->nullable();
+            $table->string('surname');
+            $table->string('group');
             $table->string('file_name')->nullable();
             $table->string('bank_account')->nullable();
             $table->boolean('suspended')->default(false);

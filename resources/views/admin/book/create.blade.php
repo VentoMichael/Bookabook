@@ -14,6 +14,11 @@
             @csrf
             <div class="field flex mt-8 flex-col">
                 <div>
+                    <img class="w-56 max-w-xs" src="{{asset('svg/bookOrange.svg')}}" alt="Picto d'un livre">
+                </div>
+            </div>
+            <div class="field flex mt-8 flex-col">
+                <div>
                     <label for="picture" class="label mb-2">Photo de couverture : </label>
                     <input type="file" name="picture" required
                            class="whitespace-normal w-full border rounded-lg p-2 @error('picture')is danger @enderror input"
@@ -22,7 +27,7 @@
                         class="text-red-500 text-lg mb-4">{{$errors->first('picture')}}</p>@endif
                 </div>
             </div>
-            <div class="field my-6 flex flex-col sm:self-end sm:mb-0">
+            <div class="field my-6 flex flex-col">
                 <label for="title" class="label">Titre :</label>
                 <input id="title" name="title" required type="text"
                        class="border rounded-lg p-3 pb-2 input @error('title')is danger @enderror"
@@ -106,7 +111,7 @@
                 @if($errors->first('proposed_price'))<p
                     class="text-red-500 text-lg mb-4">{{$errors->first('proposed_price')}}</p>@endif
             </div>
-            <div class="field my-6 flex flex-col col-span-2 sm:w-2/4 mx-auto">
+            <div class="field my-6 flex flex-col">
                 <label for="stock" class="label">Stock :</label>
                 <input name="stock" required class="border rounded-lg p-3 pb-2 input @error('stock')is danger @enderror"
                        value="{{ old('stock') }}"

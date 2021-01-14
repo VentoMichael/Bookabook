@@ -16,12 +16,12 @@
         <a class="backLink text-transparent text-xl relative text-2xl" title="Retour en arrière"
            href="{{route('users.index')}}">Retour
             en arrière</a>
-        <div class="md:max-w-3xl mx-auto">
+        <div class="md:max-w-3xl mx-auto @if($user->suspended === 1) opacity-50 cursor-not-allowed @endif">
             <div class="rounded-xl max-w-5xl m-auto">
                 <div>
-                    <div class="flex justify-between">
+                    <div class="flex justify-between flex-col sm:flex-row">
                         @include('partials.user-avatar')
-                        <section>
+                        <section class="self-center sm:self-start">
                             <div itemscope itemtype="https://schema.org/Person">
                                 <h3 aria-level="3" class="text-xl break-all ml-4 mr-4">
                                     <span itemprop="familyName">{{$user->name}}</span> <span
@@ -47,64 +47,87 @@
                         </section>
 
                     </div>
-                    <div class="text-center p-4 mt-8 -mb-8">
-                        <a class="rounded-xl block bg-orange-900 text-white p-3" href="mailto:{{$user->email}}">Envoyer
+                    <div class="text-center mt-8 -mb-8">
+                        <a class="@if($user->suspended === 1) pointer-events-none @endif rounded-xl block bg-orange-900 text-white p-3" href="mailto:{{$user->email}}">Envoyer
                             un
                             mail à {{$user->name}} {{$user->surname}}</a>
                     </div>
                 </div>
             </div>
-            @if(count($user->orders))
+            @if(count($user->orders) > 0)
                 <section class="mt-12 max-w-5xl m-auto">
                     <h3 aria-level="3" class="text-2xl">
                         Historique de ses {{count($user->orders)}} dernières commandes
                     </h3>
                     <div>
-                        @if($user->orders)
-                            @foreach($user->orders as $order)
-                                <section>
-                                    <h4 aria-level="4" class="mt-6 mb-4 text-lg">
-                                        La commande n°{{$loop->iteration}} contient les livres suivants :
-                                    </h4>
-                                    <section class="containerOrder sm:grid sm:grid-cols-2 sm:gap-8">
-                                        @foreach($order->books as $book)
-                                            <div class="flex mb-8 flex-col my-16 mx-auto sm:mx-0 sm:my-0">
-                                                <div>
-                                                    <img role="img"
-                                                         aria-label="Photo de couverture de {{$book->title}}"
-                                                         src="{{ asset('storage/'.$book->picture) }}"
-                                                         alt="Photo de couverture de {{$book->title}}">
-                                                </div>
-                                                <h5 aria-level="5" class="text-xl font-bold">{{$book->title}}</h5>
+                        @foreach($user->orders as $order)
+                            <section>
+                                <h4 aria-level="4" class="mt-6 mb-4 text-lg">
+                                    La commande n°{{$loop->iteration}} contient les livres suivants :
+                                </h4>
+                                <section class="containerOrder sm:grid sm:grid-cols-2 sm:gap-8">
+                                    @foreach($order->books as $book)
+                                        <div class="flex mb-8 flex-col my-16 mx-auto sm:mx-0 sm:my-0">
+                                            <div>
+                                                <img role="img"
+                                                     aria-label="Photo de couverture de {{$book->title}}"
+                                                     src="{{ asset('storage/'.$book->picture) }}"
+                                                     alt="Photo de couverture de {{$book->title}}">
                                             </div>
-                                        @endforeach
-                                    </section>
-                                    <div class="mt-12">
-                                        @foreach($order->statuses as $status)
-                                            @if($status['nameFr'])
-                                                <div class="text-center text-2xl">
-                                                    <p class="rounded border-orange-900 border-b-2 border-t-2 p-3 inline">
-                                                        {{$status['nameFr']}}
-                                                    </p>
-                                                </div>
-                                            @endif
-                                        @endforeach
-                                        <div class="text-center mt-8">
-                                            <a class="rounded-xl mt-8 p-3 border bg-orange-900 text-white text-center sm:w-3/4 sm:mx-auto md:w-2/4"
-                                               href="{{route('statuses.edit',[$user,$status->id])}}">Changer le
-                                                status de
-                                                cette commande
-                                            </a>
+                                            <h5 aria-level="5" class="text-xl font-bold">{{$book->title}}</h5>
                                         </div>
-                                        <div class="h-2 bg-orange-900 block w-2/4 rounded-full mx-auto my-8"></div>
-                                    </div>
+                                    @endforeach
                                 </section>
-                            @endforeach
-                        @endif
+                                <div class="mt-12">
+                                    @foreach($order->statuses as $status)
+                                        @if($status['nameFr'])
+                                            <div class="text-center text-2xl">
+                                                <p class="rounded border-orange-900 border-b-2 border-t-2 p-3 inline">
+                                                    {{$status['nameFr']}}
+                                                </p>
+                                            </div>
+                                        @endif
+                                    @endforeach
+                                    <div class="text-center mt-8">
+                                        <a class="@if($user->suspended === 1) pointer-events-none @endif rounded-xl mt-8 p-3 border bg-orange-900 text-white text-center sm:w-3/4 sm:mx-auto md:w-2/4"
+                                           href="{{route('statuses.edit',[$user,$order->id])}}">Changer le
+                                            status de
+                                            cette commande
+                                        </a>
+                                    </div>
+                                    <div class="h-2 bg-orange-900 block w-2/4 rounded-full mx-auto my-8"></div>
+                                </div>
+                            </section>
+                        @endforeach
                     </div>
                 </section>
             @endif
         </div>
+            @if($user->suspended === 0)
+                <form action="{{route('users.update',['user' => $user->name])}}"
+                      aria-label="Mettre {{$user->name}} en suspend" role="form" method="POST">
+                    @csrf
+                    <input type="hidden" name="_method" value="PUT">
+                    <div class="text-center mt-8">
+                        <button name="suspend"
+                                class="rounded-xl mt-8 py-3 px-40 bg-red-700 text-white text-center sm:w-3/4 sm:mx-auto">
+                            Suspendre l'étudiant
+                        </button>
+                    </div>
+                </form>
+            @else
+                <form class="max-w-5xl mx-auto md:max-w-3xl" action="{{route('users.update',['user' => $user->name])}}"
+                      aria-label="Mettre {{$user->name}} en suspend" role="form" method="POST">
+                    @csrf
+                    <input type="hidden" name="_method" value="PUT">
+                    <div class="text-center mt-8">
+                        <button name="noSuspend"
+                                class="rounded-xl mt-8 py-3 bg-red-700 text-white text-center w-full sm:mx-auto">
+                            Annuler la suspension de l'étudiant
+                        </button>
+                    </div>
+                </form>
+            @endif
     </section>
 @endsection
 @section('scripts')

@@ -10,7 +10,7 @@ class StatusController extends Controller
 {
     public function index()
     {
-        $users = User::student()->with('orders')->orderBy('name')->get();
+        $users = User::student()->with('orders')->where('suspended',0)->orderBy('name')->get();
 
         return view('admin.statuses.index')->with('users', $users);
     }

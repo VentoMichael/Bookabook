@@ -54,10 +54,10 @@ Route::prefix('admin')->middleware(['auth', 'can:admin-access'])->group(function
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard.index');
 
 // USERS
+    Route::get('/users', [UserController::class, 'index'])->name('users.index');
     Route::get('/users/{user}/orders/{id}/edit', [OrderController::class, 'edit'])->name('statuses.edit');
     Route::put('/users/{user}/orders/{id}', [OrderController::class, 'update'])->name('statuses.update');
-
-    Route::get('/users', [UserController::class, 'index'])->name('users.index');
+    Route::get('/users/suspended', [UserController::class, 'suspended'])->name('users.suspended');
 
 // BOOKS
     Route::get('/books', [BookController::class, 'index'])->name('books.index');

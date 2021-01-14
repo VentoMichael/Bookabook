@@ -43,7 +43,7 @@ class ReservationController extends Controller
 
     public function sendNotif(Request $request)
     {
-        $users = User::student()->with('orders')->orderBy('name')->get();
+        $users = User::student()->with('orders')->where('suspended',0)->orderBy('name')->get();
         $book = $request['bookTitle'];
         foreach ($users as $user) {
             if (count($user->orders) >= 1) {

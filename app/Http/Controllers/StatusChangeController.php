@@ -17,7 +17,7 @@ class StatusChangeController extends Controller
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Routing\Redirector
      */
     public function index(){
-        $users = User::student()->with('orders')->orderBy('name')->get();
+        $users = User::student()->with('orders')->where('suspended',0)->orderBy('name')->get();
         $statuses = Status::all();
         $statusesChange = StatusChanges::all();
 

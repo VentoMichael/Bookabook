@@ -2,12 +2,12 @@
 
 namespace App\Actions\Fortify;
 
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
-use Laravel\Fortify\Rules\Password;
 
 class CreateNewUser implements CreatesNewUsers
 {
@@ -40,14 +40,16 @@ class CreateNewUser implements CreatesNewUsers
                 'regex:/[A-Z]/',      // must contain at least one uppercase letter
                 'regex:/[0-9]/',      // must contain at least one digit
         ]])->validate();
-
-        return User::create([
+        $role = Role::where('name','student')->first();
+        $user = User::create([
             'name' => $input['name'],
-            'surname' => $input['surname'],
+            'surname' => request('surname'),
             'group' => $input['group'],
             'email' => $input['email'],
             'password' => Hash::make($input['password']),
             'file_name' => 'users/default.svg',
         ]);
+        $user->roles()->save($role);
+        return $user;
     }
 }

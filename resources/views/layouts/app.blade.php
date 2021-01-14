@@ -12,36 +12,16 @@
         <meta name="keywords" content="Livres, étudiants, réduction de livres">
         <meta name="language" content="French">
         <meta name="author" content="Vento Michael"/>
-
         <title>
             @auth
-                @if(Auth::user()->is_administrator)
-                    {{'Admin | '}}
-                    {{ 'Book a book' }}
-                    {{ Request::is('*/users/*') || Request::is('*/users') || Request::is('*/dashboard') ? " | Étudiants" : "" }}
-                    {{ Request::is('*/books/*') || Request::is('*/books') ? " | Livres" : "" }}
-                @else
-                    {{ 'Book a book' }}
-                    {{ Request::is('/') ? " | Livres" : "" }}
-                    {{ Request::is('users/*') ? " | Profil" : "" }}
-                @endif
-                {{ Request::is('purchases/*') || Request::is('purchases') ? " | Achats" : "" }}
-                {{ Request::is('*/settings') || Request::is('settings') ? " | Paramètres" : "" }}
-            @endauth
+                @if(Auth::user()->is_administrator){{'Admin | '}}{{ 'Book a book' }}{{ Request::is('*/users/*') || Request::is('*/users') || Request::is('*/dashboard') ? " | Étudiants" : "" }}{{ Request::is('*/books/*') || Request::is('*/books') ? " | Livres" : "" }}@else{{ 'Book a book' }}{{ Request::is('/') ? " | Livres" : "" }}{{ Request::is('users/*') ? " | Profil" : "" }}@endif{{ Request::is('purchases/*') || Request::is('purchases') ? " | Achats" : "" }}{{ Request::is('*/settings') || Request::is('settings') ? " | Paramètres" : "" }}@endauth
         </title>
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-        <link rel="manifest" href="/site.webmanifest">
-        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
-        <meta name="msapplication-TileColor" content="#da532c">
-        <meta name="theme-color" content="#ffffff">
         <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
     </head>
     @if(!auth())
         <body class="bg-white m-3 mb-0 rounded-xl mb-24">
-
         <div class="flex flex-col sm:max-w-3xl md:m-auto pb-6 justify-between md:w-3/4">
             @endif
             <body class="bg-white m-3 mb-0 rounded-xl pb-2">

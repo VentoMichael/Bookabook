@@ -25,6 +25,14 @@
                href="{{route('books.index')}}">Voir tous les livres</a>
             <a class="duration-300 w-full rounded-xl p-3 border hover:bg-orange-900 hover:text-white"
                href="{{route('purchases.index')}}">Voir les differents achats</a>
+            @if($booksDraft->count() > 1)
+                <a class="duration-300 w-full rounded-xl p-3 border hover:bg-orange-900 hover:text-white"
+                   href="{{route('purchases.index')}}">Voir mes sauvegardes de livres</a>
+            @endif
+            @if($booksDraft->count() === 1)
+                <a class="duration-300 w-full rounded-xl p-3 border hover:bg-orange-900 hover:text-white"
+                   href="{{route('purchases.index')}}">Voir ma sauvegarde de livre</a>
+            @endif
         </div>
     </section>
 @endsection

@@ -12,7 +12,7 @@ class DashboardController extends Controller
         if(!Auth::user()->isAdministrator)
             redirect()->route('dashboard.index');
 
-        $users = User::student()->with('orders')->orderBy('name')->get();
+        $users = User::student()->with('orders')->where('suspended',0)->orderBy('name')->get();
         $orders = Order::all();
         $totalbooks = 0;
         $statuses = Status::all();
