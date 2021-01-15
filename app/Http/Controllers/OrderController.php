@@ -29,7 +29,7 @@ class OrderController extends Controller
     public function edit(User $user,Order $order)
     {
 
-        dd($order);
+        dd('$order');
         $statuses = Status::all();
         return view('admin.statuses.edit', compact('statuses','user','order'));
     }

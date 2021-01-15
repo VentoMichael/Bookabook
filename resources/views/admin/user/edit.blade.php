@@ -10,19 +10,19 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-12">
             <div>
                 <div class="self-center mx-auto userContainer my-4">
-                        <img role="img" aria-label="Photo de couverture de {{$user->name}}"
-                             src="{{asset('storage')}}/{{$user->file_name ?? 'default.svg'}}"
-                             alt="Photo de profil de {{$user->name}}"/>
+                    <img role="img" aria-label="Photo de couverture de {{$user->name}}"
+                         src="{{asset('storage')}}/{{$user->file_name ?? 'default.svg'}}"
+                         alt="Photo de profil de {{$user->name}}"/>
                 </div>
             </div>
             <div class="self-center">
                 <div>
                     <p class="mb-2">Mon nom et prénom : </p>
-                        <p class="cursor-not-allowed border-b rounded-lg p-3 pb-2">{{$user->name}} {{$user->surname}}</p>
+                    <p class="cursor-not-allowed border-b rounded-lg p-3 pb-2">{{$user->name}} {{$user->surname}}</p>
                 </div>
                 <div class="mt-4">
                     <p class="mb-2">Mon adresse mail : </p>
-                        <p class="cursor-not-allowed border-b rounded-lg p-3 pb-2">{{$user->email}}</p>
+                    <p class="cursor-not-allowed border-b rounded-lg p-3 pb-2">{{$user->email}}</p>
                 </div>
             </div>
         </div>
@@ -33,7 +33,7 @@
         </h2>
         <form aria-label="Modification du compte" role="form" class="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-12"
               method="POST"
-                action="{{route('users.update',['user' => $user->name])}}"
+              action="{{route('users.update',['user' => $user->name])}}"
               enctype="multipart/form-data">
             @csrf
             <input type="hidden" name="_method" value="PUT">
@@ -53,7 +53,7 @@
                 <label for="email" class="label">Modifier mon adresse mail :</label>
                 <input id="email" name="email" type="email"
                        class="border rounded-lg p-3 pb-2 input @error('email')is danger @enderror"
-                            value="{{$user->email}}">
+                       value="{{$user->email}}">
                 @if($errors->first('email'))<p class="text-red-500 text-lg mb-4">{{$errors->first('email')}}</p>@endif
             </div>
             <div class="field my-2 sm:my-0 flex flex-col sm:self-end sm:mb-0 relative">
@@ -82,4 +82,6 @@
         </form>
     </section>
 @endsection
-<script type="text/javascript" src="{{ asset('js/password.js') }}"></script>
+@section('scripts')
+    <script type="text/javascript" src="{{ asset('js/password.js') }}"></script>
+@endsection

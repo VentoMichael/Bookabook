@@ -29,7 +29,7 @@
         <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
     </head>
     @if(!auth())
-        <body class="bg-white m-3 mb-0 rounded-xl mb-24">
+        <body class="bg-white m-3 mb-0 rounded-xl mb-24 min-h-full -mb-4">
         <div class="flex flex-col sm:max-w-3xl md:m-auto pb-6 justify-between md:w-3/4">
             @endif
             <body class="bg-white m-3 mb-0 rounded-xl min-h-full relative pb-24">
@@ -54,7 +54,6 @@
                     </h1>
                     @auth
                         @if(!Auth::user()->isAdministrator)
-
                             <a class="pictoCart" href="{{route('cart.index')}}">
                                 <img class="logo" src="{{asset('svg/cart.svg')}}" alt="Book a book application">
                             </a>

@@ -1,9 +1,7 @@
 <?php
 
-use App\Models\User;
 use App\Http\Controllers\{BookController,
     CartController,
-    DashboardController,
     OrderController,
     ReservationController,
     SearchController,
@@ -12,10 +10,7 @@ use App\Http\Controllers\{BookController,
     PurchasesStudentController,
     UserController
 };
-use App\Http\Middleware\IsAdmin;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\View;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,6 +31,9 @@ Route::prefix('')->middleware(['auth', \App\Http\Middleware\IsStudent::class])->
 //PURCHASES
     Route::get('/purchases',
         [PurchasesStudentController::class, 'index'])->middleware('auth')->name('purchasesUser.index');
+
+
+
 
 //CART
     Route::get('/cart', [CartController::class, 'index'])->middleware('auth')->name('cart.index');

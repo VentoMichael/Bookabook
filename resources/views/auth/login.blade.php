@@ -1,6 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
+    @if(Session::has('message'))
+        <div id="sucessMessage"
+             class="fixed top-0 bg-red-500 w-full p-4 right-0 text-center text-white">{{ Session::get('message') }}</div>
+    @endif
     <div class="card mx-6 my-0 mt-12 md:mx-auto md:w-9/12 md:max-w-3xl">
         <div class="card-body">
             <form aria-label="Connexion" role="form" method="POST" action="{{ route('login') }}">

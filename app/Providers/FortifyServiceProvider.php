@@ -29,6 +29,7 @@ class FortifyServiceProvider extends ServiceProvider
     public function boot()
     {
         Fortify::loginView(function () {
+            \Session::flash('message','Vous avez été suspendus, contactez M. Spirlet pour plus d\'informations');
             return view('auth.login');
         });
         Fortify::registerView(function () {

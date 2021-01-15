@@ -46,7 +46,9 @@
                     <p class="text-md">Maison d'édition : {{$book->publishing_house}}</p>
                     <p class="text-md">ISBN : {{$book->isbn}}</p>
                 </div>
-                <form action="#" method="POST">
+                <form action="{{route('cart.index',['id'=>$book->id])}}" method="POST">
+                    @csrf
+                    <input type="hidden" name="_method" value="PUT">
                     <div class="flex justify-between mt-6 mb-4">
                         <div>
                             <p>Stock : {{$book->stock}}</p>
@@ -67,15 +69,14 @@
                             </select>
                         </div>
                     </div>
-                    <button id="addBook{{$book->isbn}}"
-                            class="addBookToCart text-center block cursor-pointer rounded-xl border duration-300 p-3 hover:bg-orange-900 hover:text-white">
+                    <button class="addBookToCart text-center block cursor-pointer rounded-xl border duration-300 p-3 hover:bg-orange-900 hover:text-white">
                         Ajouter {{$book->title}} à mon panier
                     </button>
-                    <a href="{{route('cart.index')}}"
-                        class="text-center cursor-pointer rounded-xl w-full block mt-4 bg-orange-900 text-white p-3">
-                        Voir mon panier
-                    </a>
                 </form>
+                <a href="{{route('cart.index')}}"
+                   class="text-center cursor-pointer rounded-xl w-full block mt-4 bg-orange-900 text-white p-3">
+                    Voir mon panier
+                </a>
             </section>
         @endforeach
     </div>

@@ -7,6 +7,7 @@ use App\Models\Student;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class StudentController extends Controller
 {
@@ -17,12 +18,22 @@ class StudentController extends Controller
      */
     public function index()
     {
+
+        $books = Book::orderBy('title')->get();
+        $userStudents = User::student()->get();
+
         if(Auth::user()->isAdministrator){
             return redirect()->route('users.index');
         }
 
-        $books = Book::orderBy('title')->get();
-        $userStudents = User::student()->get();
+        foreach ($userStudents as $userStudent) {
+            if ($userStudent->suspended == 1) {
+                Auth::logout();
+                \request()->session();
+                return redirect('/');
+            }
+        }
+
         return view('students.dashboard', compact('books','userStudents'));
     }
 
