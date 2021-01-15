@@ -12,12 +12,79 @@ svg {
     width: 200px;
     height: auto
 }
-
+.arrowScroll{
+    max-width: 50px;
+    -webkit-animation: downarrow 1.2s infinite;
+    animation: downarrow 1.2s infinite
+}
 .hiddenTitle {
     position: absolute;
-    top: -9999px
+    top: -9999px;
+    color: transparent
+}
+@-webkit-keyframes downarrow {
+    0% {
+        -webkit-transform: translate(-10px, 0);
+        transform: translate(-10px, 0);
+        opacity: 0
+    }
+    50% {
+        opacity: 1
+    }
+    100% {
+        -webkit-transform: translate(5px, 0);
+        transform: translate(5px, 0);
+        opacity: 0
+    }
 }
 
+@keyframes downarrow {
+    0% {
+        -webkit-transform: translate(-10px, 0);
+        transform: translate(-10px, 0);
+        opacity: 0
+    }
+    50% {
+        opacity: 1
+    }
+    100% {
+        -webkit-transform: translate(5px, 0);
+        transform: translate(5px, 0);
+        opacity: 0
+    }
+}
+
+@-webkit-keyframes rightarrow {
+    0% {
+        -webkit-transform: translate(-10px, 0);
+        transform: translate(-10px, 0);
+        opacity: 0
+    }
+    50% {
+        opacity: 1
+    }
+    100% {
+        -webkit-transform: translate(5px, 0);
+        transform: translate(5px, 0);
+        opacity: 0
+    }
+}
+
+@keyframes rightarrow {
+    0% {
+        -webkit-transform: translate(0, 0) rotate(180deg);
+        transform: translate(0, 0) rotate(180deg);
+        opacity: 0
+    }
+    50% {
+        opacity: 1
+    }
+    100% {
+        -webkit-transform: translate(-15px, 0) rotate(180deg);
+        transform: translate(-15px, 0) rotate(180deg);
+        opacity: 0
+    }
+}
 .userContainer {
     min-width: 100px;
     max-width: 200px
@@ -76,7 +143,7 @@ p{
 }
 
 .containerOrders img {
-    max-width: 200px;
+    max-width: 220px;
 }
 
 .pictoCart img {

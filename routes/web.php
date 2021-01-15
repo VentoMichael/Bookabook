@@ -33,7 +33,9 @@ Route::prefix('')->middleware(['auth', \App\Http\Middleware\IsStudent::class])->
         [PurchasesStudentController::class, 'index'])->middleware('auth')->name('purchasesUser.index');
 
 
-
+    Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
+    Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
+    Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');
 
 //CART
     Route::get('/cart', [CartController::class, 'index'])->middleware('auth')->name('cart.index');
@@ -45,6 +47,7 @@ Route::prefix('')->middleware(['auth', \App\Http\Middleware\IsStudent::class])->
 });
 
 
+//USER_DETAILS
 
 
 Route::prefix('admin')->middleware(['auth', 'can:admin-access'])->group(function () {
@@ -52,6 +55,10 @@ Route::prefix('admin')->middleware(['auth', 'can:admin-access'])->group(function
     Route::get('/', [UserController::class, 'index'])->name('users.index');
 
 // USERS
+
+    Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
+    Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
+    Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');
     Route::get('/users/{user}/orders/{id}/edit', [OrderController::class, 'edit'])->name('statuses.edit');
     Route::put('/users/{user}/orders/{id}', [OrderController::class, 'update'])->name('statuses.update');
     Route::get('/users/suspended', [UserController::class, 'suspended'])->name('users.suspended');
@@ -78,7 +85,5 @@ Route::prefix('admin')->middleware(['auth', 'can:admin-access'])->group(function
 });
 
 
-//USER_DETAILS
-Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
-Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
-Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');
+
+

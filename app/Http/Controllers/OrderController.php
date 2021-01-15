@@ -7,35 +7,28 @@ use App\Models\Status;
 use App\Models\StatusChanges;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class OrderController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
-     */
-    public function index()
-    {
-        $orders = Order::with('user')->get();
-        return view('admin.user.show',compact('orders'));
-    }
-
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
-    public function edit(User $user,Order $order)
+    public function edit(User $user, $id)
     {
-
-        dd('$order');
+        $order = Status::find($id);
         $statuses = Status::all();
-        return view('admin.statuses.edit', compact('statuses','user','order'));
+        return view('admin.statuses.edit', compact('statuses', 'user', 'order'));
     }
 
-    public function update(Request $request, StatusChanges $statusChange)
+    public function update(Request $request, Order $order, $user, $id)
     {
-        dd($request->all());
+        $statusChanges = StatusChanges::where('order_id', '=', $id)->firstOrFail();
+        $statusChanges->status_id = $request['status'];
+        $statusChanges->update();
+        Session::flash('message', 'Le status de la commande a été changé');
+        return redirect()->route('users.show',['user'=>$user]);
     }
 }

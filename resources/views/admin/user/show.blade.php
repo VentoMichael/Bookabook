@@ -62,19 +62,22 @@
                     <div>
                         @foreach($user->orders as $order)
                             <section>
-                                <h4 aria-level="4" class="mt-6 mb-4 text-lg">
-                                    La commande n°{{$loop->iteration}} contient les livres suivants :
-                                </h4>
-                                <section class="containerOrder sm:grid sm:grid-cols-2 sm:gap-8">
+                                <div class="flex justify-between">
+                                    <h4 aria-level="4" class="mt-6 mb-4 text-lg">{{$order->count()}}
+                                        La commande n°{{$loop->iteration}} contient les livres suivants :
+                                    </h4>
+                                    <img class="arrowScroll @if($order->books->count() < 3) sm:hidden @endif" src="{{asset('svg/right-arrow.svg')}}" alt="Flèche">
+                                </div>
+                                <section class="overflow-x-scroll flex gap-12 sm:gap-16 containerBooksStudents containerOrders @if(count($user->orders) > 1) containerOrdersSection @endif sm:pt-12 sm:pb-3">
                                     @foreach($order->books as $book)
-                                        <div class="flex mb-8 flex-col my-16 mx-auto sm:mx-0 sm:my-0">
+                                        <div class="max-w-xs flex mb-8 flex-col my-16 mx-auto sm:mx-0 sm:my-0">
                                             <div>
-                                                <img role="img"
+                                                <img class="max-w-xs" role="img"
                                                      aria-label="Photo de couverture de {{$book->title}}"
                                                      src="{{ asset('storage/'.$book->picture) }}"
                                                      alt="Photo de couverture de {{$book->title}}">
                                             </div>
-                                            <h5 aria-level="5" class="text-xl font-bold">{{$book->title}}</h5>
+                                            <h5 aria-level="5" class="text-lg font-bold">{{$book->title}}</h5>
                                         </div>
                                     @endforeach
                                 </section>
@@ -90,7 +93,7 @@
                                     @endforeach
                                     <div class="text-center mt-8">
                                         <a class="@if($user->suspended === 1) pointer-events-none @endif rounded-xl mt-8 p-3 border bg-orange-900 text-white text-center sm:w-3/4 sm:mx-auto md:w-2/4"
-                                           href="{{route('statuses.edit',[$user,$order->id])}}">Changer le
+                                           href="{{route('statuses.edit',['user'=>$user->name,'id'=>$status->id])}}">Changer le
                                             status de
                                             cette commande
                                         </a>
@@ -104,26 +107,26 @@
             @endif
         </div>
             @if($user->suspended === 0)
-                <form action="{{route('users.update',['user' => $user->name])}}"
-                      aria-label="Mettre {{$user->name}} en suspend" role="form" method="POST">
-                    @csrf
-                    <input type="hidden" name="_method" value="PUT">
-                    <div class="text-center mt-8">
-                        <button name="suspend"
-                                class="rounded-xl mt-8 py-3 px-40 bg-red-700 text-white text-center sm:w-3/4 sm:mx-auto">
-                            Suspendre l'étudiant
-                        </button>
-                    </div>
-                </form>
-            @else
                 <form class="max-w-5xl mx-auto md:max-w-3xl" action="{{route('users.update',['user' => $user->name])}}"
                       aria-label="Mettre {{$user->name}} en suspend" role="form" method="POST">
                     @csrf
                     <input type="hidden" name="_method" value="PUT">
                     <div class="text-center mt-8">
+                        <button name="suspend"
+                                class="rounded-xl mt-8 py-3 bg-red-700 text-white text-center w-full sm:mx-auto">
+                            Suspendre {{$user->name}} {{$user->surname}}
+                        </button>
+                    </div>
+                </form>
+            @else
+                <form class="max-w-5xl mx-auto md:max-w-3xl" action="{{route('users.update',['user' => $user->name])}}"
+                      aria-label="Annuler la suspension de {{$user->name}}" role="form" method="POST">
+                    @csrf
+                    <input type="hidden" name="_method" value="PUT">
+                    <div class="text-center mt-8">
                         <button name="noSuspend"
                                 class="rounded-xl mt-8 py-3 bg-red-700 text-white text-center w-full sm:mx-auto">
-                            Annuler la suspension de l'étudiant
+                            Annuler la suspension de {{$user->name}} {{$user->surname}}
                         </button>
                     </div>
                 </form>

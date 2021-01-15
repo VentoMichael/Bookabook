@@ -26,9 +26,8 @@ class StatusChangeController extends Controller
 
     public function edit(User $user)
     {
-        $statuses = Status::all();
 
-        return view('admin.statuses.edit', compact('statuses','user'));
+        return view('admin.statuses.edit', compact('status','user'));
     }
 
     public function update(Request $request, StatusChanges $statusChange)

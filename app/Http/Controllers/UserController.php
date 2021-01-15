@@ -105,11 +105,11 @@ class UserController extends Controller
 
     public function edit()
     {
-        $user = auth()->user();
+        $user = auth()->user()->with('orders');
         return view('admin.user.edit', compact('user'));
     }
 
-    public function update(Request $request, User $user, StatusChanges $order)
+    public function update(Request $request, User $user)
     {
         //if ($request->has('status')){
         //    $order->status_id = $request['status'];
@@ -130,7 +130,7 @@ class UserController extends Controller
                 'string',
                 'email',
                 'max:255',
-                'unique:users'
+                'unique'
             ]
         ]);
         if (request('password')) {
