@@ -30,7 +30,7 @@ class StudentController extends Controller
             if ($userStudent->suspended == 1) {
                 Auth::logout();
                 \request()->session();
-                return redirect('/');
+                return redirect('/')->with('message','Vous avez été suspendus, contactez M. Spirlet pour plus d\'informations');
             }
         }
 

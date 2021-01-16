@@ -27,8 +27,7 @@ class ReservationController extends Controller
      */
     public function index()
     {
-        $userAdmin = User::admin()->get();
-        $books = Book::selectRaw('SUM(reservations.quantity) as total_quantity,books.id,books.title,books.orientation,books.academic_years,books.picture')
+        $books = Book::selectRaw('SUM(bab_reservations.quantity) as total_quantity,bab_books.id,bab_books.title,bab_books.orientation,bab_books.academic_years,bab_books.picture')
             ->join('reservations', 'reservations.book_id', '=', 'books.id')
             ->groupBy('title')
             ->orderBy('academic_years')
@@ -36,9 +35,10 @@ class ReservationController extends Controller
             ->whereHas('orders', function ($order) {
                 return $order;
             })->get();
-        $oldBook = ['total_quantity' => '', 'title' => '', 'orientation' => '', 'academic_years' => 0];
+        $oldBook = ['orientation' => '', 'academic_years' => 0,'title'=>''];
+        $i = 0;
         return view('admin.purchases.index',
-            compact('books','oldBook', 'userAdmin'));
+            compact('books','oldBook','i'));
     }
 
     public function sendNotif(Request $request)

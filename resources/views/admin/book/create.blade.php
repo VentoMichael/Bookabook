@@ -14,7 +14,7 @@
             @csrf
             <div class="field flex mt-8 flex-col">
                 <div>
-                    <img class="w-56 max-w-xs" src="{{asset('svg/bookOrange.svg')}}" alt="Picto d'un livre">
+                    <img class="w-56 max-w-xs mx-auto" src="{{asset('svg/bookOrange.svg')}}" alt="Picto d'un livre">
                 </div>
             </div>
             <div class="field flex mt-8 flex-col">

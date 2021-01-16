@@ -40,9 +40,13 @@
             </section>
         @endforeach
     @else
-        <p>
-            Aucun livre trouvé
-        </p>
+        <section class="max-w-5xl m-auto md:flex mt-12 sm:mt-16">
+            <img class="pictoSadSmiley mx-auto mb-6 md:max-w-sm" src="{{asset('svg/sad.svg')}}"
+                 alt="Pictogramme d'un smiley triste">
+            <h2 aria-level="2" class="ml-6 mr-6 text-2xl self-center">
+                Oops, aucun livre encore ! <a class="underline" href="{{route('books.create')}}">Je vais en créer un</a>
+            </h2>
+        </section>
     @endif
     <nav role="navigation" aria-label="Navigation pour accéder à des étudiants en particuliers">
         <div class="hidden sm:inline inline-block fixed right-0 lettersContainer mr-6 text-center">

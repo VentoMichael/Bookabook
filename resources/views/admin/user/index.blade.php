@@ -49,7 +49,6 @@
                                 stroke="currentColor" stroke-width="2"/>
                         </svg>
                     </div>
-
                     <div class="mx-5">
                         <p class="text-2xl font-semibold text-gray-900">{{$orders->count()}}</p>
                         <div class="text-gray-900">Commandes totales</div>
@@ -161,9 +160,13 @@
             </section>
         @endforeach
     @else
-        <p>
-            Aucun étudiant trouvé
-        </p>
+        <section class="max-w-5xl m-auto md:flex mt-12 sm:mt-16">
+            <img class="pictoSadSmiley mx-auto mb-6 md:max-w-sm" src="{{asset('svg/sad.svg')}}"
+                 alt="Pictogramme d'un smiley triste">
+            <h2 aria-level="2" class="ml-6 mr-6 text-2xl self-center">
+                Oops, aucun étudiant encore !
+            </h2>
+        </section>
     @endif
     <nav role="navigation" aria-label="Navigation pour accéder à des utilisateurs en particuliers">
         <h2 class="hiddenTitle">

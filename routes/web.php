@@ -55,13 +55,13 @@ Route::prefix('admin')->middleware(['auth', 'can:admin-access'])->group(function
     Route::get('/', [UserController::class, 'index'])->name('users.index');
 
 // USERS
+    Route::get('/users/suspended', [UserController::class, 'suspended'])->name('users.suspended');
 
     Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
     Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
     Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');
     Route::get('/users/{user}/orders/{id}/edit', [OrderController::class, 'edit'])->name('statuses.edit');
     Route::put('/users/{user}/orders/{id}', [OrderController::class, 'update'])->name('statuses.update');
-    Route::get('/users/suspended', [UserController::class, 'suspended'])->name('users.suspended');
 
 // BOOKS
     Route::get('/books', [BookController::class, 'index'])->name('books.index');

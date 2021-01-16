@@ -6,8 +6,11 @@ use App\Actions\Fortify\CreateNewUser;
 use App\Actions\Fortify\ResetUserPassword;
 use App\Actions\Fortify\UpdateUserPassword;
 use App\Actions\Fortify\UpdateUserProfileInformation;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Fortify\Fortify;
+use function GuzzleHttp\Promise\all;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -29,7 +32,6 @@ class FortifyServiceProvider extends ServiceProvider
     public function boot()
     {
         Fortify::loginView(function () {
-            \Session::flash('message','Vous avez été suspendus, contactez M. Spirlet pour plus d\'informations');
             return view('auth.login');
         });
         Fortify::registerView(function () {
