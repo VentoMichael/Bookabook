@@ -4,7 +4,7 @@
         Page d'édition du profil
     </h2>
     <section class="mb-10">
-        <h2 aria-level="2" class="text-lg mb-2 font-bold">
+        <h2 aria-level="2" class="text-xl mb-2 font-bold">
             Mes informations personnelles
         </h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-12">
@@ -18,11 +18,11 @@
             <div class="self-center">
                 <div>
                     <p class="mb-2">Mon nom et prénom : </p>
-                    <p class="cursor-not-allowed border-b rounded-lg p-3 pb-2">{{$user->name}} {{$user->surname}}</p>
+                    <p class="cursor-not-allowed border-b rounded-lg p-3 pb-2 max-w-none">{{$user->name}} {{$user->surname}}</p>
                 </div>
                 <div class="mt-4">
                     <p class="mb-2">Mon adresse mail : </p>
-                    <p class="cursor-not-allowed border-b rounded-lg p-3 pb-2">{{$user->email}}</p>
+                    <p class="cursor-not-allowed border-b rounded-lg p-3 pb-2 max-w-none">{{$user->email}}</p>
                 </div>
             </div>
         </div>
@@ -56,6 +56,20 @@
                        value="{{$user->email}}">
                 @if($errors->first('email'))<p class="text-red-500 text-lg mb-4">{{$errors->first('email')}}</p>@endif
             </div>
+                <div class="field my-4 sm:my-0 flex flex-col sm:self-end sm:mb-0">
+                    <label for="bank_account" class="label">Mon numéro de compte en banque :</label>
+                    <input id="bank_account" name="bank_account" type="text"
+                           class="border rounded-lg p-3 pb-2 input @error('bank_account')is danger @enderror"
+                           value="{{$user->bank_account}}" placeholder="BE4242244242424224">
+                    @if($errors->first('bank_account'))<p
+                        class="text-red-500 text-lg mb-4">{{$errors->first('bank_account')}}</p>@endif
+                    @if(Auth::user()->is_administrator)
+                    <p class="text-sm text-red-500">Référez votre numéro de compte, cela permettra aux étudiants de vous payer</p>
+                    @else
+                        <p class="text-sm text-red-500">Référez votre numéro de compte, cela aide M. Spirlet à vous identifiez</p>
+                    @endif
+
+                </div>
             <div class="field my-2 sm:my-0 flex flex-col sm:self-end sm:mb-0 relative">
                 <label for="password" class="label">Mon nouveau mot de passe</label>
                 <div class="relative">
@@ -74,9 +88,7 @@
                     class="text-red-500 text-lg mb-4">{{$errors->first('password_confirmation')}}</p>@endif
             </div>
             <div class="field sm:mx-auto sm:w-2/4 sm:col-span-2">
-                <button role="button" type="submit" class="w-full rounded-xl mt-6 bg-orange-900 text-white p-3">Mettre à
-                    jour mon
-                    profil
+                <button role="button" type="submit" class="w-full rounded-xl mt-6 bg-orange-900 text-white p-3">Mettre à jour mon profil
                 </button>
             </div>
         </form>

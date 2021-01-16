@@ -1,6 +1,14 @@
 @extends('layouts.app')
 @section('content')
     <div class="mt-4">
+        @if (Session::has('message'))
+            <div id="sucessMessage"
+                 class="fixed top-0 bg-green-500 w-full p-4 right-0 text-center text-white">{{ Session::get('message') }}</div>
+        @endif
+        @if (Session::has('messageNotUpdate'))
+            <div id="sucessMessage"
+                 class="fixed top-0 bg-red-500 w-full p-4 right-0 text-center text-white">{{ Session::get('messageNotUpdate') }}</div>
+        @endif
         <div class="flex flex-wrap -mx-6 justify-around mb-6">
             <div class="w-full px-6 sm:w-1/2 xl:w-1/3">
                 <div
@@ -182,4 +190,8 @@
             </ul>
         </div>
     </nav>
+@endsection
+
+@section('scripts')
+    <script type="text/javascript" src="{{ asset('js/successMessage.js') }}"></script>
 @endsection

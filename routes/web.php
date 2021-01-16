@@ -24,6 +24,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 
+
+
+
 Route::prefix('')->middleware(['auth', \App\Http\Middleware\IsStudent::class])->group(function () {
 //HOME PAGE
     Route::get('/', [StudentController::class, 'index'])->middleware('auth')->name('dashboardUser.index');
@@ -39,6 +42,16 @@ Route::prefix('')->middleware(['auth', \App\Http\Middleware\IsStudent::class])->
 
 //CART
     Route::get('/cart', [CartController::class, 'index'])->middleware('auth')->name('cart.index');
+
+    Route::get('/add-to-cart/{id}', [CartController::class,'getAddToCart'],
+    )->name('product.addToCart');
+
+    Route::get('/shopping-cart', [CartController::class,'getCart'],
+    )->name('product.shoppingCart');
+
+    Route::get('/checkout', [CartController::class,'checkout'],
+    )->name('checkout.index');
+
 
 //SETTINGS
     Route::get('/settings', [

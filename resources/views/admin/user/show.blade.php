@@ -47,11 +47,15 @@
                         </section>
 
                     </div>
+                    @if(!Auth::user()->is_administrator)
+
                     <div class="text-center mt-8 -mb-8">
-                        <a class="@if($user->suspended === 1) pointer-events-none @endif rounded-xl block bg-orange-900 text-white p-3" href="mailto:{{$user->email}}">Envoyer
+                        <a class="@if($user->suspended === 1) pointer-events-none @endif rounded-xl block bg-orange-900 text-white p-3"
+                           href="mailto:{{$user->email}}">Envoyer
                             un
                             mail à {{$user->name}} {{$user->surname}}</a>
                     </div>
+                        @endif
                 </div>
             </div>
             @if(count($user->orders) > 0)
@@ -66,9 +70,11 @@
                                     <h4 aria-level="4" class="mt-6 mb-4 text-lg">{{$order->count()}}
                                         La commande n°{{$loop->iteration}} contient les livres suivants :
                                     </h4>
-                                    <img class="arrowScroll @if($order->books->count() < 3) sm:hidden @endif" src="{{asset('svg/right-arrow.svg')}}" alt="Flèche">
+                                    <img class="arrowScroll @if($order->books->count() < 3) sm:hidden @endif"
+                                         src="{{asset('svg/right-arrow.svg')}}" alt="Flèche">
                                 </div>
-                                <section class="overflow-x-scroll flex gap-12 sm:gap-16 containerBooksStudents containerOrders @if(count($user->orders) > 1) containerOrdersSection @endif sm:pt-12 sm:pb-3">
+                                <section
+                                    class="overflow-x-scroll flex gap-12 sm:gap-16 containerBooksStudents containerOrders @if(count($user->orders) > 1) containerOrdersSection @endif sm:pt-12 sm:pb-3">
                                     @foreach($order->books as $book)
                                         <div class="max-w-xs flex mb-8 flex-col my-16 mx-auto sm:mx-0 sm:my-0">
                                             <div>
@@ -93,7 +99,8 @@
                                     @endforeach
                                     <div class="text-center mt-8">
                                         <a class="@if($user->suspended === 1) pointer-events-none @endif rounded-xl mt-8 p-3 border bg-orange-900 text-white text-center sm:w-3/4 sm:mx-auto md:w-2/4"
-                                           href="{{route('statuses.edit',['user'=>$user->name,'id'=>$status->id])}}">Changer le
+                                           href="{{route('statuses.edit',['user'=>$user->name,'id'=>$status->id])}}">Changer
+                                            le
                                             status de
                                             cette commande
                                         </a>
@@ -106,6 +113,8 @@
                 </section>
             @endif
         </div>
+        @if(!Auth::user()->is_administrator)
+
             @if($user->suspended === 0)
                 <form class="max-w-5xl mx-auto md:max-w-3xl" action="{{route('users.update',['user' => $user->name])}}"
                       aria-label="Mettre {{$user->name}} en suspend" role="form" method="POST">
@@ -131,6 +140,7 @@
                     </div>
                 </form>
             @endif
+        @endif
     </section>
 @endsection
 @section('scripts')

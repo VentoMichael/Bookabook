@@ -54,8 +54,9 @@
                     </h1>
                     @auth
                         @if(!Auth::user()->isAdministrator)
-                            <a class="pictoCart" href="{{route('cart.index')}}">
+                            <a class="pictoCart flex" href="{{route('product.shoppingCart')}}">
                                 <img class="logo" src="{{asset('svg/cart.svg')}}" alt="Book a book application">
+                                <span class="ml-2 text-xl text-red-900 self-center">{{Session::has('cart') ? Session::get('cart')->totalQty : ''}}</span>
                             </a>
                         @endif
                     @endauth

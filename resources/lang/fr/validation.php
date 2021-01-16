@@ -155,6 +155,7 @@ return [
         'publishing_house' => 'maison d\'édition',
         'public_price' => 'prix public',
         'proposed_price' => 'prix proposé',
+        'bank_account' => 'compte en banque',
     ],
 
 ];

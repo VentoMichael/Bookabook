@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\AccountChanged;
 use App\Models\{Order, Reservation, RoleUser, Status, StatusChanges, User};
-use Illuminate\Support\Facades\{Hash, Mail, Session, Storage};
+use Illuminate\Support\Facades\{Auth, Hash, Mail, Session, Storage};
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
 use function GuzzleHttp\Promise\all;
@@ -105,7 +105,7 @@ class UserController extends Controller
 
     public function edit()
     {
-        $user = auth()->user()->with('orders');
+        $user = auth()->user();
         return view('admin.user.edit', compact('user'));
     }
 
@@ -130,8 +130,7 @@ class UserController extends Controller
                 'string',
                 'email',
                 'max:255',
-                'unique'
-            ]
+            ],
         ]);
         if (request('password')) {
             $attributes = request()->validate([
@@ -162,7 +161,10 @@ class UserController extends Controller
         if (request('password')) {
             $attributes['password'] = Hash::make(request('password'));
         }
-        $user->update($attributes);
+        if (request('bank_account')) {
+            $user->bank_account = request('bank_account');
+        }
+        $user->update($attributes, $request->all());
         if (request('email')) {
             Mail::to($attributes['email'])
                 ->send(new AccountChanged());
@@ -178,7 +180,11 @@ class UserController extends Controller
         } else {
             Session::flash('messageNotUpdate', 'Il n\'y a rien a changé');
         }
-        return redirect(route('users.show', ['user' => $user->name]));
+        if (Auth::user()->is_administrator) {
+            return redirect(route('users.index'));
+        } else {
+            return redirect(route('users.show', ['user' => $user->name]));
+        }
     }
 
 }
