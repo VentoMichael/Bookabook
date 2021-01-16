@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Book;
 use App\Models\Cart;
 use App\Models\User;
+use App\Providers\CalculatePrice;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
@@ -16,16 +17,18 @@ class CartController extends Controller
      * @return \Illuminate\Http\RedirectResponse
      */
 
-    public function getAddToCart(Request $request, $id) {
-        $product = Book::find($id);
+    public function getAddToCart(Request $request, $id)
+    {
+        $book = Book::find($id);
         $oldCart = Session::has('cart') ? Session::get('cart') : null;
         $cart = new Cart($oldCart);
-        $cart->add($product, $product->id);
+        $cart->add($book, $book->id);
         $request->session()->put('cart', $cart);
-        return redirect()->route('dashboardUser.index');
+        return redirect()->route('dashboardUser.index')->with('messageBook', $book->title . ' a été ajouter au panier');
     }
 
-    public function getCart() {
+    public function getCart()
+    {
         if (!Session::has('cart')) {
             return view('students.cart.shopping-cart');
         }
@@ -33,81 +36,34 @@ class CartController extends Controller
         $cart = new Cart($oldCart);
         return view('students.cart.shopping-cart', ['books' => $cart->items, 'totalPrice' => $cart->totalPrice]);
     }
+    public function update($id){
+        // Get the product
+        $book = Book::find($id);
 
-    public function checkout() {
+        dd(\request()->all());
+        // Check if the user entered an ADD quantity
+        if (\request()->get('add_quantity')) {
+            $book->stock += 1;
+        } elseif (\request()->get('remove_quantity')) {
+            $book->stock -= 1;
+        }
+
+        // Save the changes
+        $book->update();
+
+        return redirect()->view('students.cart.shopping-cart');
+    }
+    public function checkout()
+    {
         if (!Session::has('cart')) {
             return view('students.cart.shopping-cart');
         }
         $oldCart = Session::get('cart');
         $cart = new Cart($oldCart);
         $total = $cart->totalPrice;
-        $admin= User::admin()->firstOrFail();
+        $admin = User::admin()->firstOrFail();
         $user = auth()->user();
-        return view('students.cart.checkout', compact('total','admin','user'));
-    }
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Cart  $cart
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Cart $cart)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Cart  $cart
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Cart $cart)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Cart  $cart
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Cart $cart)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Cart  $cart
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Cart $cart)
-    {
-        //
+        Session::forget('cart');
+        return view('students.cart.checkout', compact('total', 'admin', 'user'));
     }
 }

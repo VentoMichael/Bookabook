@@ -60,13 +60,17 @@
                     <label for="bank_account" class="label">Mon numéro de compte en banque :</label>
                     <input id="bank_account" name="bank_account" type="text"
                            class="border rounded-lg p-3 pb-2 input @error('bank_account')is danger @enderror"
-                           value="{{$user->bank_account}}" placeholder="BE4242244242424224">
+                           value="BE{{$user->bank_account}}">
                     @if($errors->first('bank_account'))<p
                         class="text-red-500 text-lg mb-4">{{$errors->first('bank_account')}}</p>@endif
                     @if(Auth::user()->is_administrator)
+                        @if(!$user->bank_account)
                     <p class="text-sm text-red-500">Référez votre numéro de compte, cela permettra aux étudiants de vous payer</p>
+                            @endif
                     @else
+                        @if(!$user->bank_account)
                         <p class="text-sm text-red-500">Référez votre numéro de compte, cela aide M. Spirlet à vous identifiez</p>
+                        @endif
                     @endif
 
                 </div>

@@ -113,7 +113,7 @@
                 </section>
             @endif
         </div>
-        @if(!Auth::user()->is_administrator)
+        @if(Auth::user()->is_administrator)
 
             @if($user->suspended === 0)
                 <form class="max-w-5xl mx-auto md:max-w-3xl" action="{{route('users.update',['user' => $user->name])}}"

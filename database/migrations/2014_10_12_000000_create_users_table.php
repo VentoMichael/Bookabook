@@ -21,7 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('file_name')->nullable();
             $table->string('bank_account')->nullable();
             $table->boolean('suspended')->default(false);
-            $table->string('email')->$book();
+            $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

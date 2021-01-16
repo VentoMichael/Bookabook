@@ -3,7 +3,7 @@
 @section('content')
     @if (Session::has('message'))
         <div id="sucessMessage"
-             class="fixed top-0 bg-green-500 w-full p-4 right-0 text-center text-white">{{ Session::get('message') }}</div>
+             class="fixed z-10 top-0 bg-green-500 w-full p-4 right-0 text-center text-white">{{ Session::get('message') }}</div>
     @endif
     <form role="form" method="POST" aria-label="Édition du statut" class="sm:gap-12 sm:grid sm:grid-cols-2"
           action="{{ route('statuses.update',['user'=>$user->name,'id'=>$order->id]) }}">

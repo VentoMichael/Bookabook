@@ -150,7 +150,12 @@ p{
     width: 70px;
     max-width: 70px;
 }
-
+.pictureBookBuy{
+    width: 40%;
+}
+.containerCart{
+    grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+}
 select.minimal:focus {
     background-image: -o-linear-gradient(45deg, #8b4513 50%, transparent 50%), -o-linear-gradient(315deg, transparent 50%, #8b4513 50%), -o-linear-gradient(left, #ccc, #ccc);
     background-image: linear-gradient(45deg, #8b4513 50%, transparent 50%), linear-gradient(135deg, transparent 50%, #8b4513 50%), linear-gradient(to right, #ccc, #ccc);
