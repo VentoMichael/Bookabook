@@ -11,6 +11,10 @@
         <div id="sucessMessage"
              class="fixed z-10 top-0 bg-green-500 w-full p-4 right-0 text-center text-white">{{ Session::get('messagePayment') }}</div>
     @endif
+    @if (Session::has('messageSavePayment'))
+        <div id="sucessMessage"
+             class="fixed z-20 top-0 bg-green-500 w-full p-4 right-0 text-center text-white">{{ Session::get('messageSavePayment') }}</div>
+    @endif
     @if($books->count()>0)
         <div class="overflow-x-scroll flex gap-12 sm:gap-16 containerBooksStudents">
             @foreach($books as $book)

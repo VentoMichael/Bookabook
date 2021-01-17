@@ -28,23 +28,23 @@
                             <p class="mt-6 -mb-4">
                                 Quantité : <span>{{ $value['stock']}}</span>
                             </p>
-                                <ul class="flex justify-between mb-8">
-                                    <li>
-                                        <button name="remove_quantity"
-                                                class="duration-300 w-full rounded-xl mt-6 p-3 border hover:bg-orange-900 hover:text-white">
-                                            - 1
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <button name="add_quantity"
-                                                class="duration-300 w-full rounded-xl mt-6 p-3 border hover:bg-orange-900 hover:text-white">
-                                            + 1
-                                        </button>
-                                    </li>
-                                </ul>
+                            <ul class="flex justify-between mb-8">
+                                <li>
+                                    <button name="remove_quantity"
+                                            class="duration-300 w-full rounded-xl mt-6 p-3 border hover:bg-orange-900 hover:text-white">
+                                        - 1
+                                    </button>
+                                </li>
+                                <li>
+                                    <button name="add_quantity"
+                                            class="duration-300 w-full rounded-xl mt-6 p-3 border hover:bg-orange-900 hover:text-white">
+                                        + 1
+                                    </button>
+                                </li>
+                            </ul>
                             <div>
                                 <button
-                                        class="duration-300 w-full rounded-xl p-3 border bg-orange-900 text-white">
+                                    class="duration-300 w-full rounded-xl p-3 border bg-orange-900 text-white">
                                     Supprimer le livre
                                 </button>
                             </div>
@@ -77,12 +77,12 @@
         </section>
         <form action="#" method="POST"></form>
         <div class="grid sm:gap-8 grid-cols-1 sm:grid-cols-2">
-            <button role="button" name="save" type="submit"
-                    class="duration-300 w-full rounded-xl mt-6 p-3 border hover:bg-orange-900 hover:text-white">
-                Sauvegarder la commande
-            </button>
             <form action="{{route('checkout.index')}}" method="POST" id="checkoutForm">
                 @csrf
+                <button role="button" name="save" type="submit"
+                        class="duration-300 w-full rounded-xl mt-6 p-3 border hover:bg-orange-900 hover:text-white">
+                    Sauvegarder la commande
+                </button>
                 <button role="button" name="addOrder"
                         class="w-full text-center rounded-xl mt-6 bg-orange-900 text-white p-3"
                         type="submit">

@@ -32,6 +32,9 @@ Route::prefix('')->middleware(['auth', \App\Http\Middleware\IsStudent::class])->
     Route::get('/purchases',
         [PurchasesStudentController::class, 'index'])->middleware('auth')->name('purchasesUser.index');
 
+    Route::get('/purchases/draft',
+        [PurchasesStudentController::class, 'draft'])->middleware('auth')->name('draftPurchasesUser.index');
+
 //CART
     Route::get('/cart', [CartController::class, 'index'])->middleware('auth')->name('cart.index');
 

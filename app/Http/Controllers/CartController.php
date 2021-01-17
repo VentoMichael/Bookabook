@@ -49,7 +49,6 @@ class CartController extends Controller
         $total = $cart->totalPrice;
         $admin = User::admin()->firstOrFail();
         $user = auth()->user();
-
         return view('students.cart.checkout', compact('total', 'admin', 'user'));
     }
 
@@ -58,7 +57,7 @@ class CartController extends Controller
         if (!Session::has('cart')) {
             return view('students.cart.shopping-cart');
         }
-        $books=Book::all();
+        $books = Book::all();
 
         $oldCart = Session::get('cart');
         $cart = new Cart($oldCart);
@@ -67,18 +66,22 @@ class CartController extends Controller
         $user = auth()->user();
         $order = new Order();
         $order->user_id = auth()->user()->id;
-        $order->save();
-
-
-        $reservation = new Reservation();
-        $reservation->total_price = $cart->totalPrice;
-        $reservation->order_id = $order->id;
-        foreach ($cart as $key => $value) {
-            $reservation->book_id = $value;
-            //dd($value);
+        if ($request->has('save')) {
+            $order->is_draft = 1;
+            Session::flash('messageSavePayment','Votre commande à bien été sauvegardée');
         }
-        $reservation->save();
-Session::forget('cart');
-        return redirect()->route('dashboardUser.index', compact('total','books', 'admin', 'user'))->with('messagePayment','La commande a été prise en compte');
+            $order->save();
+            $reservation = new Reservation();
+            $reservation->total_price = $cart->totalPrice;
+            $reservation->order_id = $order->id;
+            foreach ($cart as $key => $value) {
+                $reservation->book_id = $value;
+                //dd($value);
+            }
+            $reservation->save();
+            Session::flash('messagePayment','Votre commande à bien été prise en compte');
+
+        Session::forget('cart');
+        return redirect()->route('dashboardUser.index', compact('total', 'books', 'admin', 'user'));
     }
 }
