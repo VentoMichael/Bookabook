@@ -18,37 +18,7 @@ class UserController extends Controller
      */
     public function suspended()
     {
-        $users = User::student()->with('orders')->orderBy('name')->get();
-        $statuses = Status::all();
-        $orders = Order::with('user')->get();
-        $admin = User::admin()->get();
-        $studentSuspended = User::studentSuspended()->with('orders')->get();
-        $firstLetters = [];
-        $firstLetter = '';
-        $totalbooks = 0;
-        foreach ($studentSuspended as $ss) {
-            foreach ($ss->orders as $order) {
-                $totalbooks += $order->books->count();
-            }
-            if (strtoupper(substr($ss->name, 0, 1)) !== $firstLetter) {
-                $firstLetter = strtoupper(substr($ss->name, 0, 1));
-                array_push($firstLetters, $firstLetter);
-            }
-        }
-        $letters = [];
-        foreach ($firstLetters as $firstLetter) {
-            $letters[$firstLetter] = $studentSuspended->filter(function ($ss) use ($firstLetter) {
-                return strpos($ss->name, $firstLetter) === 0;
-            });
-        }
-
-        return view('admin.user.suspendedStudent',
-            compact('admin', 'users', 'studentSuspended', 'orders', 'users', 'statuses', 'letters', 'totalbooks'));
-
-    }
-
-    public function index()
-    {
+        $totalUser = User::student()->get();
         $users = User::student()->with('orders')->where('suspended', 0)->orderBy('name')->get();
         $statuses = Status::all();
         $orders = Order::with('user')->get();
@@ -58,24 +28,55 @@ class UserController extends Controller
         $firstLetter = '';
         $totalbooks = 0;
         $letters = [];
+        foreach ($studentSuspended as $ss) {
+            foreach ($ss->orders as $order) {
+                $totalbooks += $order->books->count();
+            }
+            if (strtoupper(substr($ss->name, 0, 1)) !== $firstLetter) {
+                $firstLetter = strtoupper(substr($ss->name, 0, 1));
+                array_push($firstLetters, $firstLetter);
+            }
+            foreach ($firstLetters as $firstLetter) {
+                $letters[$firstLetter] = $studentSuspended->filter(function ($ss) use ($firstLetter) {
+                    return strpos($ss->name, $firstLetter) === 0;
+                });
+            }
+        }
+
+        return view('admin.user.suspendedStudent',
+            compact('admin', 'users', 'studentSuspended', 'orders', 'users', 'statuses', 'letters', 'totalbooks'));
+
+    }
+
+    public function index()
+    {
+        $totalUser = User::student()->get();
+
+        $statuses = Status::all();
+        $orders = Order::with('user','statuses')->get();
+        $admin = User::admin()->get();
+        $studentSuspended = User::studentSuspended()->with('orders')->get();
+        $users = User::student()->with('orders')->where('suspended', '0')->orderBy('name')->get();
+        $firstLetters = [];
+        $firstLetter = '';
+        $totalbooks = 0;
 
         foreach ($users as $user) {
             foreach ($user->orders as $order) {
                 $totalbooks += $order->books->count();
             }
-            if (strtoupper(substr($user->name, 0, 1)) !== $firstLetter) {
-                $firstLetter = strtoupper(substr($user->name, 0, 1));
-                array_push($firstLetters, $firstLetter);
-            }
-            foreach ($firstLetters as $firstLetter) {
-                $letters[$firstLetter] = $users->filter(function ($user) use ($firstLetter) {
-                    return strpos($user->name, $firstLetter) === 0;
-                });
-            }
+            $firstLetter = strtoupper(substr($user->name, 0, 1));
+            array_push($firstLetters, $firstLetter);
+        }
+        $letters = [];
+        foreach ($firstLetters as $firstLetter) {
+            $letters[$firstLetter] = $users->filter(function ($user) use ($firstLetter) {
+                return strtoupper(substr($user->name, 0, 1)) == $firstLetter;
+            });
         }
 
         return view('admin.user.index',
-            compact('admin', 'studentSuspended', 'orders', 'users', 'statuses', 'letters', 'totalbooks'));
+            compact('admin', 'studentSuspended', 'orders', 'totalUser', 'users', 'statuses', 'letters', 'totalbooks'));
     }
 
     /**
@@ -181,13 +182,8 @@ class UserController extends Controller
         } else {
             Session::flash('messageNotUpdate', 'Il n\'y a rien a changé');
         }
-        if (!Auth::user()->is_administrator) {
-            Session::flash('messageBook','Vos informations ont été changés avec succès');
-            return redirect(route('dashboardUser.index'));
-        } else {
-            Session::flash('messageBook','Vos informations ont été changés avec succès');
-            return redirect(route('users.edit', ['user' => $user->name]));
-        }
+        Session::flash('messageBook', 'Vos informations ont été changés avec succès');
+        return redirect(route('users.edit', ['user' => $user->name]));
     }
 
 }

@@ -13,16 +13,18 @@
             </a>
         @endif
     </div>
-    @if(count($user->orders))
+    @if(count($commandDraft))
         <section class="max-w-5xl m-auto">
             <h2 aria-level="2" class="text-2xl">
-                Historique de {{count($user->orders) >1 ? "mes dernières sauvegardes" : "ma dernière sauvegarde"}}
+                Historique de {{count($commandDraft) >1 ? "mes dernières sauvegardes" : "ma dernière sauvegarde"}}
             </h2>
             @foreach($commandDraft as $order)
                 <section class="mt-16">
-                    <h3 aria-level="3" class="-mb-8 text-xl ">
-                        Commande sauvegardée le {{date("d-m-Y",strtotime($order->created_at))}}
-                    </h3>
+                    <div class="flex relative">
+                        <h3 aria-level="3" class="-mb-8 text-xl ">
+                            Commande sauvegardée le {{date("d-m-Y",strtotime($order->created_at))}}
+                        </h3>
+                    </div>
                     <section
                         class="overflow-x-scroll flex gap-12 sm:gap-16 containerBooksStudents containerOrders @if(count($user->orders) > 1) containerOrdersSection @endif sm:pt-12 sm:pb-3">
                         @foreach($order->books as $book)
@@ -34,6 +36,9 @@
                                          alt="Photo de couverture de {{$book->title}}">
                                 </div>
                                 <h4 aria-level="4" class="text-lg font-bold">{{$book->title}}</h4>
+                                <p>
+                                    Quantité : {{$book->pivot->quantity}}
+                                </p>
                             </div>
                         @endforeach
                     </section>

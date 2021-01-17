@@ -6,9 +6,11 @@ use App\Models\Book;
 use App\Models\Cart;
 use App\Models\Order;
 use App\Models\Reservation;
+use App\Models\StatusChanges;
 use App\Models\User;
 use App\Providers\CalculatePrice;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 
 class CartController extends Controller
@@ -49,7 +51,7 @@ class CartController extends Controller
         $total = $cart->totalPrice;
         $admin = User::admin()->firstOrFail();
         $user = auth()->user();
-        return view('students.cart.checkout', compact('total', 'admin', 'user'));
+        return route('checkout.index', compact('total', 'admin', 'user'));
     }
 
     public function create(Request $request)
@@ -57,31 +59,52 @@ class CartController extends Controller
         if (!Session::has('cart')) {
             return view('students.cart.shopping-cart');
         }
-        $books = Book::all();
 
         $oldCart = Session::get('cart');
         $cart = new Cart($oldCart);
         $total = $cart->totalPrice;
         $admin = User::admin()->firstOrFail();
         $user = auth()->user();
+
         $order = new Order();
         $order->user_id = auth()->user()->id;
+        $order->total_price = $cart->totalPrice;
+        if (\request()->has('quantity')) {
+            foreach ($cart->items as $item) {
+                $item['stock'] = \request('quantity');
+            }
+        }
         if ($request->has('save')) {
             $order->is_draft = 1;
-            Session::flash('messageSavePayment','Votre commande à bien été sauvegardée');
+            Session::flash('messageSavePayment', 'Votre commande à bien été sauvegardée');
+            return redirect()->route('dashboardUser.index');
         }
-            $order->save();
+        $order->save();
+        $status = new StatusChanges();
+        $status->status_id = 1;
+        $status->order_id = $order->id;
+        $status->save();
+        foreach ($cart->items as $item) {
             $reservation = new Reservation();
-            $reservation->total_price = $cart->totalPrice;
             $reservation->order_id = $order->id;
-            foreach ($cart as $key => $value) {
-                $reservation->book_id = $value;
-                //dd($value);
+            $reservation->quantity = $cart->totalQty;
+            $reservation->book_id = $item['item']['id'];
+            $books = Book::where('id','=',$item['item']['id'])->get();
+            foreach ($books as $b){
+                $b->stock = $b->stock - $item['stock'];
+                $b->update();
             }
             $reservation->save();
-            Session::flash('messagePayment','Votre commande à bien été prise en compte');
-
+        }
         Session::forget('cart');
-        return redirect()->route('dashboardUser.index', compact('total', 'books', 'admin', 'user'));
+
+        Session::flash('messagePayment', 'Votre commande à bien été prise en compte');
+        return view('students.cart.checkout', compact('total', 'admin', 'user'));
+    }
+    public function delete($id){
+        $book = Book::find($id);
+        $book->delete();
+        Session::flash('message', 'Livre supprimé avec succès');
+        return Redirect::to(route('students.cart.shopping-cart'));
     }
 }

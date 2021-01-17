@@ -15,7 +15,9 @@ svg {
 .arrowScroll{
     max-width: 50px;
     -webkit-animation: downarrow 1.2s infinite;
-    animation: downarrow 1.2s infinite
+    animation: downarrow 1.2s infinite;
+    position: absolute;
+    right: 0;
 }
 .hiddenTitle {
     position: absolute;

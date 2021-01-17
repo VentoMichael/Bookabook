@@ -17,6 +17,7 @@ class CreateOrdersTable extends Migration
             $table->id();
             $table->foreignId("user_id")->constrained('users');
             $table->boolean('is_draft')->default(false);
+            $table->unsignedSmallInteger('total_price')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

@@ -92,11 +92,14 @@
                 </section>
             </section>
         @endforeach
-
-    @else
-        <p>
-            Aucun achat trouvé vus qu'il n'y a pas de commandes
-        </p>
+        @else
+        <section class="max-w-5xl m-auto md:flex mt-12 sm:mt-16">
+            <img class="pictoSadSmiley mx-auto mb-6 md:max-w-sm" src="{{asset('svg/sad.svg')}}"
+                 alt="Pictogramme d'un smiley triste">
+            <h2 aria-level="2" class="ml-6 mr-6 text-2xl self-center">
+                Oops, aucun achat trouver
+            </h2>
+        </section>
     @endif
 @endsection
 @section('scripts')

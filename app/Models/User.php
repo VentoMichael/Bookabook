@@ -66,7 +66,7 @@ class User extends Authenticatable
 
     public function scopeStudentSuspended($query)
     {
-        return $query->where('suspended', '!=', '0');
+        return $query->where('suspended', '=', '1');
     }
 
     public function orders(){

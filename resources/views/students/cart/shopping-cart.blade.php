@@ -25,29 +25,26 @@
                                     Prix total : {{ $value['item']->proposed_price * $value['stock']}} €
                                 </p>
                             </div>
-                            <p class="mt-6 -mb-4">
-                                Quantité : <span>{{ $value['stock']}}</span>
-                            </p>
-                            <ul class="flex justify-between mb-8">
-                                <li>
-                                    <button name="remove_quantity"
-                                            class="duration-300 w-full rounded-xl mt-6 p-3 border hover:bg-orange-900 hover:text-white">
-                                        - 1
-                                    </button>
-                                </li>
-                                <li>
-                                    <button name="add_quantity"
-                                            class="duration-300 w-full rounded-xl mt-6 p-3 border hover:bg-orange-900 hover:text-white">
-                                        + 1
-                                    </button>
-                                </li>
-                            </ul>
+                            <form class="flex justify-between mb-8" action="{{route('checkout.index')}}" method="POST">
+                                @csrf
+                                <div>
+                                <label for="quantity">
+                                        Quantité :</label>
+                                <input class="duration-300 rounded-xl mt-6 p-3 border" min="0" type="number" name="quantity" max="10" value="{{$value['stock']}}">
+                                </div>
+                                <input class="duration-300 cursor-pointer rounded-xl mt-6 p-3 border bg-white hover:bg-orange-900 hover:text-white" type="submit" value="Changer">
+                            </form>
+                            <form action="{{route('deleteBookOrder.index')}}" method="post">
+                                @csrf
+                                @method('delete')
                             <div>
+                                <input type="hidden" name="book_id" value="{{$value['item']}}">
                                 <button
                                     class="duration-300 w-full rounded-xl p-3 border bg-orange-900 text-white">
                                     Supprimer le livre
                                 </button>
                             </div>
+                            </form>
                         </div>
                     </div>
                 @endforeach
@@ -75,9 +72,7 @@
                 <p class="max-w-3xl mx-auto text-xl">Le montant total est de <b>{{ $totalPrice }} €</b></p>
             </div>
         </section>
-        <form action="#" method="POST"></form>
-        <div class="grid sm:gap-8 grid-cols-1 sm:grid-cols-2">
-            <form action="{{route('checkout.index')}}" method="POST" id="checkoutForm">
+            <form action="{{route('checkout.index')}}" method="POST" id="checkoutForm" class="grid sm:gap-8 grid-cols-1 sm:grid-cols-2">
                 @csrf
                 <button role="button" name="save" type="submit"
                         class="duration-300 w-full rounded-xl mt-6 p-3 border hover:bg-orange-900 hover:text-white">
@@ -89,7 +84,6 @@
                     Finaliser la commande
                 </button>
             </form>
-        </div>
     @else
         <section class="max-w-5xl m-auto md:flex mt-12 sm:mt-16">
             <img class="pictoSadSmiley mx-auto mb-6 md:max-w-sm" src="{{asset('svg/sad.svg')}}"

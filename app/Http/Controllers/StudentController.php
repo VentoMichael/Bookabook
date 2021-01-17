@@ -20,7 +20,7 @@ class StudentController extends Controller
     public function index()
     {
 
-        $books = Book::orderBy('title')->get();
+        $books = Book::orderBy('title')->where('stock',">=",1)->get();
         $userStudents = User::student()->get();
 
         if (Auth::user()->isAdministrator) {
@@ -31,8 +31,9 @@ class StudentController extends Controller
             if ($userStudent->suspended == 1) {
                 Auth::logout();
                 \request()->session();
-                return redirect('/')->with('message',
+                Session::flash('messageBanned',
                     'Vous avez été suspendus, contactez M. Spirlet pour plus d\'informations');
+                return redirect('/');
             }
         }
 

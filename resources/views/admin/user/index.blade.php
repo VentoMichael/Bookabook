@@ -38,8 +38,11 @@
                     </div>
 
                     <div class="mx-5">
-                        <p class="text-2xl font-semibold text-gray-900">{{$users->count()}}</p>
-                        <div class="text-gray-900">Utilisateurs totaux</div>
+                        <p class="text-2xl font-semibold text-gray-900">{{$totalUser->count()}}</p>
+                        <p class="text-gray-900">Utilisateurs totaux</p>
+                        <p> @if($users->count())
+                                ({{$users->count()}} suspendus)
+                            @endif</p>
                     </div>
                 </div>
             </div>
@@ -59,7 +62,7 @@
                     </div>
                     <div class="mx-5">
                         <p class="text-2xl font-semibold text-gray-900">{{$orders->count()}}</p>
-                        <div class="text-gray-900">Commandes totales</div>
+                        <p class="text-gray-900">Commandes totales</p>
                     </div>
                 </div>
             </div>
@@ -70,11 +73,11 @@
             Les étudiants de l'application
         </h2>
         <div class="justify-center flex mb-4 flex-col sm:flex-row sm:mr-8">
-            @if($studentSuspended->count() > 0)
+            @if($studentSuspended->count())
                 @if($users->count() > 0)
                     <a class="{{ Route::currentRouteName() === 'users.index' ? "bg-orange-900 text-white border-2 border-orange-900 " : "" }}md:w-64 mx-4 sm:self-center linkAction rounded-xl border-2 border-orange-900 w-full hover:text-white hover:bg-orange-900 duration-300 px-4 pt-4 pb-4"
                        href="{{route('users.index')}}">
-                        @if($studentSuspended->count() === 1)
+                        @if($users->count() === 1)
                             Voir l'étudiant non suspendus
                         @else
                             Voir les étudiants non suspendus
@@ -141,21 +144,21 @@
                                         <a href="mailto:{{$user->email}}">{{$user->email}}</a>
                                     </div>
                                 </div>
-                                <div>
-                                    @if(count($user->orders) >= 1)
-                                        @foreach($statuses as $status)
+                                @if(count($user->orders) >= 1)
+                                    <div>
+                                        @foreach($user->orders as $order)
                                             <div>
                                                 <p>La commande n°{{$loop->iteration}}</p>
                                             </div>
-                                            <div class="flex align-center justify-center my-4 containerStatusName">
-                                                <img class="mr-4"
-                                                     src="{{asset('storage').'/orders/'.($status->file_name)}}"
-                                                     alt="{{$status->name}} picto">
-                                                <p class="pictoOrder text-xl my-4 text-center">{{$status->nameFr}}</p>
-                                            </div>
+                                                <div class="flex align-center justify-center my-4 containerStatusName">
+                                                    <img class="mr-4"
+                                                         src="{{asset('storage').'/orders/'.($status->file_name)}}"
+                                                         alt="{{$status->name}} picto">
+                                                    <p class="pictoOrder text-xl my-4 text-center">{{$status->nameFr}}</p>
+                                                </div>
                                         @endforeach
-                                    @endif
-                                </div>
+                                    </div>
+                                @endif
                             </div>
                             <div class="mb-4 text-center">
                                 <div>
@@ -174,7 +177,7 @@
             <img class="pictoSadSmiley mx-auto mb-6 md:max-w-sm" src="{{asset('svg/sad.svg')}}"
                  alt="Pictogramme d'un smiley triste">
             <h2 aria-level="2" class="ml-6 mr-6 text-2xl self-center">
-                Oops, aucun étudiant encore !
+                Oops, aucun étudiant @if($studentSuspended) non suspendu ! @else trouver @endif
             </h2>
         </section>
     @endif
@@ -193,7 +196,14 @@
         </div>
     </nav>
 @endsection
-
 @section('scripts')
     <script type="text/javascript" src="{{ asset('js/successMessage.js') }}"></script>
 @endsection
+@if(\Request::route()->getName() === 'users.index')
+    @php
+        $firstLetters = $users->pluck('first_letter_of_name')->unique();
+    @endphp
+    @foreach($firstLetters as $i)
+        <a href="#{{$i}}">{{$i++}}</a>
+    @endforeach
+@endif

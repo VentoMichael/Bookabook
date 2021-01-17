@@ -10,6 +10,7 @@ class Cart extends Model
     public $items = null;
     public $totalQty = 0;
     public $totalPrice = 0;
+    public $itemQty = 1;
 
     public function __construct($oldCart)
     {
@@ -17,6 +18,7 @@ class Cart extends Model
             $this->items = $oldCart->items;
             $this->totalQty = $oldCart->totalQty;
             $this->totalPrice = $oldCart->totalPrice;
+            $this->itemQty = $oldCart->itemQty;
         }
     }
 

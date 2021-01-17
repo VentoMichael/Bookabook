@@ -10,7 +10,6 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Fortify\Fortify;
-use function GuzzleHttp\Promise\all;
 
 class FortifyServiceProvider extends ServiceProvider
 {

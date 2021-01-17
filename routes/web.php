@@ -52,6 +52,9 @@ Route::prefix('')->middleware(['auth', \App\Http\Middleware\IsStudent::class])->
     Route::post('/checkout', [CartController::class, 'create'],
     )->name('createOrder.index');
 
+    Route::delete('/add-to-cart/', [CartController::class, 'create'],
+    )->name('deleteBookOrder.index');
+
 
 //SETTINGS
     Route::get('/settings', [
