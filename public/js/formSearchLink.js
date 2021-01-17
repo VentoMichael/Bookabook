@@ -94,8 +94,7 @@
 /***/ (function(module, exports) {
 
 window.addEventListener("load", function () {
-  var e = document.getElementById("formSearch");
-  document.getElementById("inputCta").addEventListener("click", function () {
+  document.getElementById("inputCta").addEventListener("click", function (e) {
     e.focus();
   });
 });

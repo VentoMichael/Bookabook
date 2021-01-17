@@ -17,7 +17,8 @@ class CreateReservationsTable extends Migration
             $table->id();
             $table->bigInteger('book_id')->unsigned();
             $table->bigInteger('order_id')->unsigned();
-            $table->tinyInteger('quantity')->unsigned();
+            $table->unsignedSmallInteger('total_price')->nullable();
+            $table->tinyInteger('quantity')->unsigned()->nullable();
             $table->timestamps();
             $table->foreign('book_id')
                 ->references('id')
@@ -25,7 +26,8 @@ class CreateReservationsTable extends Migration
             ->onDelete('cascade');
             $table->foreign('order_id')
                 ->references('id')
-                ->on('orders');
+                ->on('orders')
+                ->onDelete('cascade');
         });
     }
 

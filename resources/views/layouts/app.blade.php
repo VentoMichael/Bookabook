@@ -55,7 +55,7 @@
                     @auth
                         @if(!Auth::user()->isAdministrator)
                             <a class="pictoCart flex" href="{{route('product.shoppingCart')}}">
-                                <img class="logo" src="{{asset('svg/cart.svg')}}" alt="Book a book application">
+                                <img class="logo" src="{{asset('svg/cart.svg')}}" alt="Panier d'achats">
                                 <span class="ml-2 text-xl text-red-900 self-center">{{Session::has('cart') ? Session::get('cart')->totalQty : ''}}</span>
                             </a>
                         @endif
@@ -120,8 +120,8 @@
                                       class="z-0 absolute top-0 right-0 sm:w-1/4 mt-6 mr-6 containerSearch"
                                       method="get">
                                     @csrf
-                                    <label for="search" class="hidden">Chercher dans l'application :</label>
-                                    <input type="search" id="search"
+                                    <label for="inputCta" class="hidden">Chercher dans l'application :</label>
+                                    <input type="search" id="formSearch"
                                            class="searchInput rounded-xl h-12 w-full border-2 border-orange-900 containerSearch p-2 bg-transparent"
                                            name="search" required
                                            placeholder="Livres ou étudiants"

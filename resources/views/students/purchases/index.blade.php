@@ -14,17 +14,19 @@
     @if(count($user->orders))
         <section class="max-w-5xl m-auto">
             <h2 aria-level="2" class="text-2xl">
-                Historique de mes {{count($user->orders)}} dernières commandes
+                Historique de  {{count($user->orders) >1 ? "mes dernières commandes" : "ma dernière commande"}}
             </h2>
             <p class="textBook">
-                Le(s) livre(s) sera(ont) disponible(s) auprès du bureau de M. Spirlet après reçu de votre paiement,vous recevrez in mail quand le(s) livre(s) sera(ont) disponible(s).
+                Le(s) livre(s) sera(ont) disponible(s) auprès du bureau de M. Spirlet après reçu de votre paiement,vous
+                recevrez in mail quand le(s) livre(s) sera(ont) disponible(s).
             </p>
-        @foreach($user->orders as $order)
+            @foreach($user->orders as $order)
                 <section class="mt-16">
                     <h3 aria-level="3" class="-mb-8 text-xl ">
                         Commande passée le {{date("d-m-Y",strtotime($order->created_at))}}
                     </h3>
-                    <section class="overflow-x-scroll flex gap-12 sm:gap-16 containerBooksStudents containerOrders @if(count($user->orders) > 1) containerOrdersSection @endif sm:pt-12 sm:pb-3">
+                    <section
+                        class="overflow-x-scroll flex gap-12 sm:gap-16 containerBooksStudents containerOrders @if(count($user->orders) > 1) containerOrdersSection @endif sm:pt-12 sm:pb-3">
                         @foreach($order->books as $book)
                             <div class="max-w-xs flex mb-8 flex-col my-16 mx-auto sm:mx-0 sm:my-0">
                                 <div>

@@ -16,7 +16,6 @@ class CreateOrdersTable extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->foreignId("user_id")->constrained('users');
-            $table->unsignedSmallInteger('total_price')->nullable();
             $table->boolean('is_draft')->default(false);
             $table->timestamps();
             $table->softDeletes();

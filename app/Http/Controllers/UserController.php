@@ -57,6 +57,8 @@ class UserController extends Controller
         $firstLetters = [];
         $firstLetter = '';
         $totalbooks = 0;
+        $letters = [];
+
         foreach ($users as $user) {
             foreach ($user->orders as $order) {
                 $totalbooks += $order->books->count();
@@ -65,12 +67,11 @@ class UserController extends Controller
                 $firstLetter = strtoupper(substr($user->name, 0, 1));
                 array_push($firstLetters, $firstLetter);
             }
-        }
-        $letters = [];
-        foreach ($firstLetters as $firstLetter) {
-            $letters[$firstLetter] = $users->filter(function ($user) use ($firstLetter) {
-                return strpos($user->name, $firstLetter) === 0;
-            });
+            foreach ($firstLetters as $firstLetter) {
+                $letters[$firstLetter] = $users->filter(function ($user) use ($firstLetter) {
+                    return strpos($user->name, $firstLetter) === 0;
+                });
+            }
         }
 
         return view('admin.user.index',
@@ -180,10 +181,12 @@ class UserController extends Controller
         } else {
             Session::flash('messageNotUpdate', 'Il n\'y a rien a changé');
         }
-        if (Auth::user()->is_administrator) {
-            return redirect(route('users.index'));
+        if (!Auth::user()->is_administrator) {
+            Session::flash('messageBook','Vos informations ont été changés avec succès');
+            return redirect(route('dashboardUser.index'));
         } else {
-            return redirect(route('users.show', ['user' => $user->name]));
+            Session::flash('messageBook','Vos informations ont été changés avec succès');
+            return redirect(route('users.edit', ['user' => $user->name]));
         }
     }
 

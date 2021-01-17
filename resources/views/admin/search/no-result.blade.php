@@ -80,5 +80,6 @@
     </section>
 @endsection
 @section('scripts')
-    <script type="text/javascript" src="{{ asset('js/formSearchLink.js') }}"></script>
+    <script type="text/javascript">window.addEventListener("load",function(){var e=document.getElementById("formSearch");document.getElementById("inputCta").addEventListener("click",function(){e.focus();});});
+    </script>
 @endsection

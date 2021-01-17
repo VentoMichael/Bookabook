@@ -3,6 +3,10 @@
     <h2 aria-level="2" class="hiddenTitle">
         Page d'édition du profil
     </h2>
+    @if (Session::has('messageBook'))
+        <div id="sucessMessage"
+             class="fixed z-10 top-0 bg-green-500 w-full p-4 right-0 text-center text-white">{{ Session::get('messageBook') }}</div>
+    @endif
     <section class="mb-10">
         <h2 aria-level="2" class="text-xl mb-2 font-bold">
             Mes informations personnelles
@@ -100,4 +104,5 @@
 @endsection
 @section('scripts')
     <script type="text/javascript" src="{{ asset('js/password.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/successMessage.js') }}"></script>
 @endsection

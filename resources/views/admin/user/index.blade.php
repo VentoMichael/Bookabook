@@ -95,76 +95,78 @@
         </div>
         @foreach($letters as $key=>$letter)
             <section>
-            <h3 aria-level="3" class="text-5xl block border-t mt-16 -mb-4"><span class="hiddenTitle">Les étudiants commençant par </span>{{$key}}</h3>
-            <div id="{{$key}}"
-                 class="grid mt-12 grid-cols-1 md:grid-cols-2 md:mr-8 lg:grid-cols-3 ml-4 flex-wrap justify-between gap-12 mr-4">
-                @foreach($letter as $user)
-                    <section
-                        class="flex flex-col justify-between border-2 rounded-xl p-4 self-start">
-                        @if($user->suspended === 1)
-                            <p class="text-red-700 text-xl mx-auto opacity-100">
-                                {{$user->name}} {{$user->surname}} est suspendu
-                            </p>
-                        @endif
-                        <div class="@if($user->suspended === 1) opacity-50 @endif">
-                            <div class="flex justify-between">
-                                <div
-                                    class="my-4 flex flex-col rounded-xl mr-2 bg-orange-900 p-4 pt-3 relative justify-around text-center">
-                                    <div class="containerBookSvg mb-4 self-center"></div>
+                <h3 aria-level="3" class="text-5xl block border-t mt-16 -mb-4"><span class="hiddenTitle">Les étudiants commençant par </span>{{$key}}
+                </h3>
+                <div id="{{$key}}"
+                     class="grid mt-12 grid-cols-1 md:grid-cols-2 md:mr-8 lg:grid-cols-3 ml-4 flex-wrap justify-between gap-12 mr-4">
+                    @foreach($letter as $user)
+                        <section
+                            class="flex flex-col justify-between border-2 rounded-xl p-4 self-start">
+                            @if($user->suspended === 1)
+                                <p class="text-red-700 text-xl mx-auto opacity-100">
+                                    {{$user->name}} {{$user->surname}} est suspendu
+                                </p>
+                            @endif
+                            <div class="@if($user->suspended === 1) opacity-50 @endif">
+                                <div class="flex justify-between">
+                                    <div
+                                        class="my-4 flex flex-col rounded-xl mr-2 bg-orange-900 p-4 pt-3 relative justify-around text-center">
+                                        <div class="containerBookSvg mb-4 self-center"></div>
+                                        @if(count($user->orders) >= 1)
+                                            <p class="break-all text-xl text-white font-hairline">{{$totalbooks}}</p>
+                                        @else
+                                            <p class="text-xl text-white font-hairline">0</p>
+                                        @endif
+                                    </div>
+                                    <div
+                                        class="my-4 rounded-xl bg-orange-900 p-3 pt-3 relative justify-around text-center">
+                                        <div class="containerGroupSvg mb-2 m-auto"></div>
+                                        <p class="text-xl text-white font-hairline">{{$user->group}}</p>
+                                    </div>
+                                    <div class="containerUserAvatars ml-2">
+                                        <div class="userContainer">
+                                            <img role="img" class="rounded-lg"
+                                                 aria-label="Photo de couverture de {{$user->name}}"
+                                                 src="{{asset('storage')}}/{{$user->file_name ?? 'default.svg'}}"
+                                                 alt="Photo de profil de {{$user->name}}"/>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div>
+                                    <h4 aria-level="4" class="text-2xl">
+                                        {{$user->name}} {{$user->surname}}
+                                    </h4>
+                                    <div class="mb-4">
+                                        <a href="mailto:{{$user->email}}">{{$user->email}}</a>
+                                    </div>
+                                </div>
+                                <div>
                                     @if(count($user->orders) >= 1)
-                                        <p class="break-all text-xl text-white font-hairline">{{$totalbooks}}</p>
-                                    @else
-                                        <p class="text-xl text-white font-hairline">0</p>
+                                        @foreach($statuses as $status)
+                                            <div>
+                                                <p>La commande n°{{$loop->iteration}}</p>
+                                            </div>
+                                            <div class="flex align-center justify-center my-4 containerStatusName">
+                                                <img class="mr-4"
+                                                     src="{{asset('storage').'/orders/'.($status->file_name)}}"
+                                                     alt="{{$status->name}} picto">
+                                                <p class="pictoOrder text-xl my-4 text-center">{{$status->nameFr}}</p>
+                                            </div>
+                                        @endforeach
                                     @endif
                                 </div>
-                                <div
-                                    class="my-4 rounded-xl bg-orange-900 p-3 pt-3 relative justify-around text-center">
-                                    <div class="containerGroupSvg mb-2 m-auto"></div>
-                                    <p class="text-xl text-white font-hairline">{{$user->group}}</p>
-                                </div>
-                                <div class="containerUserAvatars ml-2">
-                                    <div class="userContainer">
-                                        <img role="img" class="rounded-lg"
-                                             aria-label="Photo de couverture de {{$user->name}}"
-                                             src="{{asset('storage')}}/{{$user->file_name ?? 'default.svg'}}"
-                                             alt="Photo de profil de {{$user->name}}"/>
-                                    </div>
-
+                            </div>
+                            <div class="mb-4 text-center">
+                                <div>
+                                    <a class="rounded-xl block mt-8 bg-orange-900 text-white p-3"
+                                       href="{{route('users.show',['user'=>$user->name])}}">Plus d'informations sur
+                                        <span>{{$user->name}}</span></a>
                                 </div>
                             </div>
-                            <div>
-                                <h4 aria-level="4" class="text-2xl">
-                                    {{$user->name}} {{$user->surname}}
-                                </h4>
-                                <div class="mb-4">
-                                    <a href="mailto:{{$user->email}}">{{$user->email}}</a>
-                                </div>
-                            </div>
-                            <div>
-                                @if(count($user->orders) >= 1)
-                                    @foreach($statuses as $status)
-                                        <div>
-                                            <p>La commande n°{{$loop->iteration}}</p>
-                                        </div>
-                                        <div class="flex align-center justify-center my-4 containerStatusName">
-                                            <img class="mr-4" src="{{asset('storage').'/orders/'.($status->file_name)}}"
-                                                 alt="{{$status->name}} picto">
-                                            <p class="pictoOrder text-xl my-4 text-center">{{$status->nameFr}}</p>
-                                        </div>
-                                    @endforeach
-                                @endif
-                            </div>
-                        </div>
-                        <div class="mb-4 text-center">
-                            <div>
-                                <a class="rounded-xl block mt-8 bg-orange-900 text-white p-3"
-                                   href="{{route('users.show',['user'=>$user->name])}}">Plus d'informations sur
-                                    <span>{{$user->name}}</span></a>
-                            </div>
-                        </div>
-                    </section>
-                @endforeach
-            </div>
+                        </section>
+                    @endforeach
+                </div>
             </section>
         @endforeach
     @else

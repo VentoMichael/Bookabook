@@ -47,7 +47,7 @@
                         </section>
 
                     </div>
-                    @if(!Auth::user()->is_administrator)
+                    @if(Auth::user()->is_administrator)
 
                     <div class="text-center mt-8 -mb-8">
                         <a class="@if($user->suspended === 1) pointer-events-none @endif rounded-xl block bg-orange-900 text-white p-3"
@@ -67,7 +67,7 @@
                         @foreach($user->orders as $order)
                             <section>
                                 <div class="flex justify-between">
-                                    <h4 aria-level="4" class="mt-6 mb-4 text-lg">{{$order->count()}}
+                                    <h4 aria-level="4" class="mt-6 mb-4 text-lg">
                                         La commande n°{{$loop->iteration}} contient les livres suivants :
                                     </h4>
                                     <img class="arrowScroll @if($order->books->count() < 3) sm:hidden @endif"

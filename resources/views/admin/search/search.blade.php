@@ -5,7 +5,7 @@
             <section class="flex flex-col mt-8 mb-32">
                 <div
                     class="sm:w-2/4 w-full -mt-6 mb-8 border-2 border-orange-900 inline-block mx-auto text-center rounded-full px-6 py-3">
-                    <p>{{count($users) > 1 || count($books) > 1 ? 'Les resultats' : 'Le resultat'}} pour votre recherche
+                    <p class="sm:max-w-none">{{count($users) > 1 || count($books) > 1 ? 'Les resultats' : 'Le resultat'}} pour votre recherche
                         "{{ $query }}" {{count($users) > 1 ? 'sont' : 'est'}}</p>
                 </div>
                 <h2 aria-level="2" class="mx-auto text-3xl mb-2">Détails
@@ -113,7 +113,7 @@
                                                 <div
                                                     class="text-xl leading-5 text-gray-900">{{$bookDetails->proposed_price}}</div>
                                                 <div
-                                                    class="text-sm leading-5 font-medium text-gray-900">
+                                                    class="text-sm leading-5 line-through font-medium text-gray-900">
                                                     <p>{{$bookDetails->public_price}}</p>
                                                 </div>
                                             </div>

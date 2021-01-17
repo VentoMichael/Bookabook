@@ -28,10 +28,6 @@
                             <p class="mt-6 -mb-4">
                                 Quantité : <span>{{ $value['stock']}}</span>
                             </p>
-                            <form action="{{route('product.update',['id'=>$value['item']->id])}}" method="POST">
-                                @csrf
-                                <input type="hidden" name="_method" value="PUT">
-
                                 <ul class="flex justify-between mb-8">
                                     <li>
                                         <button name="remove_quantity"
@@ -46,9 +42,8 @@
                                         </button>
                                     </li>
                                 </ul>
-                            </form>
                             <div>
-                                <button href="#"
+                                <button
                                         class="duration-300 w-full rounded-xl p-3 border bg-orange-900 text-white">
                                     Supprimer le livre
                                 </button>
@@ -80,16 +75,20 @@
                 <p class="max-w-3xl mx-auto text-xl">Le montant total est de <b>{{ $totalPrice }} €</b></p>
             </div>
         </section>
+        <form action="#" method="POST"></form>
         <div class="grid sm:gap-8 grid-cols-1 sm:grid-cols-2">
             <button role="button" name="save" type="submit"
                     class="duration-300 w-full rounded-xl mt-6 p-3 border hover:bg-orange-900 hover:text-white">
                 Sauvegarder la commande
             </button>
-            <a role="button" href="{{route('checkout.index')}}"
-               class="w-full text-center rounded-xl mt-6 bg-orange-900 text-white p-3"
-               type="submit">
-                Finaliser la commande
-            </a>
+            <form action="{{route('checkout.index')}}" method="POST" id="checkoutForm">
+                @csrf
+                <button role="button" name="addOrder"
+                        class="w-full text-center rounded-xl mt-6 bg-orange-900 text-white p-3"
+                        type="submit">
+                    Finaliser la commande
+                </button>
+            </form>
         </div>
     @else
         <section class="max-w-5xl m-auto md:flex mt-12 sm:mt-16">

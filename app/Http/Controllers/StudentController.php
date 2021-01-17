@@ -35,8 +35,7 @@ class StudentController extends Controller
                     'Vous avez été suspendus, contactez M. Spirlet pour plus d\'informations');
             }
         }
-
-        return view('students.dashboard', compact('books', 'userStudents'));
+        return view('students.dashboard', compact('books', 'userStudents'))->with('messagePayment','Votre commande à bien été prise en compte');
     }
 
 }

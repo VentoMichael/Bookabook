@@ -14,7 +14,7 @@
 
         @if (Session::has('message'))
             <div id="sucessMessage"
-                 class="fixed top-0 bg-green-500 w-full p-4 right-0 text-center text-white">{{ Session::get('message') }}</div>
+                 class="fixed z-10 top-0 bg-green-500 w-full p-4 right-0 text-center text-white">{{ Session::get('message') }}</div>
         @endif
         @include('partials.cta-menu')
         <section>

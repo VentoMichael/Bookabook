@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Book;
 use App\Models\Cart;
+use App\Models\Order;
+use App\Models\Reservation;
 use App\Models\User;
 use App\Providers\CalculatePrice;
 use Illuminate\Http\Request;
@@ -24,7 +26,7 @@ class CartController extends Controller
         $cart = new Cart($oldCart);
         $cart->add($book, $book->id);
         $request->session()->put('cart', $cart);
-        return redirect()->route('dashboardUser.index')->with('messageBook', $book->title . ' a été ajouter au panier');
+        return redirect()->route('dashboardUser.index')->with('messageBook', $book->title.' a été ajouter au panier');
     }
 
     public function getCart()
@@ -36,23 +38,7 @@ class CartController extends Controller
         $cart = new Cart($oldCart);
         return view('students.cart.shopping-cart', ['books' => $cart->items, 'totalPrice' => $cart->totalPrice]);
     }
-    public function update($id){
-        // Get the product
-        $book = Book::find($id);
 
-        dd(\request()->all());
-        // Check if the user entered an ADD quantity
-        if (\request()->get('add_quantity')) {
-            $book->stock += 1;
-        } elseif (\request()->get('remove_quantity')) {
-            $book->stock -= 1;
-        }
-
-        // Save the changes
-        $book->update();
-
-        return redirect()->view('students.cart.shopping-cart');
-    }
     public function checkout()
     {
         if (!Session::has('cart')) {
@@ -63,7 +49,36 @@ class CartController extends Controller
         $total = $cart->totalPrice;
         $admin = User::admin()->firstOrFail();
         $user = auth()->user();
-        Session::forget('cart');
+
         return view('students.cart.checkout', compact('total', 'admin', 'user'));
+    }
+
+    public function create(Request $request)
+    {
+        if (!Session::has('cart')) {
+            return view('students.cart.shopping-cart');
+        }
+        $books=Book::all();
+
+        $oldCart = Session::get('cart');
+        $cart = new Cart($oldCart);
+        $total = $cart->totalPrice;
+        $admin = User::admin()->firstOrFail();
+        $user = auth()->user();
+        $order = new Order();
+        $order->user_id = auth()->user()->id;
+        $order->save();
+
+
+        $reservation = new Reservation();
+        $reservation->total_price = $cart->totalPrice;
+        $reservation->order_id = $order->id;
+        foreach ($cart as $key => $value) {
+            $reservation->book_id = $value;
+            //dd($value);
+        }
+        $reservation->save();
+Session::forget('cart');
+        return redirect()->route('dashboardUser.index', compact('total','books', 'admin', 'user'))->with('messagePayment','La commande a été prise en compte');
     }
 }
