@@ -20,7 +20,7 @@ class StudentController extends Controller
     public function index()
     {
 
-        $books = Book::orderBy('title')->where('stock',">=",1)->get();
+        $books = Book::noDraft()->orderBy('title')->where('stock',">=",1)->get();
         $userStudents = User::student()->get();
 
         if (Auth::user()->isAdministrator) {

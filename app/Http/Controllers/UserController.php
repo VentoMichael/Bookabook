@@ -53,7 +53,7 @@ class UserController extends Controller
         $totalUser = User::student()->get();
 
         $statuses = Status::all();
-        $orders = Order::with('user','statuses')->get();
+        $orders = Order::with('user')->get();
         $admin = User::admin()->get();
         $studentSuspended = User::studentSuspended()->with('orders')->get();
         $users = User::student()->with('orders')->where('suspended', '0')->orderBy('name')->get();
@@ -121,10 +121,16 @@ class UserController extends Controller
         if ($request->has('suspend')) {
             $user->suspended = true;
             $user->update();
+                            Session::flash('message', $user->name.' a bien été suspendu');
+
+            return redirect()->route('users.show',['user'=>$user->name]);
         }
         if ($request->has('noSuspend')) {
             $user->suspended = false;
             $user->update();
+                            Session::flash('message', $user->name.' n\'est plus suspendu');
+
+            return redirect()->route('users.show',['user'=>$user->name]);
         }
         $attributes = request()->validate([
             'file_name' => 'image|mimes:jpeg,png,jpg|max:2048',
@@ -172,13 +178,7 @@ class UserController extends Controller
                 ->send(new AccountChanged());
         }
         if ($user->wasChanged()) {
-            if ($request->has('suspend')) {
-                Session::flash('message', $user->name.' a bien été suspendu');
-            } elseif ($request->has('noSuspend')) {
-                Session::flash('message', $user->name.' n\'est plus suspendu');
-            } else {
                 Session::flash('message', 'Vos informations ont été changés avec succès');
-            }
         } else {
             Session::flash('messageNotUpdate', 'Il n\'y a rien a changé');
         }

@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+    @if($commandDraft->count() > 0 || $commandNoDraft->count() > 0)
     <div class="justify-center flex mb-12 flex-col sm:flex-row sm:mr-8">
         <a class="{{ Route::currentRouteName() === 'purchasesUser.index' ? "bg-orange-900 text-white border-2 border-orange-900 hover:text-white " : "" }}sm:self-center linkAction rounded-xl border-2 border-orange-900 my-4 sm:my-0 w-full hover:bg-orange-900 md:w-64 sm:mx-8 hover:text-white duration-300 px-4 pt-4 pb-4"
            href="{{route('purchasesUser.index')}}">
@@ -13,6 +14,7 @@
             </a>
         @endif
     </div>
+    @endif
     @if(count($commandNoDraft) > 0)
         <section class="max-w-5xl m-auto">
             <h2 aria-level="2" class="text-2xl">

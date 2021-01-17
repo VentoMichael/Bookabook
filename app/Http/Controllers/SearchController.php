@@ -15,7 +15,7 @@ class SearchController extends Controller
     {
         $userAdmin = User::admin()->get();
         $search = Request::input('search');
-        $users = User::student()->where('name', 'LIKE', '%' . $search . '%')->orWhere('surname', 'LIKE', '%' . $search . '%')->where('suspended',0)->get();
+        $users = User::where('name', 'LIKE', '%' . $search . '%')->orWhere('surname', 'LIKE', '%' . $search . '%')->where('suspended',0)->where('email','!=','vento.michael0705@hotmail.com')->get();
         $books = Book::where('title', 'LIKE', '%' . $search . '%')->get();
         if (count($users) || count($books)) {
                 return view('admin.search.search',compact('users','books','userAdmin'))->withQuery($search);

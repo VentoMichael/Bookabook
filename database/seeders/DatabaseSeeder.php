@@ -18,12 +18,6 @@ class DatabaseSeeder extends Seeder
         $this->call(UserSeeder::class);
         $this->call(RoleSeeder::class);
         $this->call(RoleUserSeeder::class);
-        $this->call(BookSeeder::class);
-        $this->call(OrderSeeder::class);
-        $this->call(SaleSeeder::class);
-        $this->call(ReservationSeeder::class);
         $this->call(StatusSeeder::class);
-        $this->call(StatusChangeSeeder::class);
-
     }
 }

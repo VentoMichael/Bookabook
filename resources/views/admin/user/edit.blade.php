@@ -60,7 +60,7 @@
                        value="{{$user->email}}">
                 @if($errors->first('email'))<p class="text-red-500 text-lg mb-4">{{$errors->first('email')}}</p>@endif
             </div>
-                <div class="field my-4 sm:my-0 flex flex-col sm:self-end sm:mb-0">
+                <div class="field my-4 sm:my-0 flex flex-col sm:self-start sm:mb-0">
                     <label for="bank_account" class="label">Mon numéro de compte en banque :</label>
                     <input id="bank_account" name="bank_account" type="text"
                            class="border rounded-lg p-3 pb-2 input @error('bank_account')is danger @enderror"
@@ -87,6 +87,20 @@
                         class="text-red-500 text-lg mb-4">{{$errors->first('password')}}</p>@endif
                     <div id="showPassBtn" class="cursor-pointer password showPass">Montrer</div>
                 </div>
+                <ul role="list" class="mt-2">
+                    <li role="listitem" class="text-xs">
+                        Minimum 8 caractères
+                    </li>
+                    <li role="listitem" class="text-xs">
+                        Minimum 1 minuscule
+                    </li>
+                    <li role="listitem" class="text-xs">
+                        Minimum 1 majuscule
+                    </li>
+                    <li role="listitem" class="text-xs">
+                        Minimum 1 chiffre
+                    </li>
+                </ul>
             </div>
             <div class="field my-2 sm:my-0 flex flex-col sm:self-end sm:mb-0 relative">
                 <label for="password_confirmation" class="label">Confirmer mon nouveau mot de passe</label>

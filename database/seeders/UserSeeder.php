@@ -23,6 +23,5 @@ class UserSeeder extends Seeder
             'file_name'=> 'users/default.svg',
             'group'=> ''
         ]);
-        User::factory()->times(1)->create();
     }
 }

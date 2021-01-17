@@ -74,12 +74,30 @@ class CartController extends Controller
                 $item['stock'] = \request('quantity');
             }
         }
+        $order->save();
+
         if ($request->has('save')) {
             $order->is_draft = 1;
-            Session::flash('messageSavePayment', 'Votre commande à bien été sauvegardée');
+            $order->save();
+
+            foreach ($cart->items as $item) {
+                $reservation = new Reservation();
+                $reservation->order_id = $order->id;
+                $reservation->quantity = $cart->totalQty;
+                $reservation->book_id = $item['item']['id'];
+                $books = Book::noDraft()->where('id','=',$item['item']['id'])->get();
+                foreach ($books as $b){
+                    $b->stock = $b->stock - $item['stock'];
+                    $b->update();
+                }
+                $reservation->save();
+            }
+
+            Session::forget('cart');
+            Session::flash('messageSavePayment', 'Votre commande a bien été sauvegardée');
+
             return redirect()->route('dashboardUser.index');
         }
-        $order->save();
         $status = new StatusChanges();
         $status->status_id = 1;
         $status->order_id = $order->id;
@@ -89,7 +107,7 @@ class CartController extends Controller
             $reservation->order_id = $order->id;
             $reservation->quantity = $cart->totalQty;
             $reservation->book_id = $item['item']['id'];
-            $books = Book::where('id','=',$item['item']['id'])->get();
+            $books = Book::noDraft()->where('id','=',$item['item']['id'])->get();
             foreach ($books as $b){
                 $b->stock = $b->stock - $item['stock'];
                 $b->update();

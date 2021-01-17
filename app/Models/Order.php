@@ -31,6 +31,7 @@ class Order extends Model
     {
         return $this->belongsToMany(Status::class, 'status-changes')->withTimestamps();
     }
+
     public function scopeDraft($query)
     {
         return $query->where('is_draft', '=', '1');

@@ -7,10 +7,6 @@
         <div id="sucessMessage"
              class="fixed z-10 top-0 bg-green-500 w-full p-4 right-0 text-center text-white">{{ Session::get('messageBook') }}</div>
     @endif
-    @if (Session::has('messagePayment'))
-        <div id="sucessMessage"
-             class="fixed z-10 top-0 bg-green-500 w-full p-4 right-0 text-center text-white">{{ Session::get('messagePayment') }}</div>
-    @endif
     @if (Session::has('messageSavePayment'))
         <div id="sucessMessage"
              class="fixed z-20 top-0 bg-green-500 w-full p-4 right-0 text-center text-white">{{ Session::get('messageSavePayment') }}</div>
@@ -56,15 +52,15 @@
                     </a>
                 </section>
             @endforeach
-            @else
-                <section class="max-w-5xl m-auto md:flex mt-12 sm:mt-16">
-                    <img class="pictoSadSmiley mx-auto mb-6 md:max-w-sm" src="{{asset('svg/sad.svg')}}"
-                         alt="Pictogramme d'un smiley triste">
-                    <h2 aria-level="2" class="ml-6 mr-6 text-2xl self-center">
-                        Oops, aucun livre disponible !
-                    </h2>
-                </section>
         </div>
+    @else
+        <section class="max-w-5xl m-auto md:flex mt-12 sm:mt-16">
+            <img class="pictoSadSmiley mx-auto mb-6 md:max-w-sm" src="{{asset('svg/sad.svg')}}"
+                 alt="Pictogramme d'un smiley triste">
+            <h2 aria-level="2" class="ml-6 mr-6 text-2xl self-center">
+                Oops, aucun livre encore disponible, attendons Mr. Spirlet avec patience !
+            </h2>
+        </section>
     @endif
 @endsection
 
