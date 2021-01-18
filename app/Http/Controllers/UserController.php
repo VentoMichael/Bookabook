@@ -49,7 +49,6 @@ class UserController extends Controller
     public function index()
     {
         $totalUser = User::student()->get();
-        $statuses = Status::all();
         $orders = Order::with('user')->get();
         $admin = User::admin()->get();
         $studentSuspended = User::studentSuspended()->with('orders')->get();
@@ -72,7 +71,7 @@ class UserController extends Controller
         }
 
         return view('admin.user.index',
-            compact('admin', 'studentSuspended', 'orders', 'totalUser', 'users', 'statuses', 'letters', 'totalbooks'));
+            compact('admin', 'studentSuspended', 'orders', 'totalUser', 'users', 'letters', 'totalbooks'));
     }
 
     /**
@@ -152,20 +151,19 @@ class UserController extends Controller
                 ->send(new AccountChanged());
         }
         $user->update($attributes);
+        if ($request->has('suspend')) {
+            $user->suspended = true;
+            $user->update();
+            Session::flash('message', $user->name.' a bien été suspendu');
+            return redirect()->route('users.show', ['user' => $user->name]);
+        } elseif ($request->has('noSuspend')) {
+            $user->suspended = false;
+            $user->update();
+            Session::flash('message', $user->name.' n\'est plus suspendu');
+            return redirect()->route('users.show', ['user' => $user->name]);
+        }
         if ($user->wasChanged()) {
-            if ($request->has('suspend')) {
-                $user->suspended = true;
-                $user->update();
-                Session::flash('message', $user->name.' a bien été suspendu');
-                return redirect()->route('users.show', ['user' => $user->name]);
-            } elseif ($request->has('noSuspend')) {
-                $user->suspended = false;
-                $user->update();
-                Session::flash('message', $user->name.' n\'est plus suspendu');
-                return redirect()->route('users.show', ['user' => $user->name]);
-            } else {
                 Session::flash('message', 'Vos informations ont été changés avec succès');
-            }
         } else {
             Session::flash('messageNotUpdate', 'Il n\'y a rien a changé');
         }
