@@ -5,7 +5,7 @@
     <div class="justify-center flex mb-12 flex-col sm:flex-row sm:mr-8">
         <a class="{{ Route::currentRouteName() === 'purchasesUser.index' ? "bg-orange-900 text-white border-2 border-orange-900 hover:text-white " : "" }}sm:self-center linkAction rounded-xl border-2 border-orange-900 my-4 sm:my-0 w-full hover:bg-orange-900 md:w-64 sm:mx-8 hover:text-white duration-300 px-4 pt-4 pb-4"
            href="{{route('purchasesUser.index')}}">
-            Voir mes commandes
+            @if($commandNoDraft->count() > 1)Voir mes commandes @else Voir ma commande @endif
         </a>
         @if($commandDraft->count() > 0)
             <a class="{{ Route::currentRouteName() === 'draftPurchasesUser.index' ? "bg-orange-900 text-white border-2 border-orange-900 hover:text-white " : "" }}sm:self-center linkAction rounded-xl border-2 border-orange-900 my-4 sm:my-0 w-full hover:bg-orange-900 md:w-64 sm:mx-8 hover:text-white duration-300 px-4 pt-4 pb-4"
@@ -34,7 +34,7 @@
                         @foreach($order->books as $book)
                             <div class="max-w-xs flex mb-8 flex-col my-16 mx-auto sm:mx-0 sm:my-0">
                                 <div>
-                                    <img class="max-w-xs" role="img"
+                                    <img class="booksImg max-w-xs" role="img"
                                          aria-label="Photo de couverture de {{$book->title}}"
                                          src="{{ asset('storage/'.$book->picture) }}"
                                          alt="Photo de couverture de {{$book->title}}">

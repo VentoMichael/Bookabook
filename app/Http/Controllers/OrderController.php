@@ -18,14 +18,14 @@ class OrderController extends Controller
      */
     public function edit(User $user, $id)
     {
-        $order = Status::find($id);
+        $order = Order::find($id);
         $statuses = Status::all();
         return view('admin.statuses.edit', compact('statuses', 'user', 'order'));
     }
 
-    public function update(Request $request, Order $order, $user, $id)
+    public function update(Request $request, $user, $id)
     {
-        $statusChanges = StatusChanges::where('order_id', '=', $id)->firstOrFail();
+        $statusChanges = StatusChanges::where('order_id', '=', $id)->first();
         $statusChanges->status_id = $request['status'];
         $statusChanges->update();
         Session::flash('message', 'Le status de la commande a été changé');

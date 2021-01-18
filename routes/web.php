@@ -38,13 +38,17 @@ Route::prefix('')->middleware(['auth', \App\Http\Middleware\IsStudent::class])->
 //CART
     Route::get('/cart', [CartController::class, 'index'])->middleware('auth')->name('cart.index');
 
-    Route::get('/add-to-cart/{id}', [CartController::class, 'getAddToCart'],
+    Route::get('/add-to-cart/{id}', [CartController::class, 'addToCart'],
     )->name('product.addToCart');
 
+    Route::get('/reduce/{id}',[CartController::class,'reduceByOne'])->name('productReducedByOne.index');
 
-    Route::get('/shopping-cart', [CartController::class, 'getCart'],
+    Route::get('/add/{id}',[CartController::class,'addByOne'])->name('productAddByOne.index');
+
+    Route::get('/remove/{id}', [CartController::class,'removeItem'])->name('product.remove');
+
+    Route::get('/shopping-cart', [CartController::class, 'cart'],
     )->name('product.shoppingCart');
-
 
     Route::get('/checkout', [CartController::class, 'checkout'],
     )->name('checkout.index');
@@ -52,8 +56,6 @@ Route::prefix('')->middleware(['auth', \App\Http\Middleware\IsStudent::class])->
     Route::post('/checkout', [CartController::class, 'create'],
     )->name('createOrder.index');
 
-    Route::delete('/add-to-cart/', [CartController::class, 'create'],
-    )->name('deleteBookOrder.index');
 
 
 //SETTINGS

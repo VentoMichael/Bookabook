@@ -17,7 +17,7 @@
                 <div class="field flex mt-8 flex-col sm:sticky containerImgBook">
                     @if($book->picture)
                         <div class="self-center mb-2">
-                            <img src="{{ asset('storage/'.$book->picture) }}"
+                            <img class="w-full" src="{{ asset('storage/'.$book->picture) }}"
                                  alt="Photo de couverture de {{$book->title}}">
                         </div>
                     @endif
@@ -64,28 +64,28 @@
                 </div>
                 <div class="field my-6 flex flex-col">
                     <label for="isbn" class="label">ISBN</label>
-                    <input name="isbn" type="number" value="{{ $book->isbn }}"
+                    <input min="0" name="isbn" type="number" value="{{ $book->isbn }}"
                            class="input border rounded-lg p-3 pb-2 @error('isbn')is danger @enderror"
                            id="isbn">
                     <p class="text-red-500 text-lg mb-4">{{$errors->first('isbn')}}</p>
                 </div>
                 <div class="field my-6 flex flex-col">
                     <label for="public_price" class="label">Prix public</label>
-                    <input name="public_price" value="{{ $book->public_price }}"
+                    <input min="0" name="public_price" value="{{ $book->public_price }}"
                            class="input border rounded-lg p-3 pb-2 @error('public_price')is danger @enderror"
                            id="public_price" type="number">
                     <p class="text-red-500 text-lg mb-4">{{$errors->first('public_price')}}</p>
                 </div>
                 <div class="field my-6 flex flex-col">
                     <label for="proposed_price" class="label">Prix proposé</label>
-                    <input name="proposed_price"
+                    <input min="0" name="proposed_price"
                            class="input border rounded-lg p-3 pb-2 @error('proposed_price')is danger @enderror"
                            value="{{ $book->proposed_price }}" id="proposed_price" type="number">
                     <p class="text-red-500 text-lg mb-4">{{$errors->first('proposed_price')}}</p>
                 </div>
                 <div class="field my-6 flex flex-col">
                     <label for="stock" class="label">Stock</label>
-                    <input name="stock" class="input border rounded-lg p-3 pb-2 @error('stock')is danger @enderror"
+                    <input min="0" name="stock" class="input border rounded-lg p-3 pb-2 @error('stock')is danger @enderror"
                            value="{{ $book->stock }}" id="stock"
                            type="number">
                     <p class="text-red-500 text-lg mb-4">{{$errors->first('stock')}}</p>
@@ -107,10 +107,16 @@
               action="{{ route('books.destroy',$book) }}">
             @csrf
             @method('DELETE')
-            <input type="submit"
-                onclick="return confirm('Cette action ne peut pas être annulée. Cela supprimera définitivement le livre et les commandes liés. Étes-vous sûr de supprimer le livre suivant : {{$book->title}}')"
+            <input type="submit" id="remove"
                 class="text-center cursor-pointer max-w-2xl w-full rounded-xl mt-6 bg-orange-900 text-white
                 p-3" value="Supprimer {{$book->title}}"/>
         </form>
     </div>
+@endsection
+@section('scripts')
+    <script>
+    document.getElementById('remove').addEventListener('click',()=>{
+        confirm('Cette action ne peut pas être annulée. Cela supprimera définitivement le livre et les commandes liés. Étes-vous sûr de supprimer le livre suivant : {{$book->title}}')
+    })
+    </script>
 @endsection

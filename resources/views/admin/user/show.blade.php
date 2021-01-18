@@ -6,10 +6,6 @@
             <div id="sucessMessage"
                  class="fixed top-0 bg-green-500 w-full p-4 right-0 text-center text-white">{{ Session::get('message') }}</div>
         @endif
-        @if (Session::has('messageNotUpdate'))
-            <div id="sucessMessage"
-                 class="fixed top-0 bg-red-500 w-full p-4 right-0 text-center text-white">{{ Session::get('messageNotUpdate') }}</div>
-        @endif
         <h2 aria-level="2" class="hiddenTitle">
             Informations personnelles de {{$user->name}}
         </h2>
@@ -65,6 +61,8 @@
                     </h3>
                     <div>
                         @foreach($user->orders as $order)
+                            @if($order['is_draft'] === 0)
+
                             <section>
                                 <div class="flex justify-between">
                                     <h4 aria-level="4" class="mt-6 mb-4 text-lg">
@@ -78,7 +76,7 @@
                                     @foreach($order->books as $book)
                                         <div class="max-w-xs flex mb-8 flex-col my-16 mx-auto sm:mx-0 sm:my-0">
                                             <div>
-                                                <img class="max-w-xs" role="img"
+                                                <img class="booksImg max-w-xs" role="img"
                                                      aria-label="Photo de couverture de {{$book->title}}"
                                                      src="{{ asset('storage/'.$book->picture) }}"
                                                      alt="Photo de couverture de {{$book->title}}">
@@ -99,7 +97,7 @@
                                     @endforeach
                                     <div class="text-center mt-8">
                                         <a class="@if($user->suspended === 1) pointer-events-none @endif rounded-xl mt-8 p-3 border bg-orange-900 text-white text-center sm:w-3/4 sm:mx-auto md:w-2/4"
-                                           href="{{route('statuses.edit',['user'=>$user->name,'id'=>$status->id])}}">Changer
+                                           href="{{route('statuses.edit',['user'=>$user->name,'id'=>$order->id])}}">Changer
                                             le
                                             status de
                                             cette commande
@@ -108,6 +106,7 @@
                                     <div class="h-2 bg-orange-900 block w-2/4 rounded-full mx-auto my-8"></div>
                                 </div>
                             </section>
+                            @endif
                         @endforeach
                     </div>
                 </section>

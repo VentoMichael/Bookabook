@@ -3,11 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Mail\AccountChanged;
-use App\Models\{Order, Reservation, RoleUser, Status, StatusChanges, User};
-use Illuminate\Support\Facades\{Auth, Hash, Mail, Session, Storage};
+use App\Models\{Order, Status, User};
+use Illuminate\Support\Facades\{Hash, Mail, Session, Storage};
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
-use function GuzzleHttp\Promise\all;
 
 class UserController extends Controller
 {
@@ -38,11 +37,10 @@ class UserController extends Controller
             }
             foreach ($firstLetters as $firstLetter) {
                 $letters[$firstLetter] = $studentSuspended->filter(function ($ss) use ($firstLetter) {
-                    return strpos($ss->name, $firstLetter) === 0;
+                    return strtoupper(substr($ss->name, 0, 1)) == $firstLetter;
                 });
             }
         }
-
         return view('admin.user.suspendedStudent',
             compact('admin', 'users', 'studentSuspended', 'orders', 'users', 'statuses', 'letters', 'totalbooks'));
 
@@ -51,7 +49,6 @@ class UserController extends Controller
     public function index()
     {
         $totalUser = User::student()->get();
-
         $statuses = Status::all();
         $orders = Order::with('user')->get();
         $admin = User::admin()->get();
@@ -60,7 +57,6 @@ class UserController extends Controller
         $firstLetters = [];
         $firstLetter = '';
         $totalbooks = 0;
-
         foreach ($users as $user) {
             foreach ($user->orders as $order) {
                 $totalbooks += $order->books->count();
@@ -113,25 +109,6 @@ class UserController extends Controller
 
     public function update(Request $request, User $user)
     {
-        //if ($request->has('status')){
-        //    $order->status_id = $request['status'];
-        //    $order->order_id = '1';
-        //    $order->update();
-        //}
-        if ($request->has('suspend')) {
-            $user->suspended = true;
-            $user->update();
-                            Session::flash('message', $user->name.' a bien été suspendu');
-
-            return redirect()->route('users.show',['user'=>$user->name]);
-        }
-        if ($request->has('noSuspend')) {
-            $user->suspended = false;
-            $user->update();
-                            Session::flash('message', $user->name.' n\'est plus suspendu');
-
-            return redirect()->route('users.show',['user'=>$user->name]);
-        }
         $attributes = request()->validate([
             'file_name' => 'image|mimes:jpeg,png,jpg|max:2048',
             'email' => [
@@ -157,14 +134,12 @@ class UserController extends Controller
             Storage::makeDirectory('users');
             $filename = request('file_name')->hashName();
             $img = Image::make($request->file('file_name'))
-                ->resize(300, null, function ($constraint) {
+                ->resize(300, 300, function ($constraint) {
                     $constraint->aspectRatio();
+                    $constraint->upsize();
                 })
                 ->save(storage_path('app/public/users/'.$filename));
             $attributes['file_name'] = 'users/'.$filename;
-        }
-        if (request('email')) {
-            $attributes['email'] = request('email');
         }
         if (request('password')) {
             $attributes['password'] = Hash::make(request('password'));
@@ -172,18 +147,28 @@ class UserController extends Controller
         if (request('bank_account')) {
             $user->bank_account = request('bank_account');
         }
-        $user->update($attributes, $request->all());
         if (request('email')) {
             Mail::to($attributes['email'])
                 ->send(new AccountChanged());
         }
+        $user->update($attributes);
         if ($user->wasChanged()) {
+            if ($request->has('suspend')) {
+                $user->suspended = true;
+                $user->update();
+                Session::flash('message', $user->name.' a bien été suspendu');
+                return redirect()->route('users.show', ['user' => $user->name]);
+            } elseif ($request->has('noSuspend')) {
+                $user->suspended = false;
+                $user->update();
+                Session::flash('message', $user->name.' n\'est plus suspendu');
+                return redirect()->route('users.show', ['user' => $user->name]);
+            } else {
                 Session::flash('message', 'Vos informations ont été changés avec succès');
+            }
         } else {
             Session::flash('messageNotUpdate', 'Il n\'y a rien a changé');
         }
-        Session::flash('messageBook', 'Vos informations ont été changés avec succès');
         return redirect(route('users.edit', ['user' => $user->name]));
     }
-
 }

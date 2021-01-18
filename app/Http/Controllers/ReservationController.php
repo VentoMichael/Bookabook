@@ -27,7 +27,7 @@ class ReservationController extends Controller
      */
     public function index()
     {
-        $books = Book::selectRaw('bab_books.id,bab_books.title,bab_books.orientation,bab_books.academic_years,bab_books.picture')
+        $books = Book::selectRaw('SUM(bab_reservations.quantity) as orderQty,bab_books.stock,bab_books.id,bab_books.title,bab_books.orientation,bab_books.academic_years,bab_books.picture')
             ->join('reservations', 'reservations.book_id', '=', 'books.id')
             ->groupBy('title')
             ->orderBy('academic_years')
@@ -35,7 +35,10 @@ class ReservationController extends Controller
             ->whereHas('orders', function ($order) {
                 return $order;
             })->get();
-        $oldBook = ['orientation' => '', 'academic_years' => 0,'title'=>''];
+        $oldBook = new StdClass();
+        $oldBook->academic_years = 0;
+        $oldBook->orientation = '';
+        $userStudents = null;
         $i = 0;
         return view('admin.purchases.index',
             compact('books','oldBook','i'));
@@ -49,7 +52,11 @@ class ReservationController extends Controller
             if (count($user->orders) >= 1) {
                 $emails = $user->email;
                 Mail::to($emails)->send(new BookReminder($book));
-                Session::flash('message', 'Le(s) mail(s) a/ont été envoyer');
+                if (count($user->orders) > 1){
+                    Session::flash('message', 'Les mails ont été envoyer');
+                }else{
+                    Session::flash('message', 'Le mail a été envoyer');
+                }
             }
         }
         return redirect(route('purchases.index', compact('users')));

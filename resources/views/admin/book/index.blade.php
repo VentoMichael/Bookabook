@@ -22,7 +22,7 @@
                     <section
                         class="flex flex-col justify-between border-2 rounded-xl p-4">
                         <div class="justify-between mx-auto" itemscope itemtype="https://schema.org/Book">
-                            <img itemprop="illustrator" role="img" aria-label="Photo de couverture de {{$book->title}}" src="{{ asset('storage/'.$book->picture) }}"
+                            <img itemprop="illustrator" class="booksImg mb-4 mx-auto" role="img" aria-label="Photo de couverture de {{$book->title}}" src="{{ asset('storage/'.$book->picture) }}"
                                  alt="Photo de couverture de {{$book->title}}">
                             <h4 aria-level="4" class="text-2xl break-all">
                                 {{$book->title}}

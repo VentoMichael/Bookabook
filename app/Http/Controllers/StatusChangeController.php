@@ -20,8 +20,7 @@ class StatusChangeController extends Controller
         $users = User::student()->with('orders')->where('suspended',0)->orderBy('name')->get();
         $statuses = Status::all();
         $statusesChange = StatusChanges::all();
-        $statuses->roles()->save($role);
-
+        $statuses->roles()->save();
         return view('admin.statuses.index',compact('statuses','statusesChange'))->with('users', $users);
     }
 

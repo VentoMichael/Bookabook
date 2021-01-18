@@ -147,18 +147,20 @@
                                 @if(count($user->orders) >= 1)
                                     <div>
                                         @foreach($user->orders as $order)
-                                            <div>
-                                                <p>La commande n°{{$loop->iteration}}</p>
-                                            </div>
-                                            @foreach($order->statuses as $status)
-                                                <div class="flex align-center justify-center my-4 containerStatusName">
-                                                    <img class="mr-4"
-                                                         src="{{asset('storage').'/orders/'.($status->file_name)}}"
-                                                         alt="{{$status->name}} picto">
-                                                    <p class="pictoOrder text-xl my-4 text-center">{{$status->nameFr}}</p>
+                                            @if($order['is_draft'] === 0)
+                                                <div>
+                                                    <p>La commande n°{{$loop->iteration}}</p>
                                                 </div>
-                                            @endforeach
-
+                                                @foreach($order->statuses as $status)
+                                                    <div
+                                                        class="flex align-center justify-center my-4 containerStatusName">
+                                                        <img class="mr-4"
+                                                             src="{{asset('storage').'/orders/'.($status->file_name)}}"
+                                                             alt="{{$status->name}} picto">
+                                                        <p class="pictoOrder text-xl my-4 text-center">{{$status->nameFr}}</p>
+                                                    </div>
+                                                @endforeach
+                                            @endif
                                         @endforeach
                                     </div>
                                 @endif

@@ -3,9 +3,14 @@
     <h2 aria-level="2" class="hiddenTitle">
         Page d'édition du profil
     </h2>
-    @if (Session::has('messageBook'))
+    @if (Session::has('message'))
         <div id="sucessMessage"
-             class="fixed z-10 top-0 bg-green-500 w-full p-4 right-0 text-center text-white">{{ Session::get('messageBook') }}</div>
+             class="fixed z-10 top-0 bg-green-500 w-full p-4 right-0 text-center text-white">{{ Session::get('message') }}</div>
+    @endif
+
+    @if (Session::has('messageNotUpdate'))
+        <div id="sucessMessage"
+             class="fixed top-0 bg-red-500 w-full p-4 right-0 text-center text-white">{{ Session::get('messageNotUpdate') }}</div>
     @endif
     <section class="mb-10">
         <h2 aria-level="2" class="text-xl mb-2 font-bold">
@@ -64,7 +69,7 @@
                     <label for="bank_account" class="label">Mon numéro de compte en banque :</label>
                     <input id="bank_account" name="bank_account" type="text"
                            class="border rounded-lg p-3 pb-2 input @error('bank_account')is danger @enderror"
-                           value="BE{{$user->bank_account}}">
+                           value="{{$user->bank_account}}">
                     @if($errors->first('bank_account'))<p
                         class="text-red-500 text-lg mb-4">{{$errors->first('bank_account')}}</p>@endif
                     @if(Auth::user()->is_administrator)

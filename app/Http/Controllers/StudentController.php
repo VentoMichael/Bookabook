@@ -3,10 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
-use App\Models\Student;
 use App\Models\User;
-use App\Providers\CalculatePrice;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
@@ -19,14 +16,11 @@ class StudentController extends Controller
      */
     public function index()
     {
-
         $books = Book::noDraft()->orderBy('title')->where('stock',">=",1)->get();
         $userStudents = User::student()->get();
-
         if (Auth::user()->isAdministrator) {
             return redirect()->route('users.index');
         }
-
         foreach ($userStudents as $userStudent) {
             if ($userStudent->suspended == 1) {
                 Auth::logout();
@@ -36,9 +30,6 @@ class StudentController extends Controller
                 return redirect('/');
             }
         }
-
-
         return view('students.dashboard', compact('books', 'userStudents'));
     }
-
 }

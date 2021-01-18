@@ -38,7 +38,7 @@ class BookController extends Controller
         $letters = [];
         foreach ($firstLetters as $firstLetter) {
             $letters[$firstLetter] = $books->filter(function ($book) use ($firstLetter) {
-                return strpos($book->title, $firstLetter) === 0;
+                return strtoupper(substr($book->title, 0, 1)) == $firstLetter;
             });
         }
         return view('admin.book.index', compact('books', 'userAdmin', 'booksDraft', 'letters'));
@@ -60,13 +60,10 @@ class BookController extends Controller
      */
     public function show(Book $book)
     {
-        //sauvegardes
         $booksDraft = $book->get();
         $userAdmin = User::admin()->get();
-        //non sauvegardes
         $booksNoDraft = Book::noDraft()
             ->get();
-
         return view('admin.book.show', compact('book', 'userAdmin', 'booksDraft', 'booksNoDraft'));
     }
 
@@ -91,13 +88,13 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-
         $book = new Book($this->validateBook());
         if ($request->hasFile('picture')) {
             Storage::makeDirectory('books');
             $filename = request('picture')->hashName();
-            $img = Image::make($request->file('picture'))->resize(300, null, function ($constraint) {
+            $img = Image::make($request->file('picture'))->resize(300, 300, function ($constraint) {
                 $constraint->aspectRatio();
+                $constraint->upsize();
             })->save(storage_path('app/public/books/'.$filename));
             $book->picture = 'books/'.$filename;
         }
@@ -119,7 +116,7 @@ class BookController extends Controller
         if ($book->is_draft) {
             Session::flash('message', 'Livre sauvegardé avec succès');
         } else {
-            $users = User::student()->with('orders')->orderBy('name')->where('suspended',0)->get();
+            $users = User::student()->with('orders')->orderBy('name')->where('suspended', 0)->get();
             foreach ($users as $user) {
                 $emails = $user->email;
                 Mail::to($emails)->send(new BookCreated($book));
@@ -207,7 +204,6 @@ class BookController extends Controller
             'stock' => 'required',
         ]);
     }
-
     /**
      * Remove the specified resource from storage.
      *
@@ -215,10 +211,7 @@ class BookController extends Controller
      * @return string
      */
     public
-    function destroy(
-        Book $book,
-        Request $request
-    ) {
+    function destroy(Book $book,Request $request) {
         $book->delete();
         Session::flash('message', 'Livre supprimé avec succès');
         return Redirect::to(route('books.index'));

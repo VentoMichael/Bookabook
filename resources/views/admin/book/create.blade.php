@@ -84,7 +84,7 @@
             </div>
             <div class="field my-6 flex flex-col">
                 <label for="isbn" class="label">ISBN :</label>
-                <input name="isbn" type="number" required value="{{ old('isbn') }}"
+                <input min="0" name="isbn" type="number" required value="{{ old('isbn') }}"
                        class="border rounded-lg p-3 pb-2 input @error('isbn')is danger @enderror" id="isbn">
                 @if($errors->first('isbn'))<p class="text-red-500 text-lg mb-4">{{$errors->first('isbn')}}</p>@endif
             </div>
@@ -97,7 +97,7 @@
             </div>
             <div class="field my-6 flex flex-col">
                 <label for="public_price" class="label">Prix public :</label>
-                <input name="public_price" required value="{{ old('public_price') }}"
+                <input min="0" name="public_price" required value="{{ old('public_price') }}"
                        class="border rounded-lg p-3 pb-2 input @error('public_price')is danger @enderror"
                        id="public_price" type="number">
                 @if($errors->first('public_price'))<p
@@ -105,7 +105,7 @@
             </div>
             <div class="field my-6 flex flex-col">
                 <label for="proposed_price" class="label">Prix proposé :</label>
-                <input name="proposed_price" required
+                <input min="0" name="proposed_price" required
                        class="border rounded-lg p-3 pb-2 input @error('proposed_price')is danger @enderror"
                        value="{{ old('proposed_price') }}" id="proposed_price" type="number">
                 @if($errors->first('proposed_price'))<p
@@ -113,7 +113,7 @@
             </div>
             <div class="field my-6 flex flex-col">
                 <label for="stock" class="label">Stock :</label>
-                <input name="stock" required class="border rounded-lg p-3 pb-2 input @error('stock')is danger @enderror"
+                <input min="0" name="stock" required class="border rounded-lg p-3 pb-2 input @error('stock')is danger @enderror"
                        value="{{ old('stock') }}"
                        id="stock" type="number">
                 @if($errors->first('stock'))<p class="text-red-500 text-lg mb-4">{{$errors->first('stock')}}</p>@endif

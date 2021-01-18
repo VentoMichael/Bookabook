@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Book;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 
@@ -20,7 +21,6 @@ class SaveBookController extends Controller
     {
         return view('admin.book.create');
     }
-
     /**
      * Store a newly created resource in storage.
      *

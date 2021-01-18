@@ -24,7 +24,7 @@ class BookFactory extends Factory
     {
         return [
             'title' => $this->faker->unique()->sentence($nbWords = 3, $variableNbWords = true),
-            'picture' => 'books/action-thriller-book-cover-design-template-3675ae3e3ac7ee095fc793ab61b812cc_screen.jpg',
+            'picture' => 'books/bookOrange.svg',
             'author' => $this->faker->name(),
             'orientation' => $this->faker->randomElement($array = array ('Web','2D','3D')),
             'academic_years' => $this->faker->randomElement($array = array ('1','2','3')),
